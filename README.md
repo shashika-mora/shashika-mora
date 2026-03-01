@@ -79,5 +79,6 @@ When I'm not writing scripts or applying patches to an OS, you can find me:
 
 <p align="left">
   <a href="mailto:dayarathnaamst.24@uom.lk"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
-  <a href="www.linkedin.com/in/shashika-dayarathna-420875359"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="https://www.linkedin.com/in/shashika-dayarathna-420875359"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="https://shashika-mora.github.io/shashika-mora/"><img src="https://img.shields.io/badge/Portfolio-6366f1?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>
 </p>
