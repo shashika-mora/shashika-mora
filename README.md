@@ -5,7 +5,7 @@
 </h3>
 
 <p align="center">
-  I'm a Computer Science and Engineering undergraduate currently exploring everything from low-level kernel tweaks to modern app development. I'm still learning a lot, and my development process heavily relies on <strong>pure vibe coding</strong>—diving in, breaking things, patching them up, and figuring it out along the way.
+  I'm a Computer Science and Engineering undergraduate currently exploring everything from low-level kernel tweaks to modern app development. I'm still learning a lot, and my development process heavily relies on <strong>Pure coding / Vibe coding</strong>—diving in, breaking things, patching them up, and figuring it out along the way.
 </p>
 
 ---
@@ -32,20 +32,20 @@
 
 ![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white)
-![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge)
-![Generative AI & ML](https://img.shields.io/badge/Gen_AI_%26_ML-00C853?style=for-the-badge)
-![MCP Servers](https://img.shields.io/badge/MCP_Servers-673AB7?style=for-the-badge)
+![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
+![Generative AI & ML](https://img.shields.io/badge/Gen_AI_%26_ML-00C853?style=for-the-badge&logo=openai&logoColor=white)
+![MCP Servers](https://img.shields.io/badge/MCP_Servers-673AB7?style=for-the-badge&logo=docker&logoColor=white)
 
 **Systems, OS & Hardware:**
 
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![OS & Kernel](https://img.shields.io/badge/OS_&_Kernel-4A4A4A?style=for-the-badge)
-![Digital Design](https://img.shields.io/badge/Digital_Design-1E88E5?style=for-the-badge)
-![Vivado](https://img.shields.io/badge/Vivado-E3008C?style=for-the-badge)
-![Troubleshooting](https://img.shields.io/badge/OS_Troubleshooting_%26_Tweaking-FF9800?style=for-the-badge)
-![Patching](https://img.shields.io/badge/Cracking_%26_Patching-8E44AD?style=for-the-badge)
-![Scripting](https://img.shields.io/badge/Scripting-2C3E50?style=for-the-badge)
+![OS & Kernel](https://img.shields.io/badge/OS_&_Kernel-4A4A4A?style=for-the-badge&logo=debian&logoColor=white)
+![Digital Design](https://img.shields.io/badge/Digital_Design-1E88E5?style=for-the-badge&logo=raspberrypi&logoColor=white)
+![Vivado](https://img.shields.io/badge/Vivado-E3008C?style=for-the-badge&logo=amd&logoColor=white)
+![Troubleshooting](https://img.shields.io/badge/OS_Troubleshooting_%26_Tweaking-FF9800?style=for-the-badge&logo=kalilinux&logoColor=white)
+![Patching](https://img.shields.io/badge/Cracking_%26_Patching-8E44AD?style=for-the-badge&logo=hackthebox&logoColor=white)
+![Scripting](https://img.shields.io/badge/Scripting-2C3E50?style=for-the-badge&logo=gnubash&logoColor=white)
 
 **Tools & Cloud:**
 
@@ -54,7 +54,7 @@
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Cloud](https://img.shields.io/badge/Cloud-039BE5?style=for-the-badge&logo=googlecloud&logoColor=white)
 ![Git & GitHub](https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white)
-![Mermaid.js](https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge)
+![Mermaid.js](https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge&logo=markdown&logoColor=white)
 
 ---
 
@@ -65,7 +65,7 @@
 - 🏗️ Architecting **scalable backend solutions** and structuring complex **NoSQL** databases.
 - 🌍 Implementing **localization (i18n)** and mapping features for diverse user bases.
 - 🧩 Leveling up my **Data Structures and Algorithms (DSA)** game.
-- ✨ Embracing the chaos of **vibe coding** to turn abstract ideas into functional software.
+- ✨ Embracing the chaos of **Pure coding / Vibe coding** to turn abstract ideas into functional software.
 
 ### ⚡ Outside the Terminal
 When I'm not writing scripts or applying patches to an OS, you can find me:
