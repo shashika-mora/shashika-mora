@@ -61,9 +61,8 @@
 ### 🔭 What I'm Up To
 - 🧠 Diving deep into **Generative AI**, **ML**, and configuring **MCP servers**.
 - 💻 Experimenting with **OS management, custom tweaks, and kernel-level debugging**.
-- 📱 Building, scripting, and sketching out glassmorphism UI designs across frameworks like **Next.js** and **Flutter**.
+- 📱 Building, scripting, and sketching out UI designs across frameworks like **Next.js** and **Flutter**.
 - 🏗️ Architecting **scalable backend solutions** and structuring complex **NoSQL** databases.
-- 🌍 Implementing **localization (i18n)** and mapping features for diverse user bases.
 - 🧩 Leveling up my **Data Structures and Algorithms (DSA)** game.
 - ✨ Embracing the chaos of **Pure coding / Vibe coding** to turn abstract ideas into functional software.
 
