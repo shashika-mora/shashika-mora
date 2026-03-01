@@ -1,7 +1,7 @@
 <h1 align="center">Hi there, I'm Shashika! 👋</h1>
 
 <h3 align="center">
-  CSE Undergrad @ University of Moratuwa 🎓 | Vibe Coder ✨ | OS Tinkerer 🐧
+  CSE Undergrad @ University of Moratuwa 🎓 | Pure/Vibe Coder ✨ | OS Tinkerer 🐧
 </h3>
 
 <p align="center">
