@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shashika | Personal Portfolio</title>
+    <title>Shashika | Portfolio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -33,26 +36,39 @@
         }
     </script>
 </head>
+
 <body class="bg-dark text-gray-200 antialiased overflow-x-hidden selection:bg-primary selection:text-white">
-    
+
     <!-- Animated Background -->
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-        <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/20 blur-[120px] mix-blend-screen opacity-50 animate-blob"></div>
-        <div class="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-secondary/20 blur-[120px] mix-blend-screen opacity-50 animate-blob animation-delay-2000"></div>
-        <div class="absolute bottom-[-10%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-purple-500/20 blur-[120px] mix-blend-screen opacity-50 animate-blob animation-delay-4000"></div>
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/20 blur-[120px] mix-blend-screen opacity-50 animate-blob">
+        </div>
+        <div
+            class="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-secondary/20 blur-[120px] mix-blend-screen opacity-50 animate-blob animation-delay-2000">
+        </div>
+        <div
+            class="absolute bottom-[-10%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-purple-500/20 blur-[120px] mix-blend-screen opacity-50 animate-blob animation-delay-4000">
+        </div>
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 top-0 transition-all duration-300 backdrop-blur-md bg-dark/70 border-b border-glassBorder py-4" id="navbar">
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 backdrop-blur-md bg-dark/70 border-b border-glassBorder py-4"
+        id="navbar">
         <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-            <a href="#" class="font-heading font-bold text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">S.</a>
-            
+            <a href="#"
+                class="font-heading font-bold text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">S.</a>
+
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8">
                 <a href="#about" class="text-sm font-medium hover:text-white transition-colors nav-link">About</a>
                 <a href="#skills" class="text-sm font-medium hover:text-white transition-colors nav-link">Skills</a>
-                <a href="#activities" class="text-sm font-medium hover:text-white transition-colors nav-link">Activities</a>
-                <a href="#contact" class="px-4 py-2 rounded-full bg-glass border border-glassBorder hover:bg-white/10 transition-all text-sm font-medium">Get in Touch</a>
+                <a href="#projects" class="text-sm font-medium hover:text-white transition-colors nav-link">Projects</a>
+                <a href="#activities"
+                    class="text-sm font-medium hover:text-white transition-colors nav-link">Activities</a>
+                <a href="#contact"
+                    class="px-4 py-2 rounded-full bg-glass border border-glassBorder hover:bg-white/10 transition-all text-sm font-medium">Get
+                    in Touch</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -60,13 +76,20 @@
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
         </div>
-        
+
         <!-- Mobile Menu Dropdown -->
-        <div class="md:hidden absolute top-full left-0 w-full bg-dark/95 border-b border-glassBorder backdrop-blur-xl hidden flex-col items-center py-6 space-y-6 shadow-2xl transition-all duration-300 origin-top opacity-0 scale-y-0" id="mobile-menu">
+        <div class="md:hidden absolute top-full left-0 w-full bg-dark/95 border-b border-glassBorder backdrop-blur-xl hidden flex-col items-center py-6 space-y-6 shadow-2xl transition-all duration-300 origin-top opacity-0 scale-y-0"
+            id="mobile-menu">
             <a href="#about" class="text-lg font-medium hover:text-primary transition-colors mobile-nav-link">About</a>
-            <a href="#skills" class="text-lg font-medium hover:text-primary transition-colors mobile-nav-link">Skills</a>
-            <a href="#activities" class="text-lg font-medium hover:text-primary transition-colors mobile-nav-link">Activities</a>
-            <a href="#contact" class="px-6 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-all mobile-nav-link">Get in Touch</a>
+            <a href="#skills"
+                class="text-lg font-medium hover:text-primary transition-colors mobile-nav-link">Skills</a>
+            <a href="#projects"
+                class="text-lg font-medium hover:text-primary transition-colors mobile-nav-link">Projects</a>
+            <a href="#activities"
+                class="text-lg font-medium hover:text-primary transition-colors mobile-nav-link">Activities</a>
+            <a href="#contact"
+                class="px-6 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-all mobile-nav-link">Get
+                in Touch</a>
         </div>
     </nav>
 
@@ -74,37 +97,48 @@
         <!-- Hero Section -->
         <section id="hero" class="min-h-screen flex items-center justify-center pt-20 px-6 relative reveal">
             <div class="max-w-4xl mx-auto text-center z-10">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-glass border border-glassBorder mb-8 animate-fade-in-up">
+                <div
+                    class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-glass border border-glassBorder mb-8 animate-fade-in-up">
                     <span class="relative flex h-3 w-3">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
                     <span class="text-xs font-medium tracking-wide text-gray-300">Available for Opportunities</span>
                 </div>
-                
-                <h1 class="font-heading text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 tracking-tight animate-fade-in-up animation-delay-100">
-                    Hi there, I'm <br/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-secondary animate-gradient-x">Shashika! 👋</span>
+
+                <h1
+                    class="font-heading text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 tracking-tight animate-fade-in-up animation-delay-100">
+                    Hi there, I'm <br />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-secondary animate-gradient-x">Shashika!
+                        👋</span>
                 </h1>
-                
-                <h3 class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
-                    CSE Undergrad @ University of Moratuwa 🎓 <br class="hidden md:block"/>
-                    <span class="text-indigo-400">Pure/Vibe Coder ✨</span> | <span class="text-pink-400">OS Tinkerer 🐧</span>
+
+                <h3
+                    class="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+                    CSE Undergrad @ University of Moratuwa 🎓 <br class="hidden md:block" />
+                    <span class="text-indigo-400">Pure/Vibe Coder ✨</span> | <span class="text-pink-400">OS Tinkerer
+                        🐧</span>
                 </h3>
-                
-                <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in-up animation-delay-300">
-                    <a href="#contact" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-dark font-medium hover:bg-gray-100 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300">
+
+                <div
+                    class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in-up animation-delay-300">
+                    <a href="#contact"
+                        class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-dark font-medium hover:bg-gray-100 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300">
                         Connect with me
                     </a>
-                    <a href="#about" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-glass border border-glassBorder text-white font-medium hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2 group">
+                    <a href="#about"
+                        class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-glass border border-glassBorder text-white font-medium hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2 group">
                         Explore my world
                         <i class="fa-solid fa-arrow-down transform group-hover:translate-y-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
-            
+
             <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce flex flex-col items-center text-gray-500 h-24">
+            <div
+                class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce flex flex-col items-center text-gray-500 h-24">
                 <span class="text-xs uppercase tracking-[0.2em] mb-2 rotate-90 origin-left translate-y-6">Scroll</span>
                 <div class="w-[1px] h-10 bg-gradient-to-b from-gray-500 to-transparent mt-10"></div>
             </div>
@@ -116,16 +150,24 @@
                 <div class="text-center mb-16">
                     <h2 class="font-heading text-3xl md:text-5xl font-bold mb-4 relative inline-block">
                         About Me
-                        <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary rounded-full opacity-50"></div>
+                        <div
+                            class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary rounded-full opacity-50">
+                        </div>
                     </h2>
                 </div>
-                
+
                 <div class="glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none">
+                    <div
+                        class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none">
                         <i class="fa-solid fa-terminal text-9xl"></i>
                     </div>
                     <p class="text-lg md:text-xl text-gray-300 leading-relaxed font-light relative z-10">
-                        I'm a Computer Science and Engineering undergraduate currently exploring everything from low-level kernel tweaks to modern app development. I'm still learning a lot, and my development process heavily relies on <strong class="text-white font-medium bg-white/10 px-2 py-0.5 rounded">Pure coding / Vibe coding</strong>—diving in, breaking things, patching them up, and figuring it out along the way.
+                        I'm a Computer Science and Engineering undergraduate currently exploring everything from
+                        low-level kernel tweaks to modern app development. I'm still learning a lot, and my development
+                        process heavily relies on <strong
+                            class="text-white font-medium bg-white/10 px-2 py-0.5 rounded">Pure coding / Vibe
+                            coding</strong>—diving in, breaking things, patching them up, and figuring it out along the
+                        way.
                     </p>
                 </div>
             </div>
@@ -137,83 +179,242 @@
                 <div class="text-center mb-16">
                     <h2 class="font-heading text-3xl md:text-5xl font-bold mb-4 relative inline-block">
                         🛠️ Tech Stack & Arsenal
-                        <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-primary rounded-full opacity-50"></div>
+                        <div
+                            class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-primary rounded-full opacity-50">
+                        </div>
                     </h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
+
                     <!-- Languages -->
                     <div class="glass-card rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300">
-                        <h3 class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-indigo-300 border-b border-glassBorder pb-3">
+                        <h3
+                            class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-indigo-300 border-b border-glassBorder pb-3">
                             <i class="fa-solid fa-code"></i> Languages & Core
                         </h3>
                         <div class="flex flex-wrap gap-2">
-                            <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" class="pill-hover" alt="Python">
-                            <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" class="pill-hover" alt="Java">
-                            <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" class="pill-hover" alt="C++">
-                            <img src="https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white" class="pill-hover" alt="Kotlin">
-                            <img src="https://img.shields.io/badge/DSA-FF6B6B?style=for-the-badge&logo=leetcode&logoColor=white" class="pill-hover" alt="DSA">
+                            <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"
+                                class="pill-hover" alt="Python">
+                            <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"
+                                class="pill-hover" alt="Java">
+                            <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white"
+                                class="pill-hover" alt="C++">
+                            <img src="https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white"
+                                class="pill-hover" alt="Kotlin">
+                            <img src="https://img.shields.io/badge/DSA-FF6B6B?style=for-the-badge&logo=leetcode&logoColor=white"
+                                class="pill-hover" alt="DSA">
                         </div>
                     </div>
 
                     <!-- Web & Mobile -->
                     <div class="glass-card rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300">
-                        <h3 class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-pink-300 border-b border-glassBorder pb-3">
+                        <h3
+                            class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-pink-300 border-b border-glassBorder pb-3">
                             <i class="fa-solid fa-mobile-screen"></i> Web, Mobile & Design
                         </h3>
                         <div class="flex flex-wrap gap-2">
-                            <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" class="pill-hover" alt="Next.js">
-                            <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" class="pill-hover" alt="React">
-                            <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" class="pill-hover" alt="Flutter">
-                            <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" class="pill-hover" alt="Android">
-                            <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" class="pill-hover" alt="Figma">
+                            <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"
+                                class="pill-hover" alt="Next.js">
+                            <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"
+                                class="pill-hover" alt="React">
+                            <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"
+                                class="pill-hover" alt="Flutter">
+                            <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white"
+                                class="pill-hover" alt="Android">
+                            <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"
+                                class="pill-hover" alt="Figma">
                         </div>
                     </div>
 
                     <!-- AI & LLMs -->
                     <div class="glass-card rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300">
-                        <h3 class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-emerald-300 border-b border-glassBorder pb-3">
+                        <h3
+                            class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-emerald-300 border-b border-glassBorder pb-3">
                             <i class="fa-solid fa-brain"></i> AI & LLMs
                         </h3>
                         <div class="flex flex-wrap gap-2">
-                            <img src="https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white" class="pill-hover" alt="Gemini">
-                            <img src="https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white" class="pill-hover" alt="Claude">
-                            <img src="https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white" class="pill-hover" alt="Antigravity">
-                            <img src="https://img.shields.io/badge/Gen_AI_%26_ML-00C853?style=for-the-badge&logo=openai&logoColor=white" class="pill-hover" alt="Gen AI & ML">
-                            <img src="https://img.shields.io/badge/MCP_Servers-673AB7?style=for-the-badge&logo=docker&logoColor=white" class="pill-hover" alt="MCP Servers">
+                            <img src="https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white"
+                                class="pill-hover" alt="Gemini">
+                            <img src="https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white"
+                                class="pill-hover" alt="Claude">
+                            <img src="https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white"
+                                class="pill-hover" alt="Antigravity">
+                            <img src="https://img.shields.io/badge/Gen_AI_%26_ML-00C853?style=for-the-badge&logo=openai&logoColor=white"
+                                class="pill-hover" alt="Gen AI & ML">
+                            <img src="https://img.shields.io/badge/MCP_Servers-673AB7?style=for-the-badge&logo=docker&logoColor=white"
+                                class="pill-hover" alt="MCP Servers">
                         </div>
                     </div>
 
                     <!-- Systems & OS -->
                     <div class="glass-card rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300">
-                        <h3 class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-orange-300 border-b border-glassBorder pb-3">
+                        <h3
+                            class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-orange-300 border-b border-glassBorder pb-3">
                             <i class="fa-brands fa-linux"></i> Systems, OS & Hardware
                         </h3>
                         <div class="flex flex-wrap gap-2">
-                            <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows10&logoColor=white" class="pill-hover" alt="Windows">
-                            <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" class="pill-hover" alt="Linux">
-                            <img src="https://img.shields.io/badge/OS_&_Kernel-4A4A4A?style=for-the-badge&logo=debian&logoColor=white" class="pill-hover" alt="OS & Kernel">
-                            <img src="https://img.shields.io/badge/Digital_Design-1E88E5?style=for-the-badge&logo=raspberrypi&logoColor=white" class="pill-hover" alt="Digital Design">
-                            <img src="https://img.shields.io/badge/Vivado-E3008C?style=for-the-badge&logo=amd&logoColor=white" class="pill-hover" alt="Vivado">
-                            <img src="https://img.shields.io/badge/OS_Troubleshooting_%26_Tweaking-FF9800?style=for-the-badge&logo=kalilinux&logoColor=white" class="pill-hover" alt="Troubleshooting">
-                            <img src="https://img.shields.io/badge/Cracking_%26_Patching-8E44AD?style=for-the-badge&logo=hackthebox&logoColor=white" class="pill-hover" alt="Patching">
-                            <img src="https://img.shields.io/badge/Scripting-2C3E50?style=for-the-badge&logo=gnubash&logoColor=white" class="pill-hover" alt="Scripting">
+                            <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows10&logoColor=white"
+                                class="pill-hover" alt="Windows">
+                            <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"
+                                class="pill-hover" alt="Linux">
+                            <img src="https://img.shields.io/badge/OS_&_Kernel-4A4A4A?style=for-the-badge&logo=debian&logoColor=white"
+                                class="pill-hover" alt="OS & Kernel">
+                            <img src="https://img.shields.io/badge/Digital_Design-1E88E5?style=for-the-badge&logo=raspberrypi&logoColor=white"
+                                class="pill-hover" alt="Digital Design">
+                            <img src="https://img.shields.io/badge/Vivado-E3008C?style=for-the-badge&logo=amd&logoColor=white"
+                                class="pill-hover" alt="Vivado">
+                            <img src="https://img.shields.io/badge/OS_Troubleshooting_%26_Tweaking-FF9800?style=for-the-badge&logo=kalilinux&logoColor=white"
+                                class="pill-hover" alt="Troubleshooting">
+                            <img src="https://img.shields.io/badge/Cracking_%26_Patching-8E44AD?style=for-the-badge&logo=hackthebox&logoColor=white"
+                                class="pill-hover" alt="Patching">
+                            <img src="https://img.shields.io/badge/Scripting-2C3E50?style=for-the-badge&logo=gnubash&logoColor=white"
+                                class="pill-hover" alt="Scripting">
                         </div>
                     </div>
 
                     <!-- Tools & Cloud -->
-                    <div class="glass-card rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300 lg:col-span-2">
-                        <h3 class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-blue-300 border-b border-glassBorder pb-3">
+                    <div
+                        class="glass-card rounded-2xl p-6 hover:-translate-y-2 transition-transform duration-300 lg:col-span-2">
+                        <h3
+                            class="font-heading text-xl font-semibold mb-6 flex items-center gap-3 text-blue-300 border-b border-glassBorder pb-3">
                             <i class="fa-solid fa-cloud"></i> Tools & Cloud
                         </h3>
                         <div class="flex flex-wrap gap-2">
-                            <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" class="pill-hover" alt="Firebase">
-                            <img src="https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" class="pill-hover" alt="Firestore">
-                            <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" class="pill-hover" alt="Vercel">
-                            <img src="https://img.shields.io/badge/Cloud-039BE5?style=for-the-badge&logo=googlecloud&logoColor=white" class="pill-hover" alt="Cloud">
-                            <img src="https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white" class="pill-hover" alt="Git & GitHub">
-                            <img src="https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge&logo=markdown&logoColor=white" class="pill-hover" alt="Mermaid.js">
+                            <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"
+                                class="pill-hover" alt="Firebase">
+                            <img src="https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"
+                                class="pill-hover" alt="Firestore">
+                            <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"
+                                class="pill-hover" alt="Vercel">
+                            <img src="https://img.shields.io/badge/Cloud-039BE5?style=for-the-badge&logo=googlecloud&logoColor=white"
+                                class="pill-hover" alt="Cloud">
+                            <img src="https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white"
+                                class="pill-hover" alt="Git & GitHub">
+                            <img src="https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge&logo=markdown&logoColor=white"
+                                class="pill-hover" alt="Mermaid.js">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24 px-6 relative">
+            <div class="max-w-6xl mx-auto reveal">
+                <div class="text-center mb-16">
+                    <h2 class="font-heading text-3xl md:text-5xl font-bold mb-4 relative inline-block">
+                        Featured Projects
+                        <div
+                            class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary rounded-full opacity-50">
+                        </div>
+                    </h2>
+                    <p class="text-gray-400 mt-4 text-lg">Some things I've built while vibing.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Project 1 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden hover:-translate-y-2 transition-all duration-300 group flex flex-col">
+                        <div
+                            class="h-48 bg-dark/50 border-b border-glassBorder relative overflow-hidden flex items-center justify-center">
+                            <i
+                                class="fa-solid fa-code text-6xl text-gray-600 group-hover:text-primary transition-colors duration-500"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3
+                                class="font-heading text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors">
+                                BusLK App</h3>
+                            <p class="text-gray-400 text-sm mb-6 flex-grow">A mobile application developed for tracking
+                                buses, featuring real-time map integration, a draggable nearby buses list, and a QR code
+                                scanner, targeting multiple local languages.</p>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">Kotlin</span>
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">Firebase</span>
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-green-500/10 text-green-400 border border-green-500/20">Android</span>
+                            </div>
+
+                            <div class="flex gap-4 border-t border-glassBorder/50 pt-4 mt-auto">
+                                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i
+                                        class="fa-brands fa-github text-xl"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden hover:-translate-y-2 transition-all duration-300 group flex flex-col">
+                        <div
+                            class="h-48 bg-dark/50 border-b border-glassBorder relative overflow-hidden flex items-center justify-center">
+                            <i
+                                class="fa-brands fa-react text-6xl text-gray-600 group-hover:text-[#61DAFB] transition-colors duration-500"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3
+                                class="font-heading text-2xl font-bold mb-3 text-white group-hover:text-[#61DAFB] transition-colors">
+                                Portfolio V1</h3>
+                            <p class="text-gray-400 text-sm mb-6 flex-grow">A responsive, dark-themed personal portfolio
+                                website built to showcase my skills, active projects, and vibe-coding journey with
+                                glassmorphism aesthetics.</p>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">HTML/CSS</span>
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Tailwind</span>
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">JavaScript</span>
+                            </div>
+
+                            <div class="flex gap-4 border-t border-glassBorder/50 pt-4 mt-auto">
+                                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i
+                                        class="fa-brands fa-github text-xl"></i></a>
+                                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i
+                                        class="fa-solid fa-arrow-up-right-from-square text-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden hover:-translate-y-2 transition-all duration-300 group flex flex-col lg:hidden xl:flex">
+                        <div
+                            class="h-48 bg-dark/50 border-b border-glassBorder relative overflow-hidden flex items-center justify-center">
+                            <i
+                                class="fa-brands fa-linux text-6xl text-gray-600 group-hover:text-yellow-500 transition-colors duration-500"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3
+                                class="font-heading text-2xl font-bold mb-3 text-white group-hover:text-yellow-500 transition-colors">
+                                OS Tweaks & Scripts</h3>
+                            <p class="text-gray-400 text-sm mb-6 flex-grow">A collection of custom bash scripts and
+                                configuration files designed for kernel-level debugging, automated system patching, and
+                                workflow optimization on Linux.</p>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-gray-500/10 text-gray-300 border border-gray-500/20">Bash</span>
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Linux
+                                    OS</span>
+                                <span
+                                    class="px-3 py-1 text-xs font-medium rounded-full bg-red-500/10 text-red-400 border border-red-500/20">System
+                                    Tools</span>
+                            </div>
+
+                            <div class="flex gap-4 border-t border-glassBorder/50 pt-4 mt-auto">
+                                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i
+                                        class="fa-brands fa-github text-xl"></i></a>
+                            </div>
                         </div>
                     </div>
 
@@ -223,37 +424,62 @@
 
         <!-- What I'm Up To & Outside Terminal -->
         <section id="activities" class="py-24 px-6 relative">
-             <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-                
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+
                 <!-- What I'm Up To -->
                 <div class="reveal">
                     <h2 class="font-heading text-3xl font-bold mb-8 flex items-center gap-3">
                         <i class="fa-solid fa-telescope text-primary"></i> 🔭 What I'm Up To
                     </h2>
                     <ul class="space-y-6">
-                        <li class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-primary/50 transition-colors flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center text-primary">🧠</div>
-                            <p class="text-gray-300 self-center">Diving deep into <strong>Generative AI</strong>, <strong>ML</strong>, and configuring <strong>MCP servers</strong>.</p>
+                        <li
+                            class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-primary/50 transition-colors flex gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center text-primary">
+                                🧠</div>
+                            <p class="text-gray-300 self-center">Diving deep into <strong>Generative AI</strong>,
+                                <strong>ML</strong>, and configuring <strong>MCP servers</strong>.
+                            </p>
                         </li>
-                        <li class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-secondary/50 transition-colors flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-secondary/20 flex-shrink-0 flex items-center justify-center text-secondary">💻</div>
-                            <p class="text-gray-300 self-center">Experimenting with <strong>OS management, custom tweaks, and kernel-level debugging</strong>.</p>
+                        <li
+                            class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-secondary/50 transition-colors flex gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-secondary/20 flex-shrink-0 flex items-center justify-center text-secondary">
+                                💻</div>
+                            <p class="text-gray-300 self-center">Experimenting with <strong>OS management, custom
+                                    tweaks, and kernel-level debugging</strong>.</p>
                         </li>
-                        <li class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-purple-500/50 transition-colors flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex-shrink-0 flex items-center justify-center text-purple-400">📱</div>
-                            <p class="text-gray-300 self-center">Building, scripting, and sketching out UI designs across frameworks like <strong>Next.js</strong> and <strong>Flutter</strong>.</p>
+                        <li
+                            class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-purple-500/50 transition-colors flex gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-purple-500/20 flex-shrink-0 flex items-center justify-center text-purple-400">
+                                📱</div>
+                            <p class="text-gray-300 self-center">Building, scripting, and sketching out UI designs
+                                across frameworks like <strong>Next.js</strong> and <strong>Flutter</strong>.</p>
                         </li>
-                        <li class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-emerald-500/50 transition-colors flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center text-emerald-400">🏗️</div>
-                            <p class="text-gray-300 self-center">Architecting <strong>scalable backend solutions</strong> and structuring complex <strong>NoSQL</strong> databases.</p>
+                        <li
+                            class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-emerald-500/50 transition-colors flex gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center text-emerald-400">
+                                🏗️</div>
+                            <p class="text-gray-300 self-center">Architecting <strong>scalable backend
+                                    solutions</strong> and structuring complex <strong>NoSQL</strong> databases.</p>
                         </li>
-                        <li class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-orange-500/50 transition-colors flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-orange-500/20 flex-shrink-0 flex items-center justify-center text-orange-400">🧩</div>
-                            <p class="text-gray-300 self-center">Leveling up my <strong>Data Structures and Algorithms (DSA)</strong> game.</p>
+                        <li
+                            class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-orange-500/50 transition-colors flex gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-orange-500/20 flex-shrink-0 flex items-center justify-center text-orange-400">
+                                🧩</div>
+                            <p class="text-gray-300 self-center">Leveling up my <strong>Data Structures and Algorithms
+                                    (DSA)</strong> game.</p>
                         </li>
-                         <li class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-blue-500/50 transition-colors flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-blue-500/20 flex-shrink-0 flex items-center justify-center text-blue-400">✨</div>
-                            <p class="text-gray-300 self-center">Embracing the chaos of <strong>Pure coding / Vibe coding</strong> to turn abstract ideas into functional software.</p>
+                        <li
+                            class="glass-card p-5 rounded-xl border border-glassBorder/50 hover:border-blue-500/50 transition-colors flex gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-blue-500/20 flex-shrink-0 flex items-center justify-center text-blue-400">
+                                ✨</div>
+                            <p class="text-gray-300 self-center">Embracing the chaos of <strong>Pure coding / Vibe
+                                    coding</strong> to turn abstract ideas into functional software.</p>
                         </li>
                     </ul>
                 </div>
@@ -265,55 +491,66 @@
                     </h2>
                     <div class="glass-card p-8 rounded-3xl h-full flex flex-col justify-between">
                         <div>
-                            <p class="text-gray-300 mb-6 text-lg">When I'm not writing scripts or applying patches to an OS, you can find me:</p>
+                            <p class="text-gray-300 mb-6 text-lg">When I'm not writing scripts or applying patches to an
+                                OS, you can find me:</p>
                             <ul class="space-y-4 mb-8">
                                 <li class="flex items-center gap-3 text-gray-300 group">
-                                    <i class="fa-solid fa-book-open text-gray-500 group-hover:text-primary transition-colors"></i>
+                                    <i
+                                        class="fa-solid fa-book-open text-gray-500 group-hover:text-primary transition-colors"></i>
                                     <span>Immersing myself in the pages of a good novel.</span>
                                 </li>
                                 <li class="flex items-center gap-3 text-gray-300 group">
-                                    <i class="fa-solid fa-film text-gray-500 group-hover:text-secondary transition-colors"></i>
+                                    <i
+                                        class="fa-solid fa-film text-gray-500 group-hover:text-secondary transition-colors"></i>
                                     <span>Watching documentaries to learn more about the world.</span>
                                 </li>
                                 <li class="flex items-center gap-3 text-gray-300 group">
-                                    <i class="fa-solid fa-globe text-gray-500 group-hover:text-purple-400 transition-colors"></i>
+                                    <i
+                                        class="fa-solid fa-globe text-gray-500 group-hover:text-purple-400 transition-colors"></i>
                                     <span>Studying philosophy and on a continuous journey of finding myself.</span>
                                 </li>
                             </ul>
                         </div>
-                        
+
                         <blockquote class="relative p-6 bg-white/5 rounded-2xl border-l-4 border-primary">
                             <i class="fa-solid fa-quote-left absolute top-4 left-4 text-white/10 text-3xl"></i>
-                            <p class="text-gray-200 italic font-light relative z-10 pl-6">"We suffer more often in imagination than in reality."</p>
+                            <p class="text-gray-200 italic font-light relative z-10 pl-6">"We suffer more often in
+                                imagination than in reality."</p>
                             <footer class="text-gray-400 text-sm mt-2 pl-6 font-medium">— Seneca</footer>
                         </blockquote>
                     </div>
                 </div>
 
-             </div>
+            </div>
         </section>
 
         <!-- Contact Section -->
         <section id="contact" class="py-24 px-6 mb-10 relative">
             <div class="max-w-3xl mx-auto text-center reveal">
-                 <div class="glass-card p-12 rounded-[2rem] border border-glassBorder/50 relative overflow-hidden">
+                <div class="glass-card p-12 rounded-[2rem] border border-glassBorder/50 relative overflow-hidden">
                     <!-- Glow effect -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                    
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    </div>
+
                     <h2 class="font-heading text-4xl md:text-5xl font-bold mb-6">Let's build something cool.</h2>
-                    <p class="text-gray-400 text-lg mb-10">Whether you want to discuss OS tweaks, vibe coding, or have a project in mind, my inbox is open.</p>
-                    
+                    <p class="text-gray-400 text-lg mb-10">Whether you want to discuss OS tweaks, vibe coding, or have a
+                        project in mind, my inbox is open.</p>
+
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <a href="mailto:dayarathnaamst.24@uom.lk" class="flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-105 group w-full sm:w-auto">
+                        <a href="mailto:dayarathnaamst.24@uom.lk"
+                            class="flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-105 group w-full sm:w-auto">
                             <i class="fa-regular fa-envelope text-xl text-[#D14836] group-hover:animate-pulse"></i>
                             <span class="font-medium text-white tracking-wide">Say Hello</span>
                         </a>
-                        <a href="https://www.linkedin.com/in/shashika-dayarathna-420875359" target="_blank" rel="noopener" class="flex items-center gap-3 px-8 py-4 rounded-full bg-[#0077b5]/10 hover:bg-[#0077b5]/20 border border-[#0077b5]/30 transition-all hover:scale-105 group w-full sm:w-auto">
+                        <a href="https://www.linkedin.com/in/shashika-dayarathna-420875359" target="_blank"
+                            rel="noopener"
+                            class="flex items-center gap-3 px-8 py-4 rounded-full bg-[#0077b5]/10 hover:bg-[#0077b5]/20 border border-[#0077b5]/30 transition-all hover:scale-105 group w-full sm:w-auto">
                             <i class="fa-brands fa-linkedin text-xl text-[#0077B5]"></i>
                             <span class="font-medium text-white tracking-wide">Connect</span>
                         </a>
                     </div>
-                 </div>
+                </div>
             </div>
         </section>
     </main>
@@ -325,4 +562,5 @@
     <!-- Scripts -->
     <script src="script.js"></script>
 </body>
+
 </html>
