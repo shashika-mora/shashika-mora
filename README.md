@@ -17,8 +17,6 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)
-![DSA](https://img.shields.io/badge/DSA-FF6B6B?style=for-the-badge&logo=leetcode&logoColor=white)
 
 **Web, Mobile & Design:**
 
@@ -33,26 +31,11 @@
 ![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white)
 ![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![Generative AI & ML](https://img.shields.io/badge/Gen_AI_%26_ML-00C853?style=for-the-badge&logo=openai&logoColor=white)
-![MCP Servers](https://img.shields.io/badge/MCP_Servers-673AB7?style=for-the-badge&logo=docker&logoColor=white)
-
-**Systems, OS & Hardware:**
-
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows10&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![OS & Kernel](https://img.shields.io/badge/OS_&_Kernel-4A4A4A?style=for-the-badge&logo=debian&logoColor=white)
-![Digital Design](https://img.shields.io/badge/Digital_Design-1E88E5?style=for-the-badge&logo=raspberrypi&logoColor=white)
-![Vivado](https://img.shields.io/badge/Vivado-E3008C?style=for-the-badge&logo=amd&logoColor=white)
-![Troubleshooting](https://img.shields.io/badge/OS_Troubleshooting_%26_Tweaking-FF9800?style=for-the-badge&logo=kalilinux&logoColor=white)
-![Patching](https://img.shields.io/badge/Cracking_%26_Patching-8E44AD?style=for-the-badge&logo=hackthebox&logoColor=white)
-![Scripting](https://img.shields.io/badge/Scripting-2C3E50?style=for-the-badge&logo=gnubash&logoColor=white)
 
 **Tools & Cloud:**
 
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![Firestore](https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Cloud](https://img.shields.io/badge/Cloud-039BE5?style=for-the-badge&logo=googlecloud&logoColor=white)
 ![Git & GitHub](https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Mermaid.js](https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge&logo=markdown&logoColor=white)
 
