@@ -34,15 +34,22 @@ export default function Login() {
     setError('');
     setLoading(true);
 
+    const targetEmail = email.trim().toLowerCase();
+    if (targetEmail !== 'admin@shashika.lk') {
+      setError('Access restricted: Only admin@shashika.lk is permitted to access the admin panel.');
+      setLoading(false);
+      return;
+    }
+
     const auth = getAuth(app);
 
     try {
       if (isRegistering) {
-        // Sign Up (Temporarily enabled for initial admin creation)
-        await createUserWithEmailAndPassword(auth, email, password);
+        // Sign Up (Temporarily enabled for initial admin creation of admin@shashika.lk)
+        await createUserWithEmailAndPassword(auth, targetEmail, password);
       } else {
         // Sign In
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, targetEmail, password);
       }
       router.push('/');
     } catch (err) {

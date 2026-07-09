@@ -5,39 +5,6 @@ import { getProjects } from '../../lib/firestore-service';
 import { Github, ExternalLink, Search, Tag, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-const DEFAULT_PROJECTS = [
-  {
-    id: 'demo-1',
-    title: 'OS Kernel Tweaks',
-    description: 'Experimenting with OS kernel compilation, custom patches, and performance tuning for Linux environments.',
-    technologies: ['C', 'Linux', 'Bash', 'Kernel'],
-    githubUrl: 'https://github.com/shashika-mora',
-    liveUrl: '',
-    featured: true,
-    order: 1
-  },
-  {
-    id: 'demo-2',
-    title: 'BusLK Admin Portal',
-    description: 'A cloud-based real-time transit management application for bus tracking, schedules, and route coordination.',
-    technologies: ['Next.js', 'Firebase', 'Tailwind CSS', 'NoSQL'],
-    githubUrl: 'https://github.com/shashika-mora',
-    liveUrl: '',
-    featured: true,
-    order: 2
-  },
-  {
-    id: 'demo-3',
-    title: 'Custom MCP Servers',
-    description: 'Developing Model Context Protocol (MCP) integrations to extend AI agents with system administration tools.',
-    technologies: ['Node.js', 'TypeScript', 'MCP'],
-    githubUrl: 'https://github.com/shashika-mora',
-    liveUrl: '',
-    featured: false,
-    order: 3
-  }
-];
-
 export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,10 +14,8 @@ export default function Projects() {
   useEffect(() => {
     async function loadData() {
       const data = await getProjects(false);
-      if (data && data.length > 0) {
+      if (data) {
         setProjects(data);
-      } else {
-        setProjects(DEFAULT_PROJECTS);
       }
       setLoading(false);
     }
@@ -58,13 +23,13 @@ export default function Projects() {
   }, []);
 
   // Extract unique tags
-  const allTags = ['All', ...new Set(projects.flatMap(p => p.technologies || []))];
+  const allTags = ['All', ...new Set(projects.flatMap(p => p.techStack || []))];
 
   // Filter projects
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTag = selectedTag === 'All' || project.technologies?.includes(selectedTag);
+    const matchesTag = selectedTag === 'All' || project.techStack?.includes(selectedTag);
     return matchesSearch && matchesTag;
   });
 
@@ -139,7 +104,7 @@ export default function Projects() {
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-6">
-                  {project.technologies?.map((tech) => (
+                  {project.techStack?.map((tech) => (
                     <span
                       key={tech}
                       className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-900 text-indigo-300 border border-slate-800"

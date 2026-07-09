@@ -6,27 +6,6 @@ import { GraduationCap, Calendar, Award, BookOpen, ArrowLeft } from 'lucide-reac
 import Link from 'next/link';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
 
-const DEFAULT_ACADEMICS = [
-  {
-    id: 'acad-1',
-    title: 'B.Sc. Engineering (Hons) in Computer Science & Engineering',
-    institution: 'University of Moratuwa, Sri Lanka',
-    period: '2023 - Present',
-    grade: 'GPA: 3.9+ (Expected)',
-    details: 'Exploring core areas including Data Structures and Algorithms, Database Systems, Computer Architecture, and Operating Systems. Actively experimenting with kernel modifications and LLM agent custom MCP integrations.',
-    order: 1
-  },
-  {
-    id: 'acad-2',
-    title: 'G.C.E. Advanced Level Examination',
-    institution: 'High School',
-    period: 'Completed 2022',
-    grade: '3 A\'s (Combined Mathematics, Physics, Chemistry)',
-    details: 'Achieved outstanding results in Physical Sciences stream, securing admission to the leading engineering faculty in Sri Lanka.',
-    order: 2
-  }
-];
-
 export default function Academics() {
   const [academics, setAcademics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,10 +13,8 @@ export default function Academics() {
   useEffect(() => {
     async function loadData() {
       const data = await getAcademics();
-      if (data && data.length > 0) {
+      if (data) {
         setAcademics(data);
-      } else {
-        setAcademics(DEFAULT_ACADEMICS);
       }
       setLoading(false);
     }
@@ -65,6 +42,11 @@ export default function Academics() {
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500 border-r-2 mb-4"></div>
           <p className="text-slate-400">Loading academic details...</p>
         </div>
+      ) : academics.length === 0 ? (
+        <div className="glass-card text-center py-20 text-slate-500 rounded-2xl">
+          <p className="text-lg">No academic records found.</p>
+          <p className="text-xs text-slate-650 mt-1">Please populate academics timeline from the admin panel.</p>
+        </div>
       ) : (
         <div className="relative border-l border-slate-800 ml-4 md:ml-6 space-y-12">
           {academics.map((item) => (
@@ -79,27 +61,49 @@ export default function Academics() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
                   <div>
                     <h3 className="font-heading text-xl md:text-2xl font-bold text-white">
-                      {item.title}
+                      {item.degree}
                     </h3>
                     <p className="text-indigo-400 font-medium text-sm mt-1">
                       {item.institution}
                     </p>
                   </div>
-                  <div className="flex flex-col md:items-end text-xs text-slate-400 shrink-0">
-                    <span className="flex items-center gap-1.5 font-medium text-slate-300">
+                  <div className="flex flex-col md:items-end text-xs text-slate-450 shrink-0">
+                    <span className="flex items-center gap-1.5 font-medium text-slate-350">
                       <Calendar size={12} className="text-slate-500" />
                       {item.period}
                     </span>
-                    {item.grade && (
+                    {item.gpa && (
                       <span className="flex items-center gap-1.5 mt-1 font-semibold text-pink-400/90">
                         <Award size={12} />
-                        {item.grade}
+                        {item.gpa}
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="pt-2 text-slate-400 font-light text-sm md:text-base leading-relaxed border-t border-slate-900/60">
-                  <MarkdownRenderer content={item.details} />
+                
+                <div className="pt-4 space-y-4 border-t border-slate-900/60">
+                  {item.achievements && item.achievements.length > 0 && (
+                    <div className="space-y-1.5">
+                      <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Achievements</h4>
+                      <ul className="list-disc pl-4 text-xs text-slate-400 space-y-1">
+                        {item.achievements.map((ach, idx) => (
+                          <li key={idx}>{ach}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {item.courses && item.courses.length > 0 && (
+                    <div className="space-y-1.5">
+                      <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Key Courses</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {item.courses.map((course, idx) => (
+                          <span key={idx} className="text-[10px] px-2.5 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                            {course}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

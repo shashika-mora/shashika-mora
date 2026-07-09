@@ -1,33 +1,33 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Helper: Checks if the user is logged in
-    function isAuthenticated() {
-      return request.auth != null;
+    // Helper: Checks if the user is authenticated as the single allowed admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'admin@shashika.lk';
     }
 
-    // Public collections: read-only for public, write for admin
+    // Public collections: read-only for public, write for the specific admin
     match /blogs/{document=**} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
     match /projects/{document=**} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
     match /academics/{document=**} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
     match /config/about {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isAdmin();
     }
 
-    // Messages collection: public can create, admin can read/manage
+    // Messages collection: public can create (submit inquiry), admin can read/manage
     match /messages/{document=**} {
       allow create: if true;
-      allow read, update, delete: if isAuthenticated();
+      allow read, update, delete: if isAdmin();
     }
   }
 }
