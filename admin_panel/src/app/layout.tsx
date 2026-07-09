@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { app } from '../lib/firebase';
 import { Inter, Outfit } from 'next/font/google';
 import AdminSidebar from '../components/AdminSidebar';
@@ -27,17 +27,26 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      
-      // If user is not logged in and is not on the login page, redirect to login
-      if (!currentUser && pathname !== '/login') {
+      const isAdminUser = currentUser && currentUser.email?.toLowerCase() === 'admin@shashika.lk';
+
+      if (currentUser && !isAdminUser) {
+        // Force log out any unauthorized user accounts
+        signOut(auth);
+        setUser(null);
         router.replace('/login');
-      } 
-      // If user is logged in and is on the login page, redirect to dashboard root
-      else if (currentUser && pathname === '/login') {
-        router.replace('/');
       } else {
-        setLoading(false);
+        setUser(currentUser);
+        
+        // If user is not logged in and is not on the login page, redirect to login
+        if (!currentUser && pathname !== '/login') {
+          router.replace('/login');
+        } 
+        // If user is logged in and is on the login page, redirect to dashboard root
+        else if (currentUser && pathname === '/login') {
+          router.replace('/');
+        } else {
+          setLoading(false);
+        }
       }
     });
 
