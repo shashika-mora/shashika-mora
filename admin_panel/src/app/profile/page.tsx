@@ -14,8 +14,9 @@ export default function ProfileEditor() {
   const [bio, setBio] = useState('');
   const [secondaryBio, setSecondaryBio] = useState('');
   const [githubUrl, setGithubUrl] = useState('');
-  const [linkedinUrl, setLinkedinUrl] = useState('');
   const [contactEmail, setContactEmail] = useState('');
+  const [resumeUrl, setResumeUrl] = useState('');
+  const [availabilityStatus, setAvailabilityStatus] = useState('');
 
   // Skills Manager
   const [skills, setSkills] = useState([]);
@@ -31,8 +32,9 @@ export default function ProfileEditor() {
         setBio(config.bio || '');
         setSecondaryBio(config.secondaryBio || '');
         setGithubUrl(config.githubUrl || '');
-        setLinkedinUrl(config.linkedinUrl || '');
         setContactEmail(config.contactEmail || '');
+        setResumeUrl(config.resumeUrl || '');
+        setAvailabilityStatus(config.availabilityStatus || '');
         setSkills(config.skills || []);
       }
       setLoading(false);
@@ -59,10 +61,11 @@ export default function ProfileEditor() {
       name,
       role,
       bio,
-      secondaryBio,
       githubUrl,
       linkedinUrl,
       contactEmail,
+      resumeUrl,
+      availabilityStatus,
       skills,
     };
 
@@ -137,6 +140,29 @@ export default function ProfileEditor() {
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
                   placeholder="e.g. CSE Student / Software Engineer"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Availability Status</label>
+                <input
+                  type="text"
+                  value={availabilityStatus}
+                  onChange={(e) => setAvailabilityStatus(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                  placeholder="e.g. Actively looking for internships"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Resume / CV URL</label>
+                <input
+                  type="url"
+                  value={resumeUrl}
+                  onChange={(e) => setResumeUrl(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                  placeholder="https://example.com/resume.pdf"
                 />
               </div>
             </div>

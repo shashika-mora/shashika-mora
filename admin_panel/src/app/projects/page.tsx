@@ -19,6 +19,8 @@ export default function ProjectsManager() {
   const [techStackText, setTechStackText] = useState('');
   const [featured, setFeatured] = useState(false);
   const [order, setOrder] = useState(0);
+  const [imageUrl, setImageUrl] = useState('');
+  const [visibility, setVisibility] = useState(true);
 
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
 
@@ -43,6 +45,8 @@ export default function ProjectsManager() {
     setTechStackText('');
     setFeatured(false);
     setOrder(projects.length);
+    setImageUrl('');
+    setVisibility(true);
     setIsEditing(true);
   };
 
@@ -56,6 +60,8 @@ export default function ProjectsManager() {
     setTechStackText(project.techStack ? project.techStack.join(', ') : '');
     setFeatured(project.featured || false);
     setOrder(project.order || 0);
+    setImageUrl(project.imageUrl || '');
+    setVisibility(project.visibility !== false); // Default true
     setIsEditing(true);
   };
 
@@ -92,6 +98,8 @@ export default function ProjectsManager() {
       techStack,
       featured,
       order: Number(order) || 0,
+      imageUrl,
+      visibility,
     };
 
     try {
@@ -205,6 +213,17 @@ export default function ProjectsManager() {
             />
           </div>
 
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Cover Image URL</label>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+              placeholder="https://example.com/image.png"
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">GitHub Repository URL</label>
@@ -239,17 +258,31 @@ export default function ProjectsManager() {
                 placeholder="0"
               />
             </div>
-            <div className="flex items-center gap-3 h-full pt-6">
-              <input
-                type="checkbox"
-                id="featured"
-                checked={featured}
-                onChange={(e) => setFeatured(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-800 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
-              />
-              <label htmlFor="featured" className="text-sm font-semibold text-slate-300">
-                Pin to Featured Projects on Landing Page
-              </label>
+            <div className="flex flex-col gap-3 pt-6">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={featured}
+                  onChange={(e) => setFeatured(e.target.checked)}
+                  className="h-4 w-4 rounded border-slate-800 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
+                />
+                <label htmlFor="featured" className="text-sm font-semibold text-slate-300">
+                  Pin to Featured Projects on Landing Page
+                </label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="visibility"
+                  checked={visibility}
+                  onChange={(e) => setVisibility(e.target.checked)}
+                  className="h-4 w-4 rounded border-slate-800 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
+                />
+                <label htmlFor="visibility" className="text-sm font-semibold text-slate-300">
+                  Published (Visible to public)
+                </label>
+              </div>
             </div>
           </div>
 
@@ -315,6 +348,15 @@ export default function ProjectsManager() {
                         }`}>
                           {project.featured ? 'Featured' : 'Regular'}
                         </span>
+                        <div className="mt-1">
+                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
+                            project.visibility !== false
+                              ? 'bg-green-950/40 text-green-400 border border-green-900/30'
+                              : 'bg-yellow-950/40 text-yellow-500 border border-yellow-900/30'
+                          }`}>
+                            {project.visibility !== false ? 'Published' : 'Draft'}
+                          </span>
+                        </div>
                       </td>
                       <td className="p-4 text-center font-mono text-xs">{project.order}</td>
                       <td className="p-4 pr-6 text-right space-x-2 shrink-0">

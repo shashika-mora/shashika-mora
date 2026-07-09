@@ -17,6 +17,8 @@ export default function BlogsManager() {
   const [imageUrl, setImageUrl] = useState('');
   const [tagsText, setTagsText] = useState('');
   const [published, setPublished] = useState(false);
+  const [featured, setFeatured] = useState(false);
+  const [readingTime, setReadingTime] = useState(5);
   const [content, setContent] = useState('');
 
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
@@ -54,6 +56,8 @@ export default function BlogsManager() {
     setImageUrl('');
     setTagsText('');
     setPublished(false);
+    setFeatured(false);
+    setReadingTime(5);
     setContent('');
     setIsEditing(true);
   };
@@ -66,6 +70,8 @@ export default function BlogsManager() {
     setImageUrl(blog.imageUrl || '');
     setTagsText(blog.tags ? blog.tags.join(', ') : '');
     setPublished(blog.published || false);
+    setFeatured(blog.featured || false);
+    setReadingTime(blog.readingTime || 5);
     setContent(blog.content || '');
     setIsEditing(true);
   };
@@ -101,6 +107,8 @@ export default function BlogsManager() {
       imageUrl,
       tags,
       published,
+      featured,
+      readingTime: Number(readingTime) || 5,
       content,
       publishedAt: published ? new Date().toISOString() : null,
     };
@@ -228,17 +236,43 @@ export default function BlogsManager() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="published"
-              checked={published}
-              onChange={(e) => setPublished(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-800 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
-            />
-            <label htmlFor="published" className="text-sm font-semibold text-slate-300">
-              Publish Post (Will make it visible on the blog immediately)
-            </label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Estimated Reading Time (Minutes)</label>
+              <input
+                type="number"
+                value={readingTime}
+                onChange={(e) => setReadingTime(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                placeholder="5"
+              />
+            </div>
+            <div className="flex flex-col gap-3 pt-6">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={featured}
+                  onChange={(e) => setFeatured(e.target.checked)}
+                  className="h-4 w-4 rounded border-slate-800 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
+                />
+                <label htmlFor="featured" className="text-sm font-semibold text-slate-300">
+                  Featured (Pin to Landing Page)
+                </label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="published"
+                  checked={published}
+                  onChange={(e) => setPublished(e.target.checked)}
+                  className="h-4 w-4 rounded border-slate-800 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
+                />
+                <label htmlFor="published" className="text-sm font-semibold text-slate-300">
+                  Publish Post (Make visible to public)
+                </label>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -312,6 +346,13 @@ export default function BlogsManager() {
                         }`}>
                           {blog.published ? 'Published' : 'Draft'}
                         </span>
+                        {blog.featured && (
+                          <div className="mt-1">
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-pink-950/40 text-pink-400 border border-pink-900/30">
+                              Featured
+                            </span>
+                          </div>
+                        )}
                       </td>
                       <td className="p-4 text-xs text-slate-400">
                         {blog.publishedAt

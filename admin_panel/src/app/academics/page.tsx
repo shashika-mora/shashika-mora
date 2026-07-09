@@ -17,6 +17,8 @@ export default function AcademicsManager() {
   const [gpa, setGpa] = useState('');
   const [achievementsText, setAchievementsText] = useState('');
   const [coursesText, setCoursesText] = useState('');
+  const [skillsText, setSkillsText] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [order, setOrder] = useState(0);
 
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
@@ -40,6 +42,8 @@ export default function AcademicsManager() {
     setGpa('');
     setAchievementsText('');
     setCoursesText('');
+    setSkillsText('');
+    setImageUrl('');
     setOrder(academics.length);
     setIsEditing(true);
   };
@@ -52,6 +56,8 @@ export default function AcademicsManager() {
     setGpa(record.gpa || '');
     setAchievementsText(record.achievements ? record.achievements.join('\n') : '');
     setCoursesText(record.courses ? record.courses.join(', ') : '');
+    setSkillsText(record.skills ? record.skills.join(', ') : '');
+    setImageUrl(record.imageUrl || '');
     setOrder(record.order || 0);
     setIsEditing(true);
   };
@@ -85,6 +91,11 @@ export default function AcademicsManager() {
       .map(c => c.trim())
       .filter(c => c.length > 0);
 
+    const skills = skillsText
+      .split(',')
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+
     const academicData = {
       institution,
       degree,
@@ -92,6 +103,8 @@ export default function AcademicsManager() {
       gpa,
       achievements,
       courses,
+      skills,
+      imageUrl,
       order: Number(order) || 0,
     };
 
@@ -184,6 +197,17 @@ export default function AcademicsManager() {
             </div>
           </div>
 
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Badge / Logo Image URL</label>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+              placeholder="https://example.com/logo.png"
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Period / Years</label>
@@ -217,15 +241,27 @@ export default function AcademicsManager() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Key Courses</label>
-            <input
-              type="text"
-              value={coursesText}
-              onChange={(e) => setCoursesText(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
-              placeholder="e.g. Operating Systems, Data Structures, Algorithms (comma separated)"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Key Courses</label>
+              <input
+                type="text"
+                value={coursesText}
+                onChange={(e) => setCoursesText(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                placeholder="e.g. Operating Systems, Algorithms (comma separated)"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Skills Gained</label>
+              <input
+                type="text"
+                value={skillsText}
+                onChange={(e) => setSkillsText(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                placeholder="e.g. C, Python, Machine Learning (comma separated)"
+              />
+            </div>
           </div>
 
           <div>

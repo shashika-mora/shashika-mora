@@ -20,13 +20,9 @@ export async function getBlogs(onlyPublished = false) {
   const colRef = collection(db, 'blogs');
   let q;
   try {
-    if (onlyPublished) {
-      q = query(colRef, where('published', '==', true), orderBy('publishedAt', 'desc'));
-    } else {
-      q = query(colRef, orderBy('createdAt', 'desc'));
-    }
+    q = query(colRef, orderBy('createdAt', 'desc'));
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => {
+    let blogs = snapshot.docs.map(doc => {
       const data = doc.data();
       return {
         id: doc.id,
@@ -36,6 +32,11 @@ export async function getBlogs(onlyPublished = false) {
         publishedAt: data.publishedAt?.toDate?.() ? data.publishedAt.toDate().toISOString() : data.publishedAt,
       };
     });
+    
+    if (onlyPublished) {
+      blogs = blogs.filter(b => b.published !== false); // default to true if undefined
+    }
+    return blogs;
   } catch (error) {
     console.error('Error getting blogs:', error);
     return [];
@@ -86,17 +87,17 @@ export async function deleteBlog(id) {
 }
 
 // --- PROJECTS ---
-export async function getProjects(onlyFeatured = false) {
+export async function getProjects(fetchMode = 'all') { // 'all', 'featured', 'published'
   const colRef = collection(db, 'projects');
   let q;
   try {
-    if (onlyFeatured) {
+    if (fetchMode === 'featured') {
       q = query(colRef, where('featured', '==', true), orderBy('order', 'asc'));
     } else {
       q = query(colRef, orderBy('order', 'asc'));
     }
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => {
+    let projects = snapshot.docs.map(doc => {
       const data = doc.data();
       return {
         id: doc.id,
@@ -104,6 +105,12 @@ export async function getProjects(onlyFeatured = false) {
         createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt,
       };
     });
+
+    if (fetchMode === 'published' || fetchMode === 'featured') {
+      projects = projects.filter(p => p.visibility !== false); // hide drafts
+    }
+    
+    return projects;
   } catch (error) {
     console.error('Error getting projects:', error);
     return [];
