@@ -6,53 +6,11 @@ import { getAboutConfig, getProjects, getBlogs, addMessage } from '../lib/firest
 import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram } from 'lucide-react';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 
-// Default Fallbacks
-// Default Fallbacks
-const DEFAULT_ABOUT = {
-  name: 'Shashika Dayarathna',
-  title: 'CSE Undergrad @ University of Moratuwa 🎓',
-  subtitle: 'Pure/Vibe Coder ✨ | OS Tinkerer 🐧',
-  bio: "I'm a Computer Science and Engineering undergraduate currently exploring everything from low-level kernel tweaks to modern app development. My development process heavily relies on **Pure coding / Vibe coding**—diving in, breaking things, patching them up, and figuring it out along the way.",
-  email: 'shashika.24@cse.mrt.ac.lk',
-  emailPersonal: 'shashikatheekshana67@gmail.com',
-  linkedinUrl: 'https://www.linkedin.com/in/shashika-dayarathna-420875359',
-  githubUrl: 'https://github.com/shashika-mora',
-  facebookUrl: 'https://web.facebook.com/shashika.dayarathna.2025/',
-  instaUrl: 'https://www.instagram.com/shashika_daya/',
-  skills: {
-    'Languages & Core': ['Python', 'Java', 'C++', 'C', 'Shell Scripting'],
-    'Web & Mobile': ['Next.js', 'React', 'Flutter', 'Android SDK', 'Tailwind CSS', 'Node.js'],
-    'AI & Modern Tools': ['Gemini API', 'Claude / LLMs', 'Firebase', 'Git & GitHub', 'Mermaid.js']
-  }
-};
-
-const DEFAULT_PROJECTS = [
-  {
-    id: 'demo-1',
-    title: 'OS Kernel Tweaks',
-    description: 'Experimenting with OS kernel compilation and performance tuning.',
-    technologies: ['C', 'Linux', 'Bash'],
-    githubUrl: 'https://github.com/shashika-mora',
-    liveUrl: '',
-    featured: true,
-    order: 1
-  },
-  {
-    id: 'demo-2',
-    title: 'BusLK Admin Portal',
-    description: 'A cloud-based real-time transit management application.',
-    technologies: ['Next.js', 'Firebase', 'Tailwind CSS'],
-    githubUrl: 'https://github.com/shashika-mora',
-    liveUrl: '',
-    featured: true,
-    order: 2
-  }
-];
-
 export default function Home() {
-  const [about, setAbout] = useState(DEFAULT_ABOUT);
+  const [about, setAbout] = useState(null);
   const [projects, setProjects] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   // Contact form state
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -60,21 +18,20 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       // 1. Fetch Profile
       const aboutData = await getAboutConfig();
       if (aboutData) setAbout(aboutData);
 
       // 2. Fetch Featured Projects
       const projectsData = await getProjects(true);
-      if (projectsData && projectsData.length > 0) {
-        setProjects(projectsData);
-      } else {
-        setProjects(DEFAULT_PROJECTS);
-      }
+      if (projectsData) setProjects(projectsData);
 
       // 3. Fetch Blogs
       const blogsData = await getBlogs(true);
       if (blogsData) setBlogs(blogsData.slice(0, 3));
+      
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -96,6 +53,25 @@ export default function Home() {
       setFormStatus({ loading: false, success: false, error: 'Failed to send message. Please try again.' });
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500 border-r-2"></div>
+          <p className="text-sm font-medium">Loading portfolio...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!about) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-450">
+        <p className="text-sm">Profile configuration not found. Please log into the admin panel to set it up.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
