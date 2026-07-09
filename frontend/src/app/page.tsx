@@ -225,7 +225,9 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
             </span>
-            <span className="text-xs font-medium tracking-wide text-slate-300">Available for Opportunities</span>
+            <span className="text-xs font-medium tracking-wide text-slate-300">
+              {about.availabilityStatus || 'Available for Opportunities'}
+            </span>
           </div>
 
           <h1 className="hero-title font-heading text-5xl md:text-7xl lg:text-8xl font-black leading-none mb-6 tracking-tight">
@@ -240,10 +242,20 @@ export default function Home() {
             <span className="text-indigo-400 font-normal">{about.subtitle}</span>
           </h3>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
+            {about.resumeUrl && (
+              <a
+                href={about.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-slate-950 font-semibold hover:bg-slate-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 text-center"
+              >
+                View Resume
+              </a>
+            )}
             <Link
               href="/contact"
-              className="hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-slate-950 font-semibold hover:bg-slate-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 text-center"
+              className={`hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full ${about.resumeUrl ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-white text-slate-950 hover:bg-slate-200'} font-semibold hover:scale-[1.02] transition-all duration-300 text-center`}
             >
               Connect with me
             </Link>

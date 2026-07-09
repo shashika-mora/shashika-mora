@@ -74,14 +74,21 @@ export default function Academics() {
 
               {/* Item Card */}
               <div className="glass-card p-6 md:p-8 rounded-2xl hover:border-slate-800 transition-all">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-                  <div>
-                    <h3 className="font-heading text-xl md:text-2xl font-bold text-white">
-                      {item.degree}
-                    </h3>
-                    <p className="text-indigo-400 font-medium text-sm mt-1">
-                      {item.institution}
-                    </p>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-4">
+                    {item.imageUrl && (
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-900 border border-slate-800 shrink-0">
+                        <img src={item.imageUrl} alt={item.institution} className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <div>
+                      <h3 className="font-heading text-xl md:text-2xl font-bold text-white">
+                        {item.degree}
+                      </h3>
+                      <p className="text-indigo-400 font-medium text-sm mt-1">
+                        {item.institution}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex flex-col md:items-end text-xs text-slate-450 shrink-0">
                     <span className="flex items-center gap-1.5 font-medium text-slate-350">
@@ -115,6 +122,18 @@ export default function Academics() {
                         {item.courses.map((course, idx) => (
                           <span key={idx} className="text-[10px] px-2.5 py-1 rounded bg-slate-900 text-slate-400 border border-slate-800">
                             {course}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {item.skills && item.skills.length > 0 && (
+                    <div className="space-y-1.5">
+                      <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Skills Gained</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {item.skills.map((skill, idx) => (
+                          <span key={idx} className="text-[10px] px-2.5 py-1 rounded bg-indigo-950/40 text-indigo-300 border border-indigo-900/30 font-semibold">
+                            {skill}
                           </span>
                         ))}
                       </div>

@@ -111,27 +111,38 @@ export default function Projects() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="project-card glass-card rounded-2xl p-6 hover:-translate-y-1.5 transition-all flex flex-col justify-between group"
+              className="project-card glass-card rounded-2xl overflow-hidden hover:-translate-y-1.5 transition-all flex flex-col justify-between group"
             >
               <div>
-                <h3 className="font-heading text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-slate-400 text-sm mb-6 leading-relaxed font-light">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {project.techStack?.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-900 text-indigo-300 border border-slate-800"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                {project.imageUrl && (
+                  <div className="h-48 w-full overflow-hidden mb-4">
+                    <img 
+                      src={project.imageUrl} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                )}
+                <div className={`px-6 ${!project.imageUrl ? 'pt-6' : ''}`}>
+                  <h3 className="font-heading text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm mb-6 leading-relaxed font-light">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {project.techStack?.map((tech) => (
+                      <span
+                        key={tech}
+                        className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-900 text-indigo-300 border border-slate-800"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-900">
+              <div className="flex items-center gap-4 pt-4 px-6 pb-6 border-t border-slate-900">
                 {project.githubUrl && (
                   <a
                     href={project.githubUrl}

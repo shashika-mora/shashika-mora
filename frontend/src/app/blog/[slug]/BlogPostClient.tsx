@@ -136,7 +136,7 @@ export default function BlogPostClient({ params }) {
       </Link>
 
       {/* Meta Info */}
-      <div className="flex items-center gap-4 text-xs text-slate-400 mb-6">
+      <div className="flex items-center flex-wrap gap-4 text-xs text-slate-400 mb-6">
         <span className="flex items-center gap-1.5">
           <Calendar size={12} className="text-slate-500" />
           {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString(undefined, {
@@ -145,6 +145,12 @@ export default function BlogPostClient({ params }) {
             day: 'numeric'
           })}
         </span>
+        {blog.readingTime && (
+          <span className="flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-slate-700"></span>
+            {blog.readingTime} min read
+          </span>
+        )}
         {blog.tags && blog.tags.length > 0 && (
           <span className="flex items-center gap-1">
             <Tag size={10} className="text-slate-500" />

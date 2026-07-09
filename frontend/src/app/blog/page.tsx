@@ -109,36 +109,53 @@ export default function Blog() {
           {filteredBlogs.map((blog) => (
             <article
               key={blog.id}
-              className="blog-post-card glass-card rounded-2xl p-6 md:p-8 hover:scale-[1.005] hover:border-slate-800/80 transition-all flex flex-col justify-between group"
+              className="blog-post-card glass-card rounded-2xl overflow-hidden hover:scale-[1.005] hover:border-slate-800/80 transition-all flex flex-col justify-between group"
             >
               <div>
-                <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
-                  <span className="flex items-center gap-1.5">
-                    <Calendar size={12} className="text-slate-500" />
-                    {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString(undefined, {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </span>
-                  {blog.tags && blog.tags.length > 0 && (
-                    <span className="flex items-center gap-1">
-                      <Tag size={10} className="text-slate-500" />
-                      {blog.tags.join(', ')}
+                {blog.imageUrl && (
+                  <div className="h-56 w-full overflow-hidden mb-6">
+                    <img 
+                      src={blog.imageUrl} 
+                      alt={blog.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                )}
+                <div className={`px-6 md:px-8 ${!blog.imageUrl ? 'pt-6 md:pt-8' : ''}`}>
+                  <div className="flex items-center flex-wrap gap-4 text-xs text-slate-400 mb-4">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar size={12} className="text-slate-500" />
+                      {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString(undefined, {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
                     </span>
-                  )}
-                </div>
+                    {blog.readingTime && (
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-slate-700"></span>
+                        {blog.readingTime} min read
+                      </span>
+                    )}
+                    {blog.tags && blog.tags.length > 0 && (
+                      <span className="flex items-center gap-1 ml-auto">
+                        <Tag size={10} className="text-slate-500" />
+                        {blog.tags.join(', ')}
+                      </span>
+                    )}
+                  </div>
 
-                <Link href={`/blog/${blog.slug}`}>
-                  <h3 className="font-heading text-2xl md:text-3xl font-extrabold text-white mb-3 group-hover:text-indigo-400 transition-colors">
-                    {blog.title}
-                  </h3>
-                </Link>
-                <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6 font-light">
-                  {blog.summary}
-                </p>
+                  <Link href={`/blog/${blog.slug}`}>
+                    <h3 className="font-heading text-2xl md:text-3xl font-extrabold text-white mb-3 group-hover:text-indigo-400 transition-colors">
+                      {blog.title}
+                    </h3>
+                  </Link>
+                  <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6 font-light">
+                    {blog.summary}
+                  </p>
+                </div>
               </div>
-              <div className="pt-4 border-t border-slate-900 flex justify-between items-center">
+              <div className="pt-4 px-6 md:px-8 pb-6 md:pb-8 border-t border-slate-900 flex justify-between items-center">
                 <Link
                   href={`/blog/${blog.slug}`}
                   className="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 group/btn"
