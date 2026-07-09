@@ -72,6 +72,7 @@ export default function Home() {
       scale: 0.98,
       duration: 0.8,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#about .about-card',
         start: 'top 85%',
@@ -98,6 +99,7 @@ export default function Home() {
         grid: 'auto'
       },
       ease: 'back.out(1.5)',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '.skill-chip',
         start: 'top 85%',
@@ -121,6 +123,7 @@ export default function Home() {
       duration: 0.7,
       stagger: 0.15,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '.project-card',
         start: 'top 85%',
@@ -143,6 +146,7 @@ export default function Home() {
       duration: 0.7,
       stagger: 0.15,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '.blog-card',
         start: 'top 85%',
@@ -165,6 +169,7 @@ export default function Home() {
       scale: 0.98,
       duration: 0.8,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#contact .contact-card',
         start: 'top 80%',

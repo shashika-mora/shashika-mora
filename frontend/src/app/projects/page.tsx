@@ -45,7 +45,8 @@ export default function Projects() {
       y: 20,
       duration: 0.5,
       stagger: 0.08,
-      ease: 'power2.out'
+      ease: 'power2.out',
+      clearProps: 'all'
     });
   }, { scope: containerRef, dependencies: [filteredProjects, loading] });
 

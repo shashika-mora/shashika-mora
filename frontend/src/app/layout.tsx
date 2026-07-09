@@ -26,9 +26,11 @@ export default function RootLayout({ children }) {
         
         <InteractiveBackground />
 
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <div className="relative z-10 flex flex-col min-h-screen pointer-events-auto">
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

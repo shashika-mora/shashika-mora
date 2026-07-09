@@ -60,7 +60,8 @@ export default function Blog() {
       y: 20,
       duration: 0.5,
       stagger: 0.1,
-      ease: 'power2.out'
+      ease: 'power2.out',
+      clearProps: 'all'
     });
   }, { scope: containerRef, dependencies: [filteredBlogs, loading] });
 
