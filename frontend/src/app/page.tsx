@@ -147,28 +147,45 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {Object.entries(about.skills || {}).map(([category, items], idx) => {
-              const Icon = idx === 0 ? Cpu : idx === 1 ? Layers : BookOpen;
-              return (
-                <div key={category} className="glass-card rounded-2xl p-6 hover:-translate-y-1.5 transition-transform duration-300">
-                  <h3 className="font-heading text-xl font-bold mb-6 flex items-center gap-3 text-indigo-300 border-b border-slate-800 pb-3">
-                    <Icon size={20} />
-                    {category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-medium hover:border-slate-700 transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+          <div className="max-w-5xl mx-auto">
+            {Array.isArray(about.skills) ? (
+              <div className="glass-card rounded-3xl p-8 md:p-12 text-center">
+                <div className="flex flex-wrap justify-center gap-3">
+                  {about.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-4 py-2.5 rounded-full bg-slate-900/80 border border-slate-800 text-sm text-slate-200 font-medium hover:border-indigo-500 hover:text-white transition-all duration-305"
+                    >
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-              );
-            })}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {Object.entries(about.skills || {}).map(([category, items], idx) => {
+                  const Icon = idx === 0 ? Cpu : idx === 1 ? Layers : BookOpen;
+                  return (
+                    <div key={category} className="glass-card rounded-2xl p-6 hover:-translate-y-1.5 transition-transform duration-300">
+                      <h3 className="font-heading text-xl font-bold mb-6 flex items-center gap-3 text-indigo-300 border-b border-slate-800 pb-3">
+                        <Icon size={20} />
+                        {category}
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {Array.isArray(items) && items.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-medium hover:border-slate-700 transition-colors"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </section>
