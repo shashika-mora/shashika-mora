@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper: Checks if the user is logged in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Public collections: read-only for public, write for admin
+    match /blogs/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    match /projects/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    match /academics/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    match /config/about {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Messages collection: public can create, admin can read/manage
+    match /messages/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if isAuthenticated();
+    }
+  }
+}
