@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "shashika-dev"
+  },
+  "targets": {
+    "shashika-dev": {
+      "hosting": {
+        "frontend": [
+          "shashika-dev"
+        ],
+        "admin": [
+          "shashika-dev-admin"
+        ]
+      }
+    }
   }
 }
