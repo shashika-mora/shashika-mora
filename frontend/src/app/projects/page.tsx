@@ -1,15 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getProjects } from '../../lib/firestore-service';
 import { Github, ExternalLink, Search, Tag, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState('All');
+  const containerRef = useRef(null);
 
   useEffect(() => {
     async function loadData() {
@@ -33,8 +36,21 @@ export default function Projects() {
     return matchesSearch && matchesTag;
   });
 
+  useGSAP(() => {
+    if (loading || filteredProjects.length === 0) return;
+
+    gsap.from('.project-card', {
+      opacity: 0,
+      scale: 0.96,
+      y: 20,
+      duration: 0.5,
+      stagger: 0.08,
+      ease: 'power2.out'
+    });
+  }, { scope: containerRef, dependencies: [filteredProjects, loading] });
+
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12 md:py-20 animate-fade-in-up">
+    <div ref={containerRef} className="max-w-6xl mx-auto px-6 py-12 md:py-20">
       {/* Header */}
       <div className="mb-12">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-6 group">
@@ -94,7 +110,7 @@ export default function Projects() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="glass-card rounded-2xl p-6 hover:-translate-y-1.5 transition-all flex flex-col justify-between group"
+              className="project-card glass-card rounded-2xl p-6 hover:-translate-y-1.5 transition-all flex flex-col justify-between group"
             >
               <div>
                 <h3 className="font-heading text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">

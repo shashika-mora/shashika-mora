@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getBlogs } from '../../lib/firestore-service';
 import { Calendar, Tag, ArrowRight, ArrowLeft, Search } from 'lucide-react';
 import Link from 'next/link';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 const DEFAULT_BLOGS = [
   {
@@ -30,6 +32,7 @@ export default function Blog() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const containerRef = useRef(null);
 
   useEffect(() => {
     async function loadData() {
@@ -49,8 +52,20 @@ export default function Blog() {
     blog.summary.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  useGSAP(() => {
+    if (loading || filteredBlogs.length === 0) return;
+
+    gsap.from('.blog-post-card', {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: 'power2.out'
+    });
+  }, { scope: containerRef, dependencies: [filteredBlogs, loading] });
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 md:py-20 animate-fade-in-up">
+    <div ref={containerRef} className="max-w-4xl mx-auto px-6 py-12 md:py-20">
       {/* Header */}
       <div className="mb-16">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-6 group">
@@ -93,7 +108,7 @@ export default function Blog() {
           {filteredBlogs.map((blog) => (
             <article
               key={blog.id}
-              className="glass-card rounded-2xl p-6 md:p-8 hover:scale-[1.005] hover:border-slate-800/80 transition-all flex flex-col justify-between group"
+              className="blog-post-card glass-card rounded-2xl p-6 md:p-8 hover:scale-[1.005] hover:border-slate-800/80 transition-all flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">

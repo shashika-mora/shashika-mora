@@ -1,14 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getAcademics } from '../../lib/firestore-service';
 import { GraduationCap, Calendar, Award, BookOpen, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function Academics() {
   const [academics, setAcademics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     async function loadData() {
@@ -21,8 +24,21 @@ export default function Academics() {
     loadData();
   }, []);
 
+  useGSAP(() => {
+    if (loading || academics.length === 0) return;
+
+    gsap.from('.timeline-item', {
+      opacity: 0,
+      x: -15,
+      y: 15,
+      duration: 0.6,
+      stagger: 0.12,
+      ease: 'power2.out'
+    });
+  }, { scope: containerRef, dependencies: [academics, loading] });
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 md:py-20 animate-fade-in-up">
+    <div ref={containerRef} className="max-w-4xl mx-auto px-6 py-12 md:py-20">
       {/* Header */}
       <div className="mb-16">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-6 group">
@@ -50,7 +66,7 @@ export default function Academics() {
       ) : (
         <div className="relative border-l border-slate-800 ml-4 md:ml-6 space-y-12">
           {academics.map((item) => (
-            <div key={item.id} className="relative pl-8 md:pl-10">
+            <div key={item.id} className="timeline-item relative pl-8 md:pl-10">
               {/* Timeline marker */}
               <div className="absolute -left-3.5 top-1.5 bg-slate-950 border-2 border-indigo-500 p-1.5 rounded-full z-10 text-indigo-400">
                 <GraduationCap size={16} />
