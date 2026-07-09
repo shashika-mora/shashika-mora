@@ -3,18 +3,22 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getAboutConfig, getProjects, getBlogs, addMessage } from '../lib/firestore-service';
-import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle } from 'lucide-react';
+import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram } from 'lucide-react';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 
+// Default Fallbacks
 // Default Fallbacks
 const DEFAULT_ABOUT = {
   name: 'Shashika Dayarathna',
   title: 'CSE Undergrad @ University of Moratuwa 🎓',
   subtitle: 'Pure/Vibe Coder ✨ | OS Tinkerer 🐧',
   bio: "I'm a Computer Science and Engineering undergraduate currently exploring everything from low-level kernel tweaks to modern app development. My development process heavily relies on **Pure coding / Vibe coding**—diving in, breaking things, patching them up, and figuring it out along the way.",
-  email: 'dayarathnaamst.24@uom.lk',
+  email: 'shashika.24@cse.mrt.ac.lk',
+  emailPersonal: 'shashikatheekshana67@gmail.com',
   linkedinUrl: 'https://www.linkedin.com/in/shashika-dayarathna-420875359',
   githubUrl: 'https://github.com/shashika-mora',
+  facebookUrl: 'https://web.facebook.com/shashika.dayarathna.2025/',
+  instaUrl: 'https://www.instagram.com/shashika_daya/',
   skills: {
     'Languages & Core': ['Python', 'Java', 'C++', 'C', 'Shell Scripting'],
     'Web & Mobile': ['Next.js', 'React', 'Flutter', 'Android SDK', 'Tailwind CSS', 'Node.js'],
@@ -329,31 +333,58 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Info */}
-            <div className="md:col-span-1 space-y-6">
-              <div className="glass-card p-6 rounded-2xl flex items-start gap-4">
-                <Mail className="text-indigo-400 shrink-0" size={24} />
-                <div>
-                  <h4 className="font-heading font-semibold text-white mb-1">Email</h4>
-                  <a href={`mailto:${about.email}`} className="text-slate-400 hover:text-white text-sm break-all">
+            <div className="md:col-span-1 space-y-4">
+              <div className="glass-card p-4 rounded-xl flex items-start gap-3">
+                <Mail className="text-indigo-400 shrink-0" size={20} />
+                <div className="min-w-0">
+                  <h4 className="font-heading font-semibold text-white text-xs mb-0.5">Email (Work)</h4>
+                  <a href={`mailto:${about.email}`} className="text-slate-400 hover:text-white text-xs break-all">
                     {about.email}
                   </a>
                 </div>
               </div>
-              <div className="glass-card p-6 rounded-2xl flex items-start gap-4">
-                <Linkedin className="text-indigo-400 shrink-0" size={24} />
-                <div>
-                  <h4 className="font-heading font-semibold text-white mb-1">LinkedIn</h4>
-                  <a href={about.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-sm">
-                    Shashika Dayarathna
+              <div className="glass-card p-4 rounded-xl flex items-start gap-3">
+                <Mail className="text-indigo-400 shrink-0" size={20} />
+                <div className="min-w-0">
+                  <h4 className="font-heading font-semibold text-white text-xs mb-0.5">Email (Personal)</h4>
+                  <a href={`mailto:${about.emailPersonal || 'shashikatheekshana67@gmail.com'}`} className="text-slate-400 hover:text-white text-xs break-all">
+                    {about.emailPersonal || 'shashikatheekshana67@gmail.com'}
                   </a>
                 </div>
               </div>
-              <div className="glass-card p-6 rounded-2xl flex items-start gap-4">
-                <Github className="text-indigo-400 shrink-0" size={24} />
-                <div>
-                  <h4 className="font-heading font-semibold text-white mb-1">GitHub</h4>
-                  <a href={about.githubUrl} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-sm">
+              <div className="glass-card p-4 rounded-xl flex items-start gap-3">
+                <Linkedin className="text-indigo-400 shrink-0" size={20} />
+                <div className="min-w-0">
+                  <h4 className="font-heading font-semibold text-white text-xs mb-0.5">LinkedIn</h4>
+                  <a href={about.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs truncate block">
+                    shashika-dayarathna-420875359
+                  </a>
+                </div>
+              </div>
+              <div className="glass-card p-4 rounded-xl flex items-start gap-3">
+                <Github className="text-indigo-400 shrink-0" size={20} />
+                <div className="min-w-0">
+                  <h4 className="font-heading font-semibold text-white text-xs mb-0.5">GitHub</h4>
+                  <a href={about.githubUrl} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs truncate block">
                     shashika-mora
+                  </a>
+                </div>
+              </div>
+              <div className="glass-card p-4 rounded-xl flex items-start gap-3">
+                <Facebook className="text-indigo-400 shrink-0" size={20} />
+                <div className="min-w-0">
+                  <h4 className="font-heading font-semibold text-white text-xs mb-0.5">Facebook</h4>
+                  <a href={about.facebookUrl || 'https://web.facebook.com/shashika.dayarathna.2025/'} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs truncate block">
+                    shashika.dayarathna.2025
+                  </a>
+                </div>
+              </div>
+              <div className="glass-card p-4 rounded-xl flex items-start gap-3">
+                <Instagram className="text-indigo-400 shrink-0" size={20} />
+                <div className="min-w-0">
+                  <h4 className="font-heading font-semibold text-white text-xs mb-0.5">Instagram</h4>
+                  <a href={about.instaUrl || 'https://www.instagram.com/shashika_daya/'} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-xs truncate block">
+                    shashika_daya
                   </a>
                 </div>
               </div>

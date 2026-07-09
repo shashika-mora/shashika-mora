@@ -9,7 +9,7 @@ export default function Footer() {
         <p className="text-sm text-slate-500">
           © {currentYear} Shashika Dayarathna. All rights reserved.
         </p>
-        <div className="flex gap-6 text-sm text-slate-400">
+        <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
           <a
             href="https://github.com/shashika-mora"
             target="_blank"
@@ -27,10 +27,26 @@ export default function Footer() {
             LinkedIn
           </a>
           <a
-            href="mailto:dayarathnaamst.24@uom.lk"
+            href="mailto:shashika.24@cse.mrt.ac.lk"
             className="hover:text-white transition-colors"
           >
             Email
+          </a>
+          <a
+            href="https://web.facebook.com/shashika.dayarathna.2025/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors"
+          >
+            Facebook
+          </a>
+          <a
+            href="https://www.instagram.com/shashika_daya/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors"
+          >
+            Instagram
           </a>
         </div>
       </div>
