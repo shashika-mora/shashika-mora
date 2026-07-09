@@ -30,11 +30,6 @@ export default function Navbar() {
     { name: 'Contact', path: '/contact' },
   ];
 
-  // If in admin dashboard, we might show a different navbar or hide standard one
-  const isAdmin = pathname.startsWith('/admin');
-
-  if (isAdmin) return null; // Admin has its own sidebar
-
   return (
     <nav
       className={`fixed w-full z-50 top-0 transition-all duration-300 backdrop-blur-md border-b ${
@@ -47,7 +42,7 @@ export default function Navbar() {
         <Link href="/" className="font-heading font-extrabold text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
           SHASHIKA
         </Link>
-
+ 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => {
@@ -64,15 +59,8 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <Link
-            href="/admin"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs font-semibold text-slate-300 transition-all"
-          >
-            <Terminal size={14} />
-            Admin
-          </Link>
         </div>
-
+ 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -81,7 +69,7 @@ export default function Navbar() {
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-
+ 
       {/* Mobile Dropdown */}
       <div
         className={`md:hidden absolute top-full left-0 w-full bg-slate-950/95 border-b border-slate-900 backdrop-blur-xl flex flex-col items-center py-6 space-y-4 shadow-2xl transition-all duration-300 origin-top ${
@@ -98,14 +86,6 @@ export default function Navbar() {
             {link.name}
           </Link>
         ))}
-        <Link
-          href="/admin"
-          onClick={() => setIsOpen(false)}
-          className="flex items-center gap-1.5 px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-medium hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-all"
-        >
-          <Terminal size={16} />
-          Admin Panel
-        </Link>
       </div>
     </nav>
   );
