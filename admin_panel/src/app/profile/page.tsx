@@ -14,6 +14,7 @@ export default function ProfileEditor() {
   const [bio, setBio] = useState('');
   const [secondaryBio, setSecondaryBio] = useState('');
   const [githubUrl, setGithubUrl] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [resumeUrl, setResumeUrl] = useState('');
   const [availabilityStatus, setAvailabilityStatus] = useState('');
@@ -32,6 +33,7 @@ export default function ProfileEditor() {
         setBio(config.bio || '');
         setSecondaryBio(config.secondaryBio || '');
         setGithubUrl(config.githubUrl || '');
+        setLinkedinUrl(config.linkedinUrl || '');
         setContactEmail(config.contactEmail || '');
         setResumeUrl(config.resumeUrl || '');
         setAvailabilityStatus(config.availabilityStatus || '');
