@@ -257,17 +257,19 @@ export default function Home() {
     }
   }, [about, projects, blogs, competitions]);
 
+  // 1. Hero Animations (Runs exactly once on mount, preventing double-animation flash)
   useGSAP(() => {
-    if (!about) return;
-
-    // --- Hero Animations ---
     const heroTl = gsap.timeline();
     heroTl.fromTo('.hero-badge', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)', clearProps: 'all' })
       .fromTo('.hero-title', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
       .fromTo('.hero-subtitle', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' }, '-=0.4')
       .fromTo('.hero-btn', { opacity: 0, y: 15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)', clearProps: 'all' }, '-=0.3');
+  }, { scope: containerRef, dependencies: [] });
 
-    // --- Scroll Reveal Animations ---
+  // 2. Scroll Reveal Animations (Runs after the corresponding data modules are loaded)
+  useGSAP(() => {
+    if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading) return;
+
     // About Section
     gsap.fromTo('#about .section-title', { opacity: 0, y: 20 }, {
       opacity: 1,
@@ -303,22 +305,24 @@ export default function Home() {
         start: 'top 85%',
       }
     });
-    gsap.fromTo('.skill-chip', { opacity: 0, scale: 0.8, y: 15 }, {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      duration: 0.5,
-      stagger: {
-        each: 0.04,
-        grid: 'auto'
-      },
-      ease: 'back.out(1.5)',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: '.skill-chip',
-        start: 'top 85%',
-      }
-    });
+    if (!aboutLoading) {
+      gsap.fromTo('.skill-chip', { opacity: 0, scale: 0.8, y: 15 }, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: {
+          each: 0.04,
+          grid: 'auto'
+        },
+        ease: 'back.out(1.5)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.skill-chip',
+          start: 'top 85%',
+        }
+      });
+    }
 
     // Featured Projects Section
     gsap.fromTo('#projects .section-title', { opacity: 0, y: 20 }, {
@@ -331,19 +335,47 @@ export default function Home() {
         start: 'top 85%',
       }
     });
-    gsap.fromTo('.project-card', { opacity: 0, y: 30, scale: 0.97 }, {
+    if (!projectsLoading) {
+      gsap.fromTo('.project-card', { opacity: 0, y: 30, scale: 0.97 }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.project-card',
+          start: 'top 85%',
+        }
+      });
+    }
+
+    // Competitions Section
+    gsap.fromTo('#competitions .section-title', { opacity: 0, y: 20 }, {
       opacity: 1,
       y: 0,
-      scale: 1,
-      duration: 0.7,
-      stagger: 0.15,
-      ease: 'power2.out',
+      duration: 0.6,
       clearProps: 'all',
       scrollTrigger: {
-        trigger: '.project-card',
+        trigger: '#competitions',
         start: 'top 85%',
       }
     });
+    if (!competitionsLoading) {
+      gsap.fromTo('.competition-card', { opacity: 0, y: 30 }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        clearProps: 'all',
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: '.competition-card',
+          start: 'top 85%',
+        }
+      });
+    }
 
     // Blogs Section
     gsap.fromTo('#blog .section-title', { opacity: 0, y: 20 }, {
@@ -356,18 +388,20 @@ export default function Home() {
         start: 'top 85%',
       }
     });
-    gsap.fromTo('.blog-card', { opacity: 0, y: 30 }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7,
-      stagger: 0.15,
-      ease: 'power2.out',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: '.blog-card',
-        start: 'top 85%',
-      }
-    });
+    if (!blogsLoading) {
+      gsap.fromTo('.blog-card', { opacity: 0, y: 30 }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: 'power2.out',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: '.blog-card',
+          start: 'top 85%',
+        }
+      });
+    }
 
     // Contact Section
     gsap.fromTo('#contact .section-title', { opacity: 0, y: 20 }, {
@@ -392,32 +426,7 @@ export default function Home() {
         start: 'top 80%',
       }
     });
-
-    // Competitions Section
-    gsap.fromTo('#competitions .section-title', { opacity: 0, y: 20 }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: '#competitions',
-        start: 'top 85%',
-      }
-    });
-    gsap.fromTo('.competition-card', { opacity: 0, y: 30 }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-      clearProps: 'all',
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: '.competition-card',
-        start: 'top 85%',
-      }
-    });
-
-  }, { scope: containerRef, dependencies: [about, projects, blogs, competitions, aboutLoading, projectsLoading, blogsLoading, competitionsLoading] });
+  }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading] });
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
