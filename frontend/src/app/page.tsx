@@ -273,13 +273,13 @@ export default function Home() {
                   Download CV
                 </a>
               )}
-              <Link
-                href="/contact"
+              <a
+                href="#contact"
                 className={`hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full ${about.resumeUrl ? 'bg-slate-900/60 border border-slate-800 text-slate-300 hover:bg-slate-800/80 hover:text-white' : 'bg-white text-slate-950 hover:bg-slate-200'} font-semibold hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 group`}
               >
                 Contact Me
                 <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </a>
             </div>
           </div>
 

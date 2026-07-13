@@ -27,7 +27,7 @@ export default function Navbar() {
     { name: 'Projects', path: '/projects' },
     { name: 'Academic', path: '/academics' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Contact', path: '/#contact' },
   ];
 
   return (
