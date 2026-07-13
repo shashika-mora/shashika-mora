@@ -218,49 +218,90 @@ export default function Home() {
   return (
     <div ref={containerRef} className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center pt-20 px-6">
-        <div className="max-w-4xl mx-auto text-center z-10">
-          <div className="hero-badge inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 mb-8">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-            </span>
-            <span className="text-xs font-medium tracking-wide text-slate-300">
-              {about.availabilityStatus || 'Available for Opportunities'}
-            </span>
-          </div>
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 px-6">
+        <div className="max-w-6xl mx-auto z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center py-6">
+          
+          {/* Text Content */}
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left order-2 lg:order-1">
+            <div className="hero-badge inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+              <span className="text-xs font-medium tracking-wide text-slate-300">
+                {about.availabilityStatus || 'Available for Opportunities'}
+              </span>
+            </div>
 
-          <h1 className="hero-title font-heading text-5xl md:text-7xl lg:text-8xl font-black leading-none mb-6 tracking-tight">
-            Hi there, I'm <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
-              {about.name}! 👋
-            </span>
-          </h1>
+            <h1 className="hero-title font-heading text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white">
+              Hi there, I'm <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+                {about.name}! 👋
+              </span>
+            </h1>
 
-          <h3 className="hero-subtitle text-xl md:text-2xl text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed font-light">
-            {about.title} <br className="hidden md:block" />
-            <span className="text-indigo-400 font-normal">{about.subtitle}</span>
-          </h3>
+            <h3 className="hero-subtitle text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+              {about.title} <br className="hidden md:block" />
+              <span className="text-indigo-400 font-normal">{about.subtitle}</span>
+            </h3>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
-            {about.resumeUrl && (
-              <a
-                href={about.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-slate-950 font-semibold hover:bg-slate-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 text-center"
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              {about.resumeUrl && (
+                <a
+                  href={about.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-slate-950 font-semibold hover:bg-slate-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 text-center"
+                >
+                  Download CV
+                </a>
+              )}
+              <Link
+                href="/contact"
+                className={`hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full ${about.resumeUrl ? 'bg-slate-900/60 border border-slate-800 text-slate-300 hover:bg-slate-800/80 hover:text-white' : 'bg-white text-slate-950 hover:bg-slate-200'} font-semibold hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 group`}
               >
-                Download CV
-              </a>
-            )}
-            <Link
-              href="/contact"
-              className={`hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full ${about.resumeUrl ? 'bg-slate-900/60 border border-slate-800 text-slate-300 hover:bg-slate-800/80 hover:text-white' : 'bg-white text-slate-950 hover:bg-slate-200'} font-semibold hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 group`}
-            >
-              Contact Me
-              <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-            </Link>
+                Contact Me
+                <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
+
+          {/* Framed Image */}
+          <div className="lg:col-span-5 flex justify-center order-1 lg:order-2">
+            <div className="relative group">
+              {/* Decorative background blur and shapes */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              
+              {/* The main card frame */}
+              <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-3xl bg-slate-900 border border-slate-800 p-2.5 shadow-2xl flex items-center justify-center overflow-hidden">
+                {/* Inner gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-pink-500/20 pointer-events-none"></div>
+                
+                {/* Profile Image itself */}
+                <img
+                  src={about.avatarUrl || '/hero.jpg'}
+                  alt={about.name || 'Profile'}
+                  className="w-full h-full object-cover rounded-2xl grayscale-[10%] hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out"
+                />
+                
+                {/* Corner accent decorations */}
+                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-indigo-400/85"></div>
+                <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-indigo-400/85"></div>
+                <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-pink-400/85"></div>
+                <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-pink-400/85"></div>
+              </div>
+
+              {/* Technical tag overlay */}
+              <div className="absolute -bottom-3 -right-3 bg-slate-950/80 backdrop-blur border border-slate-800 rounded-2xl px-4 py-2 text-[10px] font-semibold text-indigo-300 shadow-xl flex items-center gap-1.5 animate-bounce" style={{ animationDuration: '4s' }}>
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                </span>
+                MORATUWA CSE
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
