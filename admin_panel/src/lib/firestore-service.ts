@@ -269,3 +269,43 @@ export async function deleteCompetition(id) {
   const docRef = doc(db, 'competitions', id);
   return await deleteDoc(docRef);
 }
+
+// --- THOUGHTS ---
+export async function getThoughts() {
+  const colRef = collection(db, 'thoughts');
+  try {
+    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt,
+      };
+    });
+  } catch (error) {
+    console.error('Error getting thoughts:', error);
+    return [];
+  }
+}
+
+export async function addThought(thoughtData) {
+  const colRef = collection(db, 'thoughts');
+  return await addDoc(colRef, {
+    ...thoughtData,
+    likes: 0,
+    dislikes: 0,
+    createdAt: serverTimestamp(),
+  });
+}
+
+export async function updateThought(id, thoughtData) {
+  const docRef = doc(db, 'thoughts', id);
+  return await updateDoc(docRef, thoughtData);
+}
+
+export async function deleteThought(id) {
+  const docRef = doc(db, 'thoughts', id);
+  return await deleteDoc(docRef);
+}

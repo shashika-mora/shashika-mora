@@ -102,7 +102,21 @@ Stores competition wins, hackathons, and rankings.
 
 ---
 
-### 1.6 Collection: `messages`
+### 1.6 Collection: `thoughts`
+Stores daily short thoughts, snippets, and updates.
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `content` | `string` | Text content of the thought. |
+| `category` | `string` | Categorization type (`"Tech"`, `"Academic"`, `"Life"`, `"Ideas"`, `"General"`). |
+| `date` | `string` | Display date string (e.g. `"Jul 13, 2026"`). |
+| `likes` | `integer`| Total number of likes received. |
+| `dislikes` | `integer`| Total number of dislikes received. |
+| `createdAt` | `timestamp`| Creation timestamp. |
+
+---
+
+### 1.7 Collection: `messages`
 Stores contact form submissions received from the landing page.
 
 | Property | Type | Description |
@@ -120,8 +134,9 @@ Stores contact form submissions received from the landing page.
 
 Access control is strictly managed at the database level to ensure public visitors cannot alter your portfolio data, while letting them submit message inquiries:
 
-*   **Public Reads**: Granted to `blogs`, `projects`, `academics`, `competitions`, and `/config/about`.
+*   **Public Reads**: Granted to `blogs`, `projects`, `academics`, `competitions`, `thoughts`, and `/config/about`.
 *   **Public Writes**: Denied across all public documents. Only authorized accounts authenticated with `admin@shashika.lk` are allowed to write or modify documents.
+*   **Thoughts Counters**: Public users are granted `update` access on the `/thoughts` collection under the condition that *only* the `likes` and `dislikes` fields are affected, and their values are only modified by exactly `+1` or `-1`.
 *   **Form Submissions**: Public users are granted `create` access on the `/messages` collection. The write operation undergoes rigid schema validation (email regex format, character size limits, field list whitelist) before acceptance. Public reads, updates, and deletes on messages are fully blocked.
 
 ```javascript
@@ -149,6 +164,15 @@ service cloud.firestore {
     match /competitions/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
+    }
+    match /thoughts/{thoughtId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'dislikes'])
+        && (request.resource.data.likes == resource.data.likes + 1 || request.resource.data.likes == resource.data.likes - 1 || request.resource.data.likes == resource.data.likes)
+        && (request.resource.data.dislikes == resource.data.dislikes + 1 || request.resource.data.dislikes == resource.data.dislikes - 1 || request.resource.data.dislikes == resource.data.dislikes)
+      );
     }
     match /config/about {
       allow read: if true;

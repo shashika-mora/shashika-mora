@@ -13,7 +13,8 @@ import {
   User,
   LogOut,
   ExternalLink,
-  Trophy
+  Trophy,
+  MessageSquare
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -27,6 +28,7 @@ export default function AdminSidebar() {
     { name: 'Projects', path: '/projects', icon: Briefcase },
     { name: 'Academic', path: '/academics', icon: GraduationCap },
     { name: 'Competitions', path: '/competitions', icon: Trophy },
+    { name: 'Thoughts', path: '/thoughts', icon: MessageSquare },
     { name: 'Messages', path: '/messages', icon: Mail },
     { name: 'Profile Settings', path: '/profile', icon: User },
   ];

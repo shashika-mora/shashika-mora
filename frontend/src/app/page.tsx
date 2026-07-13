@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { getAboutConfig, getProjects, getBlogs, getCompetitions, addMessage } from '../lib/firestore-service';
-import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram, Trophy } from 'lucide-react';
+import { getAboutConfig, getProjects, getBlogs, getCompetitions, addMessage, getThoughts, updateThoughtVote } from '../lib/firestore-service';
+import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram, Trophy, MessageSquare, ThumbsUp, ThumbsDown } from 'lucide-react';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -195,16 +195,44 @@ function BlogsSkeleton() {
   );
 }
 
+function ThoughtsSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-6 mb-12">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="glass-card rounded-2xl p-6 border border-slate-900/40 animate-pulse space-y-4 animate-pulse">
+          <div className="flex items-center gap-3">
+            <div className="h-5 bg-slate-800 rounded w-12"></div>
+            <div className="h-3 bg-slate-800 rounded w-16"></div>
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 bg-slate-800 rounded w-full"></div>
+            <div className="h-4 bg-slate-800 rounded w-5/6"></div>
+          </div>
+          <div className="flex gap-4 pt-4 border-t border-slate-900">
+            <div className="h-6 bg-slate-800 rounded w-16"></div>
+            <div className="h-6 bg-slate-800 rounded w-16"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   const [about, setAbout] = useState(DEFAULT_ABOUT);
   const [projects, setProjects] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [competitions, setCompetitions] = useState(DEFAULT_COMPETITIONS);
+  const [thoughts, setThoughts] = useState([]);
   
   const [aboutLoading, setAboutLoading] = useState(true);
   const [projectsLoading, setProjectsLoading] = useState(true);
   const [blogsLoading, setBlogsLoading] = useState(true);
   const [competitionsLoading, setCompetitionsLoading] = useState(true);
+  const [thoughtsLoading, setThoughtsLoading] = useState(true);
+
+  // local storage votes state: { [thoughtId]: 'like' | 'dislike' }
+  const [votes, setVotes] = useState({});
 
   const containerRef = useRef(null);
 
@@ -248,6 +276,27 @@ export default function Home() {
       console.error(err);
       setCompetitionsLoading(false);
     });
+
+    // 5. Fetch Daily Thoughts
+    getThoughts().then(data => {
+      if (data) setThoughts(data);
+      setThoughtsLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setThoughtsLoading(false);
+    });
+
+    // 6. Load votes from localStorage
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('thoughts_votes');
+      if (stored) {
+        try {
+          setVotes(JSON.parse(stored));
+        } catch (e) {
+          console.error('Error loading stored votes:', e);
+        }
+      }
+    }
   }, []);
 
   // Recalculate ScrollTrigger on content load
@@ -255,7 +304,7 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       ScrollTrigger.refresh();
     }
-  }, [about, projects, blogs, competitions]);
+  }, [about, projects, blogs, competitions, thoughts]);
 
   // 1. Hero Animations (Runs exactly once on mount, preventing double-animation flash)
   useGSAP(() => {
@@ -268,7 +317,7 @@ export default function Home() {
 
   // 2. Scroll Reveal Animations (Runs after the corresponding data modules are loaded)
   useGSAP(() => {
-    if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading) return;
+    if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading && thoughtsLoading) return;
 
     // About Section
     gsap.fromTo('#about .section-title', { opacity: 0, y: 20 }, {
@@ -377,6 +426,32 @@ export default function Home() {
       });
     }
 
+    // Thoughts Section
+    gsap.fromTo('#thoughts .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      clearProps: 'all',
+      scrollTrigger: {
+        trigger: '#thoughts',
+        start: 'top 85%',
+      }
+    });
+    if (!thoughtsLoading) {
+      gsap.fromTo('.thought-card', { opacity: 0, y: 30 }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        clearProps: 'all',
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: '.thought-card',
+          start: 'top 85%',
+        }
+      });
+    }
+
     // Blogs Section
     gsap.fromTo('#blog .section-title', { opacity: 0, y: 20 }, {
       opacity: 1,
@@ -426,7 +501,73 @@ export default function Home() {
         start: 'top 80%',
       }
     });
-  }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading] });
+  }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading, thoughtsLoading] });
+
+  const handleVote = async (id, type) => {
+    const currentVote = votes[id];
+    let updates = {};
+
+    if (currentVote === type) {
+      // Toggle off current vote
+      updates = { [type === 'like' ? 'likes' : 'dislikes']: -1 };
+    } else if (currentVote) {
+      // Toggle off previous vote, toggle on new vote
+      updates = {
+        [currentVote === 'like' ? 'likes' : 'dislikes']: -1,
+        [type === 'like' ? 'likes' : 'dislikes']: 1
+      };
+    } else {
+      // Toggle on new vote
+      updates = { [type === 'like' ? 'likes' : 'dislikes']: 1 };
+    }
+
+    // Optimistic UI update
+    setThoughts(prevThoughts =>
+      prevThoughts.map(t => {
+        if (t.id !== id) return t;
+        const newLikes = (t.likes || 0) + (updates.likes || 0);
+        const newDislikes = (t.dislikes || 0) + (updates.dislikes || 0);
+        return { ...t, likes: newLikes, dislikes: newDislikes };
+      })
+    );
+
+    const nextVoteState = currentVote === type ? null : type;
+    const newVotes = { ...votes };
+    if (nextVoteState) {
+      newVotes[id] = nextVoteState;
+    } else {
+      delete newVotes[id];
+    }
+    setVotes(newVotes);
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('thoughts_votes', JSON.stringify(newVotes));
+    }
+
+    try {
+      await updateThoughtVote(id, updates);
+    } catch (err) {
+      console.error('Error updating vote:', err);
+      // Revert optimistic UI on failure
+      setThoughts(prevThoughts =>
+        prevThoughts.map(t => {
+          if (t.id !== id) return t;
+          const revertedLikes = (t.likes || 0) - (updates.likes || 0);
+          const revertedDislikes = (t.dislikes || 0) - (updates.dislikes || 0);
+          return { ...t, likes: revertedLikes, dislikes: revertedDislikes };
+        })
+      );
+      if (currentVote) {
+        newVotes[id] = currentVote;
+      } else {
+        delete newVotes[id];
+      }
+      setVotes(newVotes);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('thoughts_votes', JSON.stringify(newVotes));
+      }
+    }
+  };
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
@@ -769,6 +910,77 @@ export default function Home() {
                   )}
                 </div>
               ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Thoughts Section */}
+      <section id="thoughts" className="py-24 px-6 border-t border-slate-900 bg-slate-950/10">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16 flex flex-col items-center">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
+              Daily Thoughts & Updates
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full opacity-60"></div>
+            </h2>
+            <p className="text-slate-400 mt-4 max-w-xl">
+              Random thoughts, academic notes, code findings, and daily updates published directly from the admin dashboard.
+            </p>
+          </div>
+
+          {thoughtsLoading ? (
+            <ThoughtsSkeleton />
+          ) : thoughts.length === 0 ? (
+            <div className="text-center py-12 bg-slate-900/10 border border-slate-900/40 rounded-2xl">
+              <p className="text-slate-400">No thoughts posted yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6">
+              {thoughts.map((thought) => {
+                const userVote = votes[thought.id];
+                return (
+                  <div key={thought.id} className="thought-card glass-card p-6 md:p-8 rounded-2xl border border-slate-900 hover:border-slate-850 transition-all flex flex-col justify-between gap-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] px-2 py-0.5 font-bold uppercase rounded bg-indigo-950 text-indigo-400 border border-indigo-900/40">
+                          {thought.category}
+                        </span>
+                        <span className="text-xs text-slate-500 font-medium">{thought.date}</span>
+                      </div>
+                      
+                      <p className="text-slate-300 text-sm md:text-base whitespace-pre-wrap font-light leading-relaxed">
+                        {thought.content}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-4 pt-4 border-t border-slate-900/60 text-xs font-semibold">
+                      <button
+                        onClick={() => handleVote(thought.id, 'like')}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all active:scale-95 ${
+                          userVote === 'like'
+                            ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-400'
+                            : 'bg-slate-900 border-slate-850 text-slate-400 hover:text-slate-200 hover:border-slate-800'
+                        }`}
+                      >
+                        <ThumbsUp size={14} />
+                        <span>{thought.likes || 0}</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleVote(thought.id, 'dislike')}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all active:scale-95 ${
+                          userVote === 'dislike'
+                            ? 'bg-rose-950/40 border-rose-500/50 text-rose-400'
+                            : 'bg-slate-900 border-slate-850 text-slate-400 hover:text-slate-200 hover:border-slate-800'
+                        }`}
+                      >
+                        <ThumbsDown size={14} />
+                        <span>{thought.dislikes || 0}</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

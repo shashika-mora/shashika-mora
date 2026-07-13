@@ -12,7 +12,8 @@ import {
   orderBy,
   limit,
   setDoc,
-  serverTimestamp
+  serverTimestamp,
+  increment
 } from 'firebase/firestore';
 
 // --- BLOGS ---
@@ -268,4 +269,33 @@ export async function updateCompetition(id, competitionData) {
 export async function deleteCompetition(id) {
   const docRef = doc(db, 'competitions', id);
   return await deleteDoc(docRef);
+}
+
+// --- THOUGHTS ---
+export async function getThoughts() {
+  const colRef = collection(db, 'thoughts');
+  try {
+    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt,
+      };
+    });
+  } catch (error) {
+    console.error('Error getting thoughts:', error);
+    return [];
+  }
+}
+
+export async function updateThoughtVote(id, updates) {
+  const docRef = doc(db, 'thoughts', id);
+  const updateObj = {};
+  for (const [key, val] of Object.entries(updates)) {
+    updateObj[key] = increment(val);
+  }
+  return await updateDoc(docRef, updateObj);
 }
