@@ -25,6 +25,66 @@ const parseSkill = (skill: any) => {
   return { name: skill.name || '', iconUrl: skill.iconUrl || '' };
 };
 
+const parsePhrases = (subtitle: string) => {
+  if (!subtitle) return ["Building software", "exploring intelligent systems", "solving real-world problems"];
+  return subtitle.split(',').map(phrase => {
+    let cleaned = phrase.trim();
+    if (cleaned.toLowerCase().startsWith('and ')) {
+      cleaned = cleaned.substring(4).trim();
+    }
+    if (cleaned.endsWith('.')) {
+      cleaned = cleaned.substring(0, cleaned.length - 1).trim();
+    }
+    return cleaned;
+  });
+};
+
+function TypewriterEffect({ subtitle }: { subtitle: string }) {
+  const phrases = parsePhrases(subtitle);
+  const [currentPhraseIdx, setCurrentPhraseIdx] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(80);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    const activePhrase = phrases[currentPhraseIdx];
+
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setCurrentText(prev => prev.slice(0, -1));
+        setTypingSpeed(40);
+      }, typingSpeed);
+    } else {
+      timer = setTimeout(() => {
+        setCurrentText(activePhrase.slice(0, currentText.length + 1));
+        setTypingSpeed(80);
+      }, typingSpeed);
+    }
+
+    if (!isDeleting && currentText === activePhrase) {
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2000);
+    }
+
+    if (isDeleting && currentText === '') {
+      setIsDeleting(false);
+      setCurrentPhraseIdx(prev => (prev + 1) % phrases.length);
+      setTypingSpeed(150);
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentPhraseIdx, phrases, typingSpeed]);
+
+  return (
+    <span className="text-indigo-400 font-normal">
+      {currentText}
+      <span className="animate-pulse border-r-2 border-indigo-400 ml-1"></span>
+    </span>
+  );
+}
+
 export default function Home() {
   const [about, setAbout] = useState(null);
   const [projects, setProjects] = useState([]);
@@ -259,7 +319,7 @@ export default function Home() {
 
             <h3 className="hero-subtitle text-sm md:text-base lg:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
               {about.title} <br className="hidden md:block" />
-              <span className="text-indigo-400 font-normal">{about.subtitle}</span>
+              <TypewriterEffect subtitle={about.subtitle} />
             </h3>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
