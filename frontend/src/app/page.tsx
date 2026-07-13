@@ -912,6 +912,16 @@ export default function Home() {
               ))}
             </div>
           )}
+
+          <div className="text-center mt-4">
+            <Link
+              href="/competitions"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all"
+            >
+              See All Competitions
+              <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -983,6 +993,16 @@ export default function Home() {
               })}
             </div>
           )}
+
+          <div className="text-center mt-6">
+            <Link
+              href="/thoughts"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all"
+            >
+              See All Thoughts
+              <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
       </section>
 
