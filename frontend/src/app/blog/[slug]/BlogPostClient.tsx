@@ -160,7 +160,7 @@ export default function BlogPostClient({ params }) {
       </div>
 
       {/* Title */}
-      <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+      <h1 className="font-heading text-2xl md:text-3xl lg:text-4xl font-black text-white mb-6 leading-tight">
         {blog.title}
       </h1>
 
