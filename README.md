@@ -1,11 +1,18 @@
 <h1 align="center">Hi there, I'm Shashika! 👋</h1>
 
 <h3 align="center">
-  CSE Undergrad @ University of Moratuwa 🎓 | Pure/Vibe Coder ✨ | OS Tinkerer 🐧
+  CSE Undergrad @ University of Moratuwa 🎓 &nbsp;|&nbsp; SW/HW Builder &nbsp;|&nbsp; AI & Agentic Dev &nbsp;|&nbsp; UI/UX Designer &nbsp;|&nbsp; OS Tinkerer 🐧
 </h3>
 
 <p align="center">
-  I'm a Computer Science and Engineering undergraduate currently exploring everything from low-level kernel tweaks to modern app development. I'm still learning a lot, and my development process heavily relies on <strong>Pure coding / Vibe coding</strong>—diving in, breaking things, patching them up, and figuring it out along the way.
+  <a href="https://shashika-dev.web.app"><img src="https://img.shields.io/badge/Portfolio-6366f1?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>
+  <a href="https://www.linkedin.com/in/shashika-dayarathna-420875359"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="mailto:dayarathnaamst.24@uom.lk"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+</p>
+
+<p align="center">
+  I'm a Computer Science and Engineering undergraduate passionate about building across the <strong>full stack</strong> — from low-level OS kernel patches and embedded hardware to agentic AI systems, polished UI/UX, and production-grade cloud-backed applications.<br/><br/>
+  My development style is grounded in <strong>Pure / Vibe Coding</strong> — diving deep, breaking things intentionally, and iterating fast until it clicks.
 </p>
 
 ---
@@ -17,51 +24,81 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 
 **Web, Mobile & Design:**
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
 
-**AI & LLMs:**
+**AI, LLMs & Agentic Development:**
 
 ![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white)
-![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
+![Antigravity](https://img.shields.io/badge/Antigravity_IDE-4285F4?style=for-the-badge&logo=google&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP_Servers-FF6F00?style=for-the-badge&logo=anthropic&logoColor=white)
 
-**Tools & Cloud:**
+**Firebase & Cloud:**
 
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![Firestore](https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Git & GitHub](https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Firebase_Auth](https://img.shields.io/badge/Firebase_Auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Firebase_Hosting](https://img.shields.io/badge/Firebase_Hosting-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Firebase_RTDB](https://img.shields.io/badge/Realtime_DB-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Firebase_Storage](https://img.shields.io/badge/Firebase_Storage-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Firebase_Functions](https://img.shields.io/badge/Cloud_Functions-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+
+**Tools & Systems:**
+
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Git](https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Mermaid.js](https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge&logo=markdown&logoColor=white)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)
 
 ---
 
-### 🔭 What I'm Up To
-- 🧠 Diving deep into **Generative AI**, **ML**, and configuring **MCP servers**.
-- 💻 Experimenting with **OS management, custom tweaks, and kernel-level debugging**.
-- 📱 Building, scripting, and sketching out UI designs across frameworks like **Next.js** and **Flutter**.
-- 🏗️ Architecting **scalable backend solutions** and structuring complex **NoSQL** databases.
-- 🧩 Leveling up my **Data Structures and Algorithms (DSA)** game.
-- ✨ Embracing the chaos of **Pure coding / Vibe coding** to turn abstract ideas into functional software.
+### 🔭 What I'm Building & Exploring
+
+- 🤖 **Agentic AI Systems** — Building real-world agents using Gemini, Claude, MCP servers and Antigravity IDE for autonomous workflows, code generation, and task automation.
+- 🔥 **Full Firebase Ecosystem** — Deep-diving into Firestore, Auth, Hosting, Cloud Functions, Realtime DB, Storage, Remote Config, and Firebase Security Rules for production-grade deployments.
+- 📱 **Android & Cross-Platform Apps** — Native Android development (Java/Kotlin) alongside Flutter for cross-platform solutions with polished UX.
+- 🎨 **UI/UX Design & Systems** — Designing and implementing premium interface systems: glassmorphism, micro-animations with GSAP, dark-mode-first layouts, and responsive typography.
+- 🧠 **Generative AI & LLM Integration** — Working with Gemini APIs, prompt engineering, retrieval-augmented generation, and embedding AI workflows into full-stack apps.
+- 🐧 **OS & Kernel Engineering** — Custom Linux kernel patching, configuration, and debugging; exploring hardware-software boundaries.
+- 🏗️ **Scalable Backend Systems** — Architecting backends with clean NoSQL schemas, atomic Firestore transactions, and serverless Cloud Functions.
+- 🏆 **Competitive Programming** — Active participant in IEEE Xtreme, hackathons, and algorithmic competitions. Leveling up DSA skills continuously.
+- ✨ **Pure / Vibe Coding** — Turning abstract ideas into working software fast through iterative, instinct-driven development.
+
+---
 
 ### ⚡ Outside the Terminal
+
 When I'm not writing scripts or applying patches to an OS, you can find me:
+
 - 📖 Immersing myself in the pages of a good novel.
 - 🎞️ Watching documentaries to learn more about the world.
 - 📚 Studying philosophy and on a continuous journey of finding myself.
-> *"We suffer more often in imagination than in reality." — Seneca*
+
+> *"We suffer more often in imagination than in reality."* — Seneca
 
 ---
 
-### 📫 How to reach me
+### 📫 Connect with me
 
 <p align="left">
-  <a href="mailto:dayarathnaamst.24@uom.lk"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+  <a href="mailto:dayarathnaamst.24@uom.lk"><img src="https://img.shields.io/badge/Email_(Work)-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Work" /></a>
+  <a href="mailto:shashikatheekshana67@gmail.com"><img src="https://img.shields.io/badge/Email_(Personal)-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Personal" /></a>
   <a href="https://www.linkedin.com/in/shashika-dayarathna-420875359"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
-  <a href="https://shashika-mora.github.io/shashika-mora/"><img src="https://img.shields.io/badge/Portfolio-6366f1?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>
+  <a href="https://shashika-dev.web.app"><img src="https://img.shields.io/badge/Portfolio-6366f1?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>
+  <a href="https://web.facebook.com/shashika.dayarathna.2025/"><img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Facebook" /></a>
+  <a href="https://www.instagram.com/shashika_daya/"><img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" /></a>
 </p>

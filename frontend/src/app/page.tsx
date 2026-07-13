@@ -87,11 +87,11 @@ function TypewriterEffect({ subtitle }: { subtitle: string }) {
 
 const DEFAULT_ABOUT = {
   name: 'Shashika Dayarathna',
-  role: 'Software Engineer & UI Designer',
-  title: 'Computer Science & Engineering Undergraduate',
+  role: 'Software Engineer · UI/UX Designer · AI & Agentic Dev',
+  title: 'Computer Science & Engineering Undergraduate @ University of Moratuwa',
   subtitle: 'Building SW/HW solutions, Exploring intelligent systems, Solving real-world problems.',
-  bio: "I'm a passionate developer focusing on robust backends, sleek UIs, and systems engineering. From building modern web apps to patching Linux kernels, I thrive on exploring the boundaries of technology.",
-  secondaryBio: "With a strong foundation in Computer Science and Engineering from the University of Moratuwa, I've dedicated myself to continuous learning. Whether it's crafting scalable microservices, designing intuitive user experiences, or diving into hardware-level programming, I enjoy tackling complex challenges and delivering impactful solutions.",
+  bio: "I'm a CSE undergraduate who builds across the full spectrum — from low-level Linux kernel patches to production-grade cloud-backed web and Android apps. I design premium UI/UX, integrate LLMs and agentic workflows, and architect scalable backends on the Firebase ecosystem. My style is *Pure / Vibe Coding*: dive in, break things, iterate fast.",
+  secondaryBio: "Whether it's crafting agentic AI pipelines with Gemini and MCP servers, designing sleek cross-platform mobile UIs in Flutter and Android, or building real-time Firestore backends with Cloud Functions — I thrive at the intersection of hardware, software, and intelligent systems. Student at the University of Moratuwa, competitive programmer, and lifelong learner.",
   githubUrl: 'https://github.com/shashika-mora',
   linkedinUrl: 'https://linkedin.com/in/shashika-dayarathna',
   email: 'dayarathnaamst.24@uom.lk',
@@ -101,8 +101,12 @@ const DEFAULT_ABOUT = {
   avatarUrl: '/hero.jpg',
   availabilityStatus: 'Available for Opportunities',
   skills: [
-    'React', 'Next.js', 'Node.js', 'TypeScript', 
-    'C++', 'Python', 'Firebase', 'Docker'
+    'React', 'Next.js', 'Node.js', 'TypeScript',
+    'Flutter', 'Android', 'Dart', 'Java',
+    'C++', 'C', 'Python',
+    'Firebase', 'Firestore', 'Cloud Functions', 'Firebase Auth',
+    'Gemini API', 'LLM Integration', 'Agentic Dev', 'MCP Servers',
+    'Docker', 'Linux', 'GSAP', 'Figma', 'UI/UX Design'
   ]
 };
 
