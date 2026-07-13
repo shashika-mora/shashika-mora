@@ -36,6 +36,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+    match /skills/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
 
     // Messages collection: public can create (submit inquiry), admin can read/manage
     match /messages/{messageId} {

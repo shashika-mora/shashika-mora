@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getBlogs, getProjects, getAcademics, getMessages, getCompetitions, getThoughts } from '../lib/firestore-service';
-import { FileText, Briefcase, GraduationCap, Mail, MessageSquare, ArrowRight, Shield, Trophy } from 'lucide-react';
+import { getBlogs, getProjects, getAcademics, getMessages, getCompetitions, getThoughts, getSkills } from '../lib/firestore-service';
+import { FileText, Briefcase, GraduationCap, Mail, MessageSquare, ArrowRight, Shield, Trophy, Cpu } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -14,6 +14,7 @@ export default function Dashboard() {
     academics: 0,
     competitions: 0,
     thoughts: 0,
+    skills: 0,
     messages: 0,
     messagesUnread: 0,
   });
@@ -29,6 +30,7 @@ export default function Dashboard() {
         const messagesData = await getMessages();
         const competitionsData = await getCompetitions();
         const thoughtsData = await getThoughts();
+        const skillsData = await getSkills();
 
         const publishedBlogs = blogsData.filter(b => b.published).length;
         const featuredProjects = projectsData.filter(p => p.featured).length;
@@ -42,6 +44,7 @@ export default function Dashboard() {
           academics: academicsData.length,
           competitions: competitionsData.length,
           thoughts: thoughtsData.length,
+          skills: skillsData.length,
           messages: messagesData.length,
           messagesUnread: unreadMessages,
         });
@@ -62,6 +65,7 @@ export default function Dashboard() {
     { name: 'Academic Records', value: stats.academics, subtext: 'Timeline Entries', icon: GraduationCap, color: 'text-purple-400', bg: 'bg-purple-950/20', link: '/academics' },
     { name: 'Competitions', value: stats.competitions, subtext: 'Achievements', icon: Trophy, color: 'text-amber-400', bg: 'bg-amber-950/20', link: '/competitions' },
     { name: 'Thoughts', value: stats.thoughts, subtext: 'Daily Notes', icon: MessageSquare, color: 'text-sky-400', bg: 'bg-sky-950/20', link: '/thoughts' },
+    { name: 'Skills Catalog', value: stats.skills, subtext: 'Tech Stack Entries', icon: Cpu, color: 'text-cyan-400', bg: 'bg-cyan-950/20', link: '/skills' },
     { name: 'Messages', value: stats.messages, subtext: `${stats.messagesUnread} Unread`, icon: Mail, color: 'text-emerald-400', bg: 'bg-emerald-950/20', link: '/messages' },
   ];
 
@@ -89,22 +93,22 @@ export default function Dashboard() {
       </div>
 
       {/* Grid of stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4">
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
             <Link
               key={card.name}
               href={card.link}
-              className="glass-card p-6 rounded-2xl hover:scale-[1.02] hover:border-slate-800 transition-all flex items-center justify-between"
+              className="glass-card p-5 rounded-2xl hover:scale-[1.02] hover:border-slate-800 transition-all flex items-center justify-between gap-2"
             >
-              <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">{card.name}</span>
-                <span className="text-3xl font-bold text-white block">{card.value}</span>
-                <span className="text-xs text-slate-400 block">{card.subtext}</span>
+              <div className="space-y-0.5 min-w-0">
+                <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block truncate">{card.name}</span>
+                <span className="text-2xl font-bold text-white block">{card.value}</span>
+                <span className="text-[10px] text-slate-400 block truncate">{card.subtext}</span>
               </div>
-              <div className={`${card.bg} ${card.color} p-4 rounded-xl shrink-0`}>
-                <Icon size={24} />
+              <div className={`${card.bg} ${card.color} p-3 rounded-xl shrink-0`}>
+                <Icon size={20} />
               </div>
             </Link>
           );

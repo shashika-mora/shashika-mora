@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getAboutConfig, updateAboutConfig } from '../../lib/firestore-service';
-import { Save, User, Github, Linkedin, Mail, Cpu, Plus, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { Save, User, Github, Linkedin, Mail, Cpu, Plus, X, CheckCircle, AlertCircle, ArrowUp, ArrowDown, Eye, EyeOff, Trash2 } from 'lucide-react';
 
 export default function ProfileEditor() {
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,12 @@ export default function ProfileEditor() {
   const [contactEmail, setContactEmail] = useState('');
   const [resumeUrl, setResumeUrl] = useState('');
   const [availabilityStatus, setAvailabilityStatus] = useState('');
+  const [isAvailable, setIsAvailable] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState('');
+
+  // Hero Phrases Manager
+  const [heroPhrases, setHeroPhrases] = useState([]);
+  const [newPhraseText, setNewPhraseText] = useState('');
 
   // Skills Manager
   const [skills, setSkills] = useState([]);
@@ -39,8 +44,20 @@ export default function ProfileEditor() {
         setContactEmail(config.contactEmail || '');
         setResumeUrl(config.resumeUrl || '');
         setAvailabilityStatus(config.availabilityStatus || '');
+        setIsAvailable(config.isAvailable !== false);
         setAvatarUrl(config.avatarUrl || '');
         setSkills(config.skills || []);
+
+        if (config.heroPhrases && config.heroPhrases.length > 0) {
+          setHeroPhrases(config.heroPhrases);
+        } else {
+          const parsed = (config.subtitle || '').split(',').map((ph, idx) => ({
+            text: ph.trim(),
+            visible: true,
+            order: idx
+          })).filter(ph => ph.text);
+          setHeroPhrases(parsed);
+        }
       }
       setLoading(false);
     }
@@ -71,6 +88,43 @@ export default function ProfileEditor() {
     setSkills(prev => prev.filter(s => s !== skillToRemove));
   };
 
+  const handleAddPhrase = () => {
+    if (newPhraseText.trim()) {
+      const newPhrase = {
+        text: newPhraseText.trim(),
+        visible: true,
+        order: heroPhrases.length
+      };
+      setHeroPhrases(prev => [...prev, newPhrase]);
+      setNewPhraseText('');
+    }
+  };
+
+  const handleRemovePhrase = (index) => {
+    setHeroPhrases(prev => prev.filter((_, idx) => idx !== index));
+  };
+
+  const togglePhraseVisibility = (index) => {
+    setHeroPhrases(prev => prev.map((ph, idx) => {
+      if (idx !== index) return ph;
+      return { ...ph, visible: !ph.visible };
+    }));
+  };
+
+  const movePhrase = (index, direction) => {
+    const nextPhrases = [...heroPhrases];
+    const targetIdx = index + direction;
+    if (targetIdx < 0 || targetIdx >= nextPhrases.length) return;
+    
+    // Swap
+    const temp = nextPhrases[index];
+    nextPhrases[index] = nextPhrases[targetIdx];
+    nextPhrases[targetIdx] = temp;
+    
+    // Recalculate order
+    setHeroPhrases(nextPhrases.map((ph, idx) => ({ ...ph, order: idx })));
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: null });
@@ -85,8 +139,11 @@ export default function ProfileEditor() {
       contactEmail,
       resumeUrl,
       availabilityStatus,
+      isAvailable,
       avatarUrl,
       skills,
+      heroPhrases,
+      subtitle: heroPhrases.filter(ph => ph.visible).map(ph => ph.text).join(', ')
     };
 
     try {
@@ -164,8 +221,8 @@ export default function ProfileEditor() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2">
                 <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Availability Status</label>
                 <input
                   type="text"
@@ -175,16 +232,28 @@ export default function ProfileEditor() {
                   placeholder="e.g. Actively looking for internships"
                 />
               </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Resume / CV URL</label>
-                <input
-                  type="url"
-                  value={resumeUrl}
-                  onChange={(e) => setResumeUrl(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
-                  placeholder="https://example.com/resume.pdf"
-                />
+              <div className="flex flex-col justify-center pt-5">
+                <label className="flex items-center gap-2 text-sm text-slate-300 font-medium cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isAvailable}
+                    onChange={(e) => setIsAvailable(e.target.checked)}
+                    className="w-4 h-4 rounded border-slate-800 bg-slate-900 text-indigo-650 focus:ring-indigo-500"
+                  />
+                  <span>Show Green Glow</span>
+                </label>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Resume / CV URL</label>
+              <input
+                type="url"
+                value={resumeUrl}
+                onChange={(e) => setResumeUrl(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                placeholder="https://example.com/resume.pdf"
+              />
             </div>
  
             <div>
@@ -265,6 +334,84 @@ export default function ProfileEditor() {
                   placeholder="https://linkedin.com/in/myusername"
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="glass-card p-8 rounded-2xl space-y-6 mt-8">
+            <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+              <span className="text-indigo-400">✨</span>
+              Hero Rotating Phrases
+            </h3>
+            <p className="text-slate-400 text-xs font-light">
+              Manage the rotating text phrases displayed on the landing page hero section.
+            </p>
+
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={newPhraseText}
+                onChange={(e) => setNewPhraseText(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddPhrase())}
+                placeholder="New phrase (e.g. Building hardware solutions)"
+                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+              />
+              <button
+                type="button"
+                onClick={handleAddPhrase}
+                className="px-5 rounded-xl bg-indigo-650 hover:bg-indigo-600 text-white text-sm font-semibold transition-all active:scale-95 flex items-center gap-1"
+              >
+                <Plus size={16} /> Add
+              </button>
+            </div>
+
+            <div className="divide-y divide-slate-900/60 space-y-3">
+              {heroPhrases.length === 0 ? (
+                <p className="text-slate-500 text-xs py-4 text-center">No phrases configured.</p>
+              ) : (
+                heroPhrases.map((phrase: any, idx) => (
+                  <div key={idx} className="flex items-center justify-between pt-3 first:pt-0 gap-4">
+                    <span className={`text-sm ${phrase.visible ? 'text-slate-200' : 'text-slate-600 line-through'}`}>
+                      {phrase.text}
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => movePhrase(idx, -1)}
+                        disabled={idx === 0}
+                        className="p-1.5 rounded-lg bg-slate-950 border border-slate-900 text-slate-400 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95"
+                        title="Move Up"
+                      >
+                        <ArrowUp size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => movePhrase(idx, 1)}
+                        disabled={idx === heroPhrases.length - 1}
+                        className="p-1.5 rounded-lg bg-slate-950 border border-slate-900 text-slate-400 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95"
+                        title="Move Down"
+                      >
+                        <ArrowDown size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => togglePhraseVisibility(idx)}
+                        className={`p-1.5 rounded-lg bg-slate-950 border border-slate-900 transition-all active:scale-95 ${phrase.visible ? 'text-emerald-400 hover:text-emerald-300' : 'text-slate-500 hover:text-slate-400'}`}
+                        title={phrase.visible ? 'Hide from homepage' : 'Show on homepage'}
+                      >
+                        {phrase.visible ? <Eye size={14} /> : <EyeOff size={14} />}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleRemovePhrase(idx)}
+                        className="p-1.5 rounded-lg bg-slate-950 border border-slate-900 text-slate-500 hover:text-rose-400 transition-all active:scale-95"
+                        title="Delete phrase"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -299,3 +299,22 @@ export async function updateThoughtVote(id, updates) {
   }
   return await updateDoc(docRef, updateObj);
 }
+
+// --- SKILLS ---
+export async function getSkills() {
+  const colRef = collection(db, 'skills');
+  try {
+    const q = query(colRef, orderBy('order', 'asc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+      };
+    });
+  } catch (error) {
+    console.error('Error getting skills:', error);
+    return [];
+  }
+}

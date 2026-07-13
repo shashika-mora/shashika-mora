@@ -14,7 +14,8 @@ import {
   LogOut,
   ExternalLink,
   Trophy,
-  MessageSquare
+  MessageSquare,
+  Cpu
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -29,6 +30,7 @@ export default function AdminSidebar() {
     { name: 'Academic', path: '/academics', icon: GraduationCap },
     { name: 'Competitions', path: '/competitions', icon: Trophy },
     { name: 'Thoughts', path: '/thoughts', icon: MessageSquare },
+    { name: 'Skills', path: '/skills', icon: Cpu },
     { name: 'Messages', path: '/messages', icon: Mail },
     { name: 'Profile Settings', path: '/profile', icon: User },
   ];

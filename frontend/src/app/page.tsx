@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import { getAboutConfig, getProjects, getBlogs, getCompetitions, addMessage, getThoughts, updateThoughtVote } from '../lib/firestore-service';
+import { getAboutConfig, getProjects, getBlogs, getCompetitions, addMessage, getThoughts, updateThoughtVote, getSkills } from '../lib/firestore-service';
 import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram, Trophy, MessageSquare, ThumbsUp, ThumbsDown } from 'lucide-react';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import gsap from 'gsap';
@@ -39,16 +39,34 @@ const parsePhrases = (subtitle: string) => {
   });
 };
 
-function TypewriterEffect({ subtitle }: { subtitle: string }) {
-  const phrases = parsePhrases(subtitle);
+function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: string; phrases?: any[] }) {
+  const phrases = useMemo(() => {
+    if (passedPhrases && passedPhrases.length > 0) {
+      return passedPhrases
+        .filter(p => p && (p.visible !== false && p.enabled !== false))
+        .map(p => typeof p === 'string' ? p : p.text);
+    }
+    if (subtitle) {
+      return parsePhrases(subtitle);
+    }
+    return [
+      "Building software and hardware solutions",
+      "Solving real-world problems",
+      "Exploring intelligent systems",
+      "Learning through projects and experimentation",
+      "Turning ideas into practical systems"
+    ];
+  }, [subtitle, passedPhrases]);
+
   const [currentPhraseIdx, setCurrentPhraseIdx] = useState(0);
   const [currentText, setCurrentText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(80);
 
   useEffect(() => {
+    if (phrases.length === 0) return;
     let timer: NodeJS.Timeout;
-    const activePhrase = phrases[currentPhraseIdx];
+    const activePhrase = phrases[currentPhraseIdx] || '';
 
     if (isDeleting) {
       timer = setTimeout(() => {
@@ -90,8 +108,8 @@ const DEFAULT_ABOUT = {
   role: 'Software Engineer · UI/UX Designer · AI & Agentic Dev',
   title: 'CSE Undergraduate @ University of Moratuwa',
   subtitle: 'Building software and hardware solutions, Solving real-world problems, Exploring intelligent systems, Learning through projects and experimentation, Turning ideas into practical systems.',
-  bio: "I'm a CSE undergraduate who builds across the full spectrum — from low-level Linux kernel patches to production-grade cloud-backed web and Android apps. I design premium UI/UX, integrate LLMs and agentic workflows, and architect scalable backends on the Firebase ecosystem. My style is *Pure / Vibe Coding*: dive in, break things, iterate fast.",
-  secondaryBio: "Whether it's crafting agentic AI pipelines with Gemini and MCP servers, designing sleek cross-platform mobile UIs in Flutter and Android, or building real-time Firestore backends with Cloud Functions — I thrive at the intersection of hardware, software, and intelligent systems. Student at the University of Moratuwa, competitive programmer, and lifelong learner.",
+  bio: "I'm a Computer Science and Engineering undergraduate who enjoys building practical solutions, exploring intelligent systems, and learning how software and hardware work beneath the surface.",
+  secondaryBio: "I am a Computer Science and Engineering undergraduate at the University of Moratuwa. My interests span software development, artificial intelligence, computer systems, databases, and computer architecture.\n\nI learn best by understanding how and why systems work, then applying that knowledge through projects, experiments, competitions, and collaborative work. I am currently building experience across multiple areas of computing while discovering the direction in which I want to specialise.\n\nBeyond coursework, I document my learning, maintain technical projects, participate in technology competitions, and continuously improve my problem-solving and development skills.",
   githubUrl: 'https://github.com/shashika-mora',
   linkedinUrl: 'https://linkedin.com/in/shashika-dayarathna',
   email: 'dayarathnaamst.24@uom.lk',
@@ -236,6 +254,8 @@ export default function Home() {
   const [blogsLoading, setBlogsLoading] = useState(true);
   const [competitionsLoading, setCompetitionsLoading] = useState(true);
   const [thoughtsLoading, setThoughtsLoading] = useState(true);
+  const [skills, setSkills] = useState([]);
+  const [skillsLoading, setSkillsLoading] = useState(true);
 
   // local storage votes state: { [thoughtId]: 'like' | 'dislike' }
   const [votes, setVotes] = useState({});
@@ -298,6 +318,15 @@ export default function Home() {
       setThoughtsLoading(false);
     });
 
+    // 5b. Fetch Technical Stack Skills
+    getSkills().then(data => {
+      if (data && data.length > 0) setSkills(data);
+      setSkillsLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setSkillsLoading(false);
+    });
+
     // 6. Load votes from localStorage
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('thoughts_votes');
@@ -316,7 +345,7 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       ScrollTrigger.refresh();
     }
-  }, [about, projects, blogs, competitions, thoughts]);
+  }, [about, projects, blogs, competitions, thoughts, skills]);
 
   // 1. Hero Animations (Runs exactly once on mount, preventing double-animation flash)
   useGSAP(() => {
@@ -513,7 +542,7 @@ export default function Home() {
         start: 'top 80%',
       }
     });
-  }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading, thoughtsLoading] });
+  }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading, thoughtsLoading, skillsLoading] });
 
   const handleVote = async (id, type) => {
     const currentVote = votes[id];
@@ -611,8 +640,10 @@ export default function Home() {
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left order-2 lg:order-1">
             <div className="hero-badge inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
               <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                {about.isAvailable !== false && (
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                )}
+                <span className={`relative inline-flex rounded-full h-3 w-3 ${about.isAvailable !== false ? 'bg-green-500' : 'bg-slate-500'}`}></span>
               </span>
               <span className="text-xs font-medium tracking-wide text-slate-300">
                 {about.availabilityStatus || 'Available for Opportunities'}
@@ -628,7 +659,7 @@ export default function Home() {
 
             <h3 className="hero-subtitle text-sm md:text-base lg:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
               {about.title} <br className="hidden md:block" />
-              <TypewriterEffect subtitle={about.subtitle} />
+              <TypewriterEffect subtitle={about.subtitle} phrases={about.heroPhrases} />
             </h3>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
@@ -723,56 +754,76 @@ export default function Home() {
           </div>
 
           <div className="max-w-5xl mx-auto">
-            {Array.isArray(about.skills) ? (
-              <div className="glass-card rounded-3xl p-8 md:p-12 text-center">
-                <div className="flex flex-wrap justify-center gap-3">
-                  {about.skills.map((skill, index) => {
-                    const { name, iconUrl } = parseSkill(skill);
-                    return (
-                      <span
-                        key={index}
-                        className="skill-chip px-4 py-2.5 rounded-full bg-slate-900/80 border border-slate-800 text-sm text-slate-200 font-medium hover:border-indigo-500 hover:text-white transition-all duration-300 flex items-center gap-2"
-                      >
-                        {iconUrl && (
-                          <img src={iconUrl} alt={name} className="w-4 h-4 object-contain" />
-                        )}
-                        {name}
-                      </span>
-                    );
-                  })}
+            {(() => {
+              const displaySkills = skills && skills.length > 0 ? skills : (Array.isArray(about.skills) ? about.skills : []);
+              
+              if (skills && skills.length > 0) {
+                // Group skills by category
+                const groups = {};
+                skills.forEach(skill => {
+                  if (skill.visible === false) return;
+                  const cat = skill.category || 'General';
+                  if (!groups[cat]) groups[cat] = [];
+                  groups[cat].push(skill);
+                });
+
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {Object.entries(groups).map(([category, items]: [string, any[]], idx) => {
+                      const Icon = idx % 3 === 0 ? Cpu : idx % 3 === 1 ? Layers : BookOpen;
+                      return (
+                        <div key={category} className="glass-card rounded-2xl p-6 hover:-translate-y-1 transition-transform duration-300">
+                          <h3 className="font-heading text-lg font-bold mb-6 flex items-center gap-3 text-indigo-300 border-b border-slate-800 pb-3">
+                            <Icon size={18} />
+                            {category}
+                          </h3>
+                          <div className="flex flex-wrap gap-2.5">
+                            {items.map((skill, index) => (
+                              <span
+                                key={index}
+                                className="skill-chip px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-medium hover:border-indigo-500 hover:text-white transition-all flex items-center gap-2"
+                              >
+                                {skill.iconUrl && (
+                                  <img src={skill.iconUrl} alt={skill.name} className="w-3.5 h-3.5 object-contain" />
+                                )}
+                                <span>{skill.name}</span>
+                                {skill.level && (
+                                  <span className="text-[8px] tracking-wide text-slate-500 font-semibold px-1 py-0.5 rounded bg-slate-950/60 uppercase">
+                                    {skill.level}
+                                  </span>
+                                )}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              }
+
+              // Fallback to legacy single list layout
+              return (
+                <div className="glass-card rounded-3xl p-8 md:p-12 text-center">
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {displaySkills.map((skill, index) => {
+                      const { name, iconUrl } = parseSkill(skill);
+                      return (
+                        <span
+                          key={index}
+                          className="skill-chip px-4 py-2.5 rounded-full bg-slate-900/80 border border-slate-800 text-sm text-slate-200 font-medium hover:border-indigo-500 hover:text-white transition-all duration-300 flex items-center gap-2"
+                        >
+                          {iconUrl && (
+                            <img src={iconUrl} alt={name} className="w-4 h-4 object-contain" />
+                          )}
+                          {name}
+                        </span>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {Object.entries(about.skills || {}).map(([category, items], idx) => {
-                  const Icon = idx === 0 ? Cpu : idx === 1 ? Layers : BookOpen;
-                  return (
-                    <div key={category} className="glass-card rounded-2xl p-6 hover:-translate-y-1.5 transition-transform duration-300">
-                      <h3 className="font-heading text-xl font-bold mb-6 flex items-center gap-3 text-indigo-300 border-b border-slate-800 pb-3">
-                        <Icon size={20} />
-                        {category}
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {Array.isArray(items) && items.map((skill, index) => {
-                          const { name, iconUrl } = parseSkill(skill);
-                          return (
-                            <span
-                              key={index}
-                              className="skill-chip px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-medium hover:border-slate-700 transition-colors flex items-center gap-1.5"
-                            >
-                              {iconUrl && (
-                                <img src={iconUrl} alt={name} className="w-3.5 h-3.5 object-contain" />
-                              )}
-                              {name}
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+              );
+            })()}
           </div>
         </div>
       </section>

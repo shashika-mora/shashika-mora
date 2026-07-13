@@ -5,6 +5,10 @@
   --font-sans: var(--font-sans), sans-serif;
 }
 
+html {
+  font-size: 17.5px;
+}
+
 /* Glassmorphism card utility */
 .glass-card {
   background: rgba(255, 255, 255, 0.03);

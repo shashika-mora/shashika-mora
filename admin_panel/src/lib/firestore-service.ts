@@ -309,3 +309,40 @@ export async function deleteThought(id) {
   const docRef = doc(db, 'thoughts', id);
   return await deleteDoc(docRef);
 }
+
+// --- SKILLS ---
+export async function getSkills() {
+  const colRef = collection(db, 'skills');
+  try {
+    const q = query(colRef, orderBy('order', 'asc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+      };
+    });
+  } catch (error) {
+    console.error('Error getting skills:', error);
+    return [];
+  }
+}
+
+export async function addSkill(skillData) {
+  const colRef = collection(db, 'skills');
+  return await addDoc(colRef, {
+    ...skillData,
+    createdAt: serverTimestamp(),
+  });
+}
+
+export async function updateSkill(id, skillData) {
+  const docRef = doc(db, 'skills', id);
+  return await updateDoc(docRef, skillData);
+}
+
+export async function deleteSkill(id) {
+  const docRef = doc(db, 'skills', id);
+  return await deleteDoc(docRef);
+}
