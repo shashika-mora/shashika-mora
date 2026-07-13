@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getBlogs, getProjects, getAcademics, getMessages } from '../lib/firestore-service';
-import { FileText, Briefcase, GraduationCap, Mail, MessageSquare, ArrowRight, Shield } from 'lucide-react';
+import { getBlogs, getProjects, getAcademics, getMessages, getCompetitions } from '../lib/firestore-service';
+import { FileText, Briefcase, GraduationCap, Mail, MessageSquare, ArrowRight, Shield, Trophy } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -12,6 +12,7 @@ export default function Dashboard() {
     projects: 0,
     projectsFeatured: 0,
     academics: 0,
+    competitions: 0,
     messages: 0,
     messagesUnread: 0,
   });
@@ -25,6 +26,7 @@ export default function Dashboard() {
         const projectsData = await getProjects(false);
         const academicsData = await getAcademics();
         const messagesData = await getMessages();
+        const competitionsData = await getCompetitions();
 
         const publishedBlogs = blogsData.filter(b => b.published).length;
         const featuredProjects = projectsData.filter(p => p.featured).length;
@@ -36,6 +38,7 @@ export default function Dashboard() {
           projects: projectsData.length,
           projectsFeatured: featuredProjects,
           academics: academicsData.length,
+          competitions: competitionsData.length,
           messages: messagesData.length,
           messagesUnread: unreadMessages,
         });
@@ -54,6 +57,7 @@ export default function Dashboard() {
     { name: 'Blog Posts', value: stats.blogs, subtext: `${stats.blogsPublished} Published`, icon: FileText, color: 'text-indigo-400', bg: 'bg-indigo-950/20', link: '/blogs' },
     { name: 'Projects', value: stats.projects, subtext: `${stats.projectsFeatured} Featured`, icon: Briefcase, color: 'text-pink-400', bg: 'bg-pink-950/20', link: '/projects' },
     { name: 'Academic Records', value: stats.academics, subtext: 'Timeline Entries', icon: GraduationCap, color: 'text-purple-400', bg: 'bg-purple-950/20', link: '/academics' },
+    { name: 'Competitions', value: stats.competitions, subtext: 'Achievements', icon: Trophy, color: 'text-amber-400', bg: 'bg-amber-950/20', link: '/competitions' },
     { name: 'Messages', value: stats.messages, subtext: `${stats.messagesUnread} Unread`, icon: Mail, color: 'text-emerald-400', bg: 'bg-emerald-950/20', link: '/messages' },
   ];
 
@@ -81,7 +85,7 @@ export default function Dashboard() {
       </div>
 
       {/* Grid of stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
