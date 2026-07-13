@@ -22,7 +22,8 @@ export default function ProfileEditor() {
 
   // Skills Manager
   const [skills, setSkills] = useState([]);
-  const [newSkill, setNewSkill] = useState('');
+  const [newSkillName, setNewSkillName] = useState('');
+  const [newSkillIcon, setNewSkillIcon] = useState('');
 
   useEffect(() => {
     async function loadConfig() {
@@ -47,9 +48,22 @@ export default function ProfileEditor() {
   }, []);
 
   const handleAddSkill = () => {
-    if (newSkill.trim() && !skills.includes(newSkill.trim())) {
-      setSkills(prev => [...prev, newSkill.trim()]);
-      setNewSkill('');
+    if (newSkillName.trim()) {
+      const skillObj = {
+        name: newSkillName.trim(),
+        iconUrl: newSkillIcon.trim()
+      };
+      
+      const exists = skills.some(s => {
+        const parsed = typeof s === 'string' ? { name: s } : s;
+        return parsed.name?.toLowerCase() === skillObj.name.toLowerCase();
+      });
+
+      if (!exists) {
+        setSkills(prev => [...prev, skillObj]);
+        setNewSkillName('');
+        setNewSkillIcon('');
+      }
     }
   };
 
@@ -264,43 +278,59 @@ export default function ProfileEditor() {
               Technical Stack Skills
             </h3>
 
-            <div className="flex gap-2">
+             <div className="space-y-3">
               <input
                 type="text"
-                value={newSkill}
-                onChange={(e) => setNewSkill(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSkill())}
-                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
-                placeholder="e.g. Docker, TypeScript"
+                value={newSkillName}
+                onChange={(e) => setNewSkillName(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                placeholder="Skill name (e.g. React)"
               />
-              <button
-                type="button"
-                onClick={handleAddSkill}
-                className="px-4 rounded-xl bg-indigo-650 hover:bg-indigo-600 text-white text-xs font-semibold transition-all"
-              >
-                <Plus size={16} />
-              </button>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newSkillIcon}
+                  onChange={(e) => setNewSkillIcon(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSkill())}
+                  className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                  placeholder="Icon URL (e.g. https://...)"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddSkill}
+                  className="px-4 rounded-xl bg-indigo-650 hover:bg-indigo-600 text-white text-xs font-semibold transition-all"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-2">
               {skills.length === 0 ? (
                 <p className="text-slate-500 text-xs py-2">No skills configured.</p>
               ) : (
-                skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300"
-                  >
-                    {skill}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveSkill(skill)}
-                      className="text-slate-500 hover:text-pink-400 transition-colors"
+                skills.map((skill, index) => {
+                  const name = typeof skill === 'string' ? skill : skill.name || '';
+                  const iconUrl = typeof skill === 'string' ? '' : skill.iconUrl || '';
+                  return (
+                    <span
+                      key={index}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300"
                     >
-                      <X size={12} />
-                    </button>
-                  </span>
-                ))
+                      {iconUrl && (
+                        <img src={iconUrl} alt={name} className="w-3.5 h-3.5 object-contain rounded-sm" />
+                      )}
+                      {name}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSkill(skill)}
+                        className="text-slate-500 hover:text-pink-400 transition-colors"
+                      >
+                        <X size={12} />
+                      </button>
+                    </span>
+                  );
+                })
               )}
             </div>
           </div>

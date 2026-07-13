@@ -73,7 +73,7 @@ export default function Blog() {
           <ArrowLeft size={16} className="transform group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </Link>
-        <h1 className="font-heading text-4xl md:text-6xl font-black text-white mb-4">
+        <h1 className="font-heading text-3xl md:text-5xl font-black text-white mb-4">
           The Developer Blog
         </h1>
         <p className="text-slate-400 text-lg max-w-2xl font-light">

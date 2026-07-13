@@ -13,6 +13,18 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const parseSkill = (skill: any) => {
+  if (!skill) return { name: '', iconUrl: '' };
+  if (typeof skill === 'string') {
+    if (skill.includes('|')) {
+      const [name, iconUrl] = skill.split('|');
+      return { name: name.trim(), iconUrl: iconUrl.trim() };
+    }
+    return { name: skill, iconUrl: '' };
+  }
+  return { name: skill.name || '', iconUrl: skill.iconUrl || '' };
+};
+
 export default function Home() {
   const [about, setAbout] = useState(null);
   const [projects, setProjects] = useState([]);
@@ -50,26 +62,27 @@ export default function Home() {
 
     // --- Hero Animations ---
     const heroTl = gsap.timeline();
-    heroTl.from('.hero-badge', { opacity: 0, scale: 0.8, duration: 0.5, ease: 'back.out(1.7)' })
-          .from('.hero-title', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' }, '-=0.3')
-          .from('.hero-subtitle', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' }, '-=0.4')
-          .from('.hero-btn', { opacity: 0, y: 15, scale: 0.95, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)' }, '-=0.3');
+    heroTl.fromTo('.hero-badge', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)', clearProps: 'all' })
+          .fromTo('.hero-title', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
+          .fromTo('.hero-subtitle', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' }, '-=0.4')
+          .fromTo('.hero-btn', { opacity: 0, y: 15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)', clearProps: 'all' }, '-=0.3');
 
     // --- Scroll Reveal Animations ---
     // About Section
-    gsap.from('#about .section-title', {
-      opacity: 0,
-      y: 20,
+    gsap.fromTo('#about .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
       duration: 0.6,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#about',
         start: 'top 85%',
       }
     });
-    gsap.from('#about .about-card', {
-      opacity: 0,
-      y: 30,
-      scale: 0.98,
+    gsap.fromTo('#about .about-card', { opacity: 0, y: 30, scale: 0.98 }, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
       duration: 0.8,
       ease: 'power2.out',
       clearProps: 'all',
@@ -80,19 +93,20 @@ export default function Home() {
     });
 
     // Tech Stack Section
-    gsap.from('#skills .section-title', {
-      opacity: 0,
-      y: 20,
+    gsap.fromTo('#skills .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
       duration: 0.6,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#skills',
         start: 'top 85%',
       }
     });
-    gsap.from('.skill-chip', {
-      opacity: 0,
-      scale: 0.8,
-      y: 15,
+    gsap.fromTo('.skill-chip', { opacity: 0, scale: 0.8, y: 15 }, {
+      opacity: 1,
+      scale: 1,
+      y: 0,
       duration: 0.5,
       stagger: {
         each: 0.04,
@@ -107,19 +121,20 @@ export default function Home() {
     });
 
     // Featured Projects Section
-    gsap.from('#projects .section-title', {
-      opacity: 0,
-      y: 20,
+    gsap.fromTo('#projects .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
       duration: 0.6,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#projects',
         start: 'top 85%',
       }
     });
-    gsap.from('.project-card', {
-      opacity: 0,
-      y: 30,
-      scale: 0.97,
+    gsap.fromTo('.project-card', { opacity: 0, y: 30, scale: 0.97 }, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
       duration: 0.7,
       stagger: 0.15,
       ease: 'power2.out',
@@ -131,18 +146,19 @@ export default function Home() {
     });
 
     // Blogs Section
-    gsap.from('#blog .section-title', {
-      opacity: 0,
-      y: 20,
+    gsap.fromTo('#blog .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
       duration: 0.6,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#blog',
         start: 'top 85%',
       }
     });
-    gsap.from('.blog-card', {
-      opacity: 0,
-      y: 30,
+    gsap.fromTo('.blog-card', { opacity: 0, y: 30 }, {
+      opacity: 1,
+      y: 0,
       duration: 0.7,
       stagger: 0.15,
       ease: 'power2.out',
@@ -154,19 +170,20 @@ export default function Home() {
     });
 
     // Contact Section
-    gsap.from('#contact .section-title', {
-      opacity: 0,
-      y: 20,
+    gsap.fromTo('#contact .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
       duration: 0.6,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: '#contact',
         start: 'top 85%',
       }
     });
-    gsap.from('#contact .contact-card', {
-      opacity: 0,
-      y: 40,
-      scale: 0.98,
+    gsap.fromTo('#contact .contact-card', { opacity: 0, y: 40, scale: 0.98 }, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
       duration: 0.8,
       ease: 'power2.out',
       clearProps: 'all',
@@ -309,7 +326,7 @@ export default function Home() {
       <section id="about" className="py-24 px-6 relative bg-slate-950/40">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="section-title font-heading text-3xl md:text-5xl font-black mb-4 relative inline-block text-white">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
               About Me
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full opacity-60"></div>
             </h2>
@@ -330,7 +347,7 @@ export default function Home() {
       <section id="skills" className="py-24 px-6 relative border-y border-slate-900 bg-slate-950/20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="section-title font-heading text-3xl md:text-5xl font-black mb-4 relative inline-block text-white">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
               🛠️ Tech Stack & Arsenal
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 to-indigo-500 rounded-full opacity-60"></div>
             </h2>
@@ -340,14 +357,20 @@ export default function Home() {
             {Array.isArray(about.skills) ? (
               <div className="glass-card rounded-3xl p-8 md:p-12 text-center">
                 <div className="flex flex-wrap justify-center gap-3">
-                  {about.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="skill-chip px-4 py-2.5 rounded-full bg-slate-900/80 border border-slate-800 text-sm text-slate-200 font-medium hover:border-indigo-500 hover:text-white transition-all duration-305"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                  {about.skills.map((skill, index) => {
+                    const { name, iconUrl } = parseSkill(skill);
+                    return (
+                      <span
+                        key={index}
+                        className="skill-chip px-4 py-2.5 rounded-full bg-slate-900/80 border border-slate-800 text-sm text-slate-200 font-medium hover:border-indigo-500 hover:text-white transition-all duration-300 flex items-center gap-2"
+                      >
+                        {iconUrl && (
+                          <img src={iconUrl} alt={name} className="w-4 h-4 object-contain" />
+                        )}
+                        {name}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             ) : (
@@ -361,14 +384,20 @@ export default function Home() {
                         {category}
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {Array.isArray(items) && items.map((skill) => (
-                          <span
-                            key={skill}
-                            className="skill-chip px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-medium hover:border-slate-700 transition-colors"
-                          >
-                            {skill}
-                          </span>
-                        ))}
+                        {Array.isArray(items) && items.map((skill, index) => {
+                          const { name, iconUrl } = parseSkill(skill);
+                          return (
+                            <span
+                              key={index}
+                              className="skill-chip px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300 font-medium hover:border-slate-700 transition-colors flex items-center gap-1.5"
+                            >
+                              {iconUrl && (
+                                <img src={iconUrl} alt={name} className="w-3.5 h-3.5 object-contain" />
+                              )}
+                              {name}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
                   );
@@ -383,7 +412,7 @@ export default function Home() {
       <section id="projects" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 flex flex-col items-center">
-            <h2 className="section-title font-heading text-3xl md:text-5xl font-black mb-4 relative inline-block text-white">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
               Featured Projects
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full opacity-60"></div>
             </h2>
@@ -455,7 +484,7 @@ export default function Home() {
         <section id="blog" className="py-24 px-6 bg-slate-950/30 border-t border-slate-900">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="section-title font-heading text-3xl md:text-5xl font-black mb-4 relative inline-block text-white">
+              <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
                 Latest Blog Posts
                 <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"></div>
               </h2>
@@ -504,7 +533,7 @@ export default function Home() {
       <section id="contact" className="py-24 px-6 border-t border-slate-900 bg-slate-950/40">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="section-title font-heading text-3xl md:text-5xl font-black mb-4 relative inline-block text-white">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
               Get In Touch
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full opacity-60"></div>
             </h2>
