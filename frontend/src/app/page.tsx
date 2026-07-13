@@ -250,22 +250,16 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-slate-950 font-semibold hover:bg-slate-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 text-center"
               >
-                View Resume
+                Download CV
               </a>
             )}
             <Link
               href="/contact"
-              className={`hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full ${about.resumeUrl ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-white text-slate-950 hover:bg-slate-200'} font-semibold hover:scale-[1.02] transition-all duration-300 text-center`}
+              className={`hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full ${about.resumeUrl ? 'bg-slate-900/60 border border-slate-800 text-slate-300 hover:bg-slate-800/80 hover:text-white' : 'bg-white text-slate-950 hover:bg-slate-200'} font-semibold hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 group`}
             >
-              Connect with me
-            </Link>
-            <a
-              href="#about"
-              className="hero-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-slate-900/60 border border-slate-800 text-slate-300 font-semibold hover:bg-slate-800/80 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group"
-            >
-              Explore my world
+              Contact Me
               <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
