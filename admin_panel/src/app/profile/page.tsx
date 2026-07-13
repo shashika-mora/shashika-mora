@@ -63,6 +63,7 @@ export default function ProfileEditor() {
       name,
       role,
       bio,
+      secondaryBio,
       githubUrl,
       linkedinUrl,
       contactEmail,
