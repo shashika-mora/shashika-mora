@@ -240,7 +240,7 @@ export default function Home() {
               </span>
             </h1>
 
-            <h3 className="hero-subtitle text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+            <h3 className="hero-subtitle text-sm md:text-base lg:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
               {about.title} <br className="hidden md:block" />
               <span className="text-indigo-400 font-normal">{about.subtitle}</span>
             </h3>
