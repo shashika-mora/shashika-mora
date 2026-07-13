@@ -26,7 +26,7 @@ const parseSkill = (skill: any) => {
 };
 
 const parsePhrases = (subtitle: string) => {
-  if (!subtitle) return ["Building SW/HW solutions", "Exploring intelligent systems", "Solving real-world problems"];
+  if (!subtitle) return ["Building software and hardware solutions", "Solving real-world problems", "Exploring intelligent systems", "Learning through projects and experimentation", "Turning ideas into practical systems"];
   return subtitle.split(',').map(phrase => {
     let cleaned = phrase.trim();
     if (cleaned.toLowerCase().startsWith('and ')) {
@@ -89,7 +89,7 @@ const DEFAULT_ABOUT = {
   name: 'Shashika Dayarathna',
   role: 'Software Engineer · UI/UX Designer · AI & Agentic Dev',
   title: 'CSE Undergraduate @ University of Moratuwa',
-  subtitle: 'Building SW/HW solutions, Exploring intelligent systems, Solving real-world problems.',
+  subtitle: 'Building software and hardware solutions, Solving real-world problems, Exploring intelligent systems, Learning through projects and experimentation, Turning ideas into practical systems.',
   bio: "I'm a CSE undergraduate who builds across the full spectrum — from low-level Linux kernel patches to production-grade cloud-backed web and Android apps. I design premium UI/UX, integrate LLMs and agentic workflows, and architect scalable backends on the Firebase ecosystem. My style is *Pure / Vibe Coding*: dive in, break things, iterate fast.",
   secondaryBio: "Whether it's crafting agentic AI pipelines with Gemini and MCP servers, designing sleek cross-platform mobile UIs in Flutter and Android, or building real-time Firestore backends with Cloud Functions — I thrive at the intersection of hardware, software, and intelligent systems. Student at the University of Moratuwa, competitive programmer, and lifelong learner.",
   githubUrl: 'https://github.com/shashika-mora',
