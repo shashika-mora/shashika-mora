@@ -40,9 +40,11 @@ The user-facing site has been upgraded to deliver a premium, responsive, and rel
 *   **Hover Interactions**: Added custom CSS filters to the image; it is slightly desaturated by default and transitions to full color while scaling up gently when hovered.
 *   **Typography Balance**: Scaled down fonts across the system to look elegant and balanced (Hero section, headers, projects directory, academics timeline, and developer blog).
 
-### 3.2 GSAP Animation Fixes (Element Disappearing Bug)
-*   **Hydration Bug Fix**: In Next.js, elements sometimes disappeared or got stuck at `opacity: 0` during hydration or page navigation. This was caused by GSAP `.from` animations. When React re-rendered elements or StrictMode ran components twice, GSAP recorded the initial `opacity: 0` as the target value, locking the elements in a hidden state.
-*   **Resolution**: Converted all Hero and Scroll Reveal triggers to use explicit `fromTo` animations. Added `clearProps: 'all'` to all tweens so that once the opening animation finishes, GSAP removes all inline style overrides, letting normal CSS styling and hovers operate normally.
+### 3.2 GSAP Animation Fixes (Hydration & Disappearing Elements)
+*   **Hydration Hook Decoupling**: Converted the single global `useGSAP` hook in the landing page into two separated hooks:
+    *   *Hero Animations*: Set to run exactly once on mount (`[]` dependencies) to animates intro elements cleanly. This completely resolves the "double refreshing" animation flash when dynamic Firestore data resolves.
+    *   *Scroll Reveal Animations*: Runs only when asynchronous data fetches resolve (`[aboutLoading, projectsLoading, blogsLoading, competitionsLoading]` dependencies), attaching scroll triggers dynamically to rendered cards.
+*   **Disappearing Elements Resolution**: React 18 rendering cycles can cause `.from()` tweens to record half-animated or transparent properties as targets, locking elements in an invisible state. I converted all remaining `gsap.from` animations to explicit `gsap.fromTo` statements with `clearProps: 'all'` on the home page as well as all secondary directory files ([projects/page.tsx](file:///c:/Users/shashika/Desktop/Repos/shashika-mora/frontend/src/app/projects/page.tsx), [blog/page.tsx](file:///c:/Users/shashika/Desktop/Repos/shashika-mora/frontend/src/app/blog/page.tsx), and [academics/page.tsx](file:///c:/Users/shashika/Desktop/Repos/shashika-mora/frontend/src/app/academics/page.tsx)). This ensures components never disappear on navigation.
 
 ### 3.3 Tech Arsenal Icons
 *   **Icon Parsing**: Configured the Tech Stack section to parse incoming skills. If a skill has an icon URL, it displays the logo alongside the skill name inside the pill chip. If no icon is configured, it falls back to a text-only pill chip.
