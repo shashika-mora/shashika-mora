@@ -48,8 +48,8 @@ export default function Blog() {
   }, []);
 
   const filteredBlogs = blogs.filter(blog =>
-    blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    blog.summary.toLowerCase().includes(searchTerm.toLowerCase())
+    blog.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (blog.summary || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useGSAP(() => {

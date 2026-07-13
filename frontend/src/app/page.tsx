@@ -94,6 +94,8 @@ const DEFAULT_ABOUT = {
   secondaryBio: "With a strong foundation in Computer Science and Engineering from the University of Moratuwa, I've dedicated myself to continuous learning. Whether it's crafting scalable microservices, designing intuitive user experiences, or diving into hardware-level programming, I enjoy tackling complex challenges and delivering impactful solutions.",
   githubUrl: 'https://github.com/shashika-mora',
   linkedinUrl: 'https://linkedin.com/in/shashika-dayarathna',
+  email: 'dayarathnaamst.24@uom.lk',
+  emailPersonal: 'shashikatheekshana67@gmail.com',
   contactEmail: 'dayarathnaamst.24@uom.lk',
   resumeUrl: '',
   avatarUrl: '/hero.jpg',
@@ -199,7 +201,7 @@ function ThoughtsSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-6 mb-12">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="glass-card rounded-2xl p-6 border border-slate-900/40 animate-pulse space-y-4 animate-pulse">
+        <div key={i} className="glass-card rounded-2xl p-6 border border-slate-900/40 animate-pulse space-y-4">
           <div className="flex items-center gap-3">
             <div className="h-5 bg-slate-800 rounded w-12"></div>
             <div className="h-3 bg-slate-800 rounded w-16"></div>
@@ -250,9 +252,15 @@ export default function Home() {
       setAboutLoading(false);
     });
 
-    // 2. Fetch Featured Projects
-    getProjects(true).then(data => {
-      if (data) setProjects(data);
+    // 2. Fetch Featured Projects (fallback to all if none are marked featured)
+    getProjects('featured').then(async data => {
+      if (data && data.length > 0) {
+        setProjects(data);
+      } else {
+        // No featured projects set — show first 4 visible ones
+        const all = await getProjects('published');
+        setProjects(all.slice(0, 4));
+      }
       setProjectsLoading(false);
     }).catch(err => {
       console.error(err);
@@ -1082,8 +1090,8 @@ export default function Home() {
                 <Mail className="text-indigo-400 shrink-0" size={20} />
                 <div className="min-w-0">
                   <h4 className="font-heading font-semibold text-white text-xs mb-0.5">Email (Work)</h4>
-                  <a href={`mailto:${about.email}`} className="text-slate-400 hover:text-white text-xs break-all">
-                    {about.email}
+                  <a href={`mailto:${about.email || about.contactEmail}`} className="text-slate-400 hover:text-white text-xs break-all">
+                    {about.email || about.contactEmail}
                   </a>
                 </div>
               </div>

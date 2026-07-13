@@ -159,6 +159,8 @@ export default function Dashboard() {
               <li>Create articles in <span className="font-semibold text-slate-200">Blogs</span> to share knowledge.</li>
               <li>Add entries to <span className="font-semibold text-slate-200">Projects</span> to update your portfolio grid.</li>
               <li>Maintain your educational background in <span className="font-semibold text-slate-200">Academic</span>.</li>
+              <li>Log hackathon and competition wins in <span className="font-semibold text-slate-200">Competitions</span>.</li>
+              <li>Publish daily thoughts and updates in <span className="font-semibold text-slate-200">Thoughts</span>.</li>
               <li>Read messages and respond via email directly.</li>
               <li>Configure landing page details dynamically in <span className="font-semibold text-slate-200">Profile Settings</span>.</li>
             </ul>
