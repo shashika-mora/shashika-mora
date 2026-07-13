@@ -27,14 +27,18 @@ export default function Academics() {
   useGSAP(() => {
     if (loading || academics.length === 0) return;
 
-    gsap.from('.timeline-item', {
-      opacity: 0,
-      x: -15,
-      y: 15,
-      duration: 0.6,
-      stagger: 0.12,
-      ease: 'power2.out'
-    });
+    gsap.fromTo('.timeline-item', 
+      { opacity: 0, x: -15, y: 15 },
+      {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: 'power2.out',
+        clearProps: 'all'
+      }
+    );
   }, { scope: containerRef, dependencies: [academics, loading] });
 
   return (

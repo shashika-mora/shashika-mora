@@ -39,15 +39,18 @@ export default function Projects() {
   useGSAP(() => {
     if (loading || filteredProjects.length === 0) return;
 
-    gsap.from('.project-card', {
-      opacity: 0,
-      scale: 0.96,
-      y: 20,
-      duration: 0.5,
-      stagger: 0.08,
-      ease: 'power2.out',
-      clearProps: 'all'
-    });
+    gsap.fromTo('.project-card', 
+      { opacity: 0, scale: 0.96, y: 20 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: 'power2.out',
+        clearProps: 'all'
+      }
+    );
   }, { scope: containerRef, dependencies: [filteredProjects, loading] });
 
   return (

@@ -55,14 +55,17 @@ export default function Blog() {
   useGSAP(() => {
     if (loading || filteredBlogs.length === 0) return;
 
-    gsap.from('.blog-post-card', {
-      opacity: 0,
-      y: 20,
-      duration: 0.5,
-      stagger: 0.1,
-      ease: 'power2.out',
-      clearProps: 'all'
-    });
+    gsap.fromTo('.blog-post-card', 
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: 'power2.out',
+        clearProps: 'all'
+      }
+    );
   }, { scope: containerRef, dependencies: [filteredBlogs, loading] });
 
   return (
