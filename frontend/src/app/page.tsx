@@ -706,7 +706,7 @@ export default function Home() {
               <Terminal size={144} className="text-white" />
             </div>
             <div className="relative z-10">
-              <MarkdownRenderer content={about.bio} />
+              <MarkdownRenderer content={about.secondaryBio || about.bio} />
             </div>
           </div>
         </div>
