@@ -26,7 +26,7 @@ const parseSkill = (skill: any) => {
 };
 
 const parsePhrases = (subtitle: string) => {
-  if (!subtitle) return ["Building software", "exploring intelligent systems", "solving real-world problems"];
+  if (!subtitle) return ["Building software & solutions", "Exploring intelligent systems", "Solving real-world problems"];
   return subtitle.split(',').map(phrase => {
     let cleaned = phrase.trim();
     if (cleaned.toLowerCase().startsWith('and ')) {
@@ -85,12 +85,75 @@ function TypewriterEffect({ subtitle }: { subtitle: string }) {
   );
 }
 
+const DEFAULT_ABOUT = {
+  name: 'Shashika Dayarathna',
+  role: 'Software Engineer & UI Designer',
+  title: 'Computer Science & Engineering Undergraduate',
+  subtitle: 'Building software, exploring intelligent systems, and solving real-world problems.',
+  bio: "I'm a passionate developer focusing on robust backends, sleek UIs, and systems engineering. From building modern web apps to patching Linux kernels, I thrive on exploring the boundaries of technology.",
+  secondaryBio: "With a strong foundation in Computer Science and Engineering from the University of Moratuwa, I've dedicated myself to continuous learning. Whether it's crafting scalable microservices, designing intuitive user experiences, or diving into hardware-level programming, I enjoy tackling complex challenges and delivering impactful solutions.",
+  githubUrl: 'https://github.com/shashika-mora',
+  linkedinUrl: 'https://linkedin.com/in/shashika-dayarathna',
+  contactEmail: 'dayarathnaamst.24@uom.lk',
+  resumeUrl: '',
+  avatarUrl: '/hero.jpg',
+  availabilityStatus: 'Available for Opportunities',
+  skills: [
+    'React', 'Next.js', 'Node.js', 'TypeScript', 
+    'C++', 'Python', 'Firebase', 'Docker'
+  ]
+};
+
+function ProjectsSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="glass-card rounded-2xl p-8 border border-slate-900/40 animate-pulse space-y-6">
+          <div className="space-y-3">
+            <div className="h-6 bg-slate-800 rounded-lg w-1/2"></div>
+            <div className="h-4 bg-slate-800 rounded-lg w-full"></div>
+            <div className="h-4 bg-slate-800 rounded-lg w-5/6"></div>
+          </div>
+          <div className="flex gap-2">
+            <div className="h-5 bg-slate-800 rounded w-12"></div>
+            <div className="h-5 bg-slate-800 rounded w-16"></div>
+            <div className="h-5 bg-slate-800 rounded w-14"></div>
+          </div>
+          <div className="h-8 bg-slate-800 rounded-lg w-1/4 pt-4 border-t border-slate-900"></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BlogsSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="glass-card rounded-2xl p-6 border border-slate-900/40 animate-pulse space-y-4">
+          <div className="w-full h-48 rounded-xl bg-slate-800 animate-pulse"></div>
+          <div className="space-y-2">
+            <div className="h-5 bg-slate-800 rounded-lg w-5/6"></div>
+            <div className="h-3 bg-slate-800 rounded-lg w-1/4"></div>
+            <div className="h-3 bg-slate-800 rounded-lg w-full"></div>
+            <div className="h-3 bg-slate-800 rounded-lg w-4/5"></div>
+          </div>
+          <div className="h-4 bg-slate-800 rounded w-1/4"></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
-  const [about, setAbout] = useState(null);
+  const [about, setAbout] = useState(DEFAULT_ABOUT);
   const [projects, setProjects] = useState([]);
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
   
+  const [aboutLoading, setAboutLoading] = useState(true);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [blogsLoading, setBlogsLoading] = useState(true);
+
   const containerRef = useRef(null);
 
   // Contact form state
@@ -98,34 +161,50 @@ export default function Home() {
   const [formStatus, setFormStatus] = useState({ loading: false, success: false, error: null });
 
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      // 1. Fetch Profile
-      const aboutData = await getAboutConfig();
-      if (aboutData) setAbout(aboutData);
+    // 1. Fetch Profile
+    getAboutConfig().then(data => {
+      if (data) setAbout(data);
+      setAboutLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setAboutLoading(false);
+    });
 
-      // 2. Fetch Featured Projects
-      const projectsData = await getProjects(true);
-      if (projectsData) setProjects(projectsData);
+    // 2. Fetch Featured Projects
+    getProjects(true).then(data => {
+      if (data) setProjects(data);
+      setProjectsLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setProjectsLoading(false);
+    });
 
-      // 3. Fetch Blogs
-      const blogsData = await getBlogs(true);
-      if (blogsData) setBlogs(blogsData.slice(0, 3));
-      
-      setLoading(false);
-    }
-    fetchData();
+    // 3. Fetch Blogs
+    getBlogs(true).then(data => {
+      if (data) setBlogs(data.slice(0, 3));
+      setBlogsLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setBlogsLoading(false);
+    });
   }, []);
 
+  // Recalculate ScrollTrigger on content load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  }, [about, projects, blogs]);
+
   useGSAP(() => {
-    if (!about || loading) return;
+    if (!about) return;
 
     // --- Hero Animations ---
     const heroTl = gsap.timeline();
     heroTl.fromTo('.hero-badge', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)', clearProps: 'all' })
-          .fromTo('.hero-title', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
-          .fromTo('.hero-subtitle', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' }, '-=0.4')
-          .fromTo('.hero-btn', { opacity: 0, y: 15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)', clearProps: 'all' }, '-=0.3');
+      .fromTo('.hero-title', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.hero-subtitle', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', clearProps: 'all' }, '-=0.4')
+      .fromTo('.hero-btn', { opacity: 0, y: 15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)', clearProps: 'all' }, '-=0.3');
 
     // --- Scroll Reveal Animations ---
     // About Section
@@ -253,7 +332,7 @@ export default function Home() {
       }
     });
 
-  }, { scope: containerRef, dependencies: [about, projects, blogs, loading] });
+  }, { scope: containerRef, dependencies: [about, projects, blogs, aboutLoading, projectsLoading, blogsLoading] });
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
@@ -273,31 +352,14 @@ export default function Home() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-indigo-500 border-r-2"></div>
-          <p className="text-sm font-medium">Loading portfolio...</p>
-        </div>
-      </div>
-    );
-  }
 
-  if (!about) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-450">
-        <p className="text-sm">Profile configuration not found. Please log into the admin panel to set it up.</p>
-      </div>
-    );
-  }
 
   return (
     <div ref={containerRef} className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 px-6">
         <div className="max-w-6xl mx-auto z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center py-6">
-          
+
           {/* Text Content */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left order-2 lg:order-1">
             <div className="hero-badge inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
@@ -348,19 +410,19 @@ export default function Home() {
             <div className="relative group">
               {/* Decorative background blur and shapes */}
               <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-              
+
               {/* The main card frame */}
               <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-3xl bg-slate-900 border border-slate-800 p-2.5 shadow-2xl flex items-center justify-center overflow-hidden">
                 {/* Inner gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-pink-500/20 pointer-events-none"></div>
-                
+
                 {/* Profile Image itself */}
                 <img
                   src={about.avatarUrl || '/hero.jpg'}
                   alt={about.name || 'Profile'}
                   className="w-full h-full object-cover rounded-2xl grayscale-[10%] hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out"
                 />
-                
+
                 {/* Corner accent decorations */}
                 <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-indigo-400/85"></div>
                 <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-indigo-400/85"></div>
@@ -481,51 +543,59 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            {projects.map((project) => (
-              <div key={project.id} className="project-card glass-card rounded-2xl p-8 hover:scale-[1.01] transition-all flex flex-col justify-between group">
-                <div>
-                  <h3 className="font-heading text-2xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.techStack?.map((tech) => (
-                      <span key={tech} className="text-xs px-2.5 py-1 rounded bg-slate-900 text-indigo-300 border border-slate-800">
-                        {tech}
-                      </span>
-                    ))}
+          {projectsLoading ? (
+            <ProjectsSkeleton />
+          ) : projects.length === 0 ? (
+            <div className="text-center py-10 bg-slate-900/10 border border-slate-900/40 rounded-2xl mb-12">
+              <p className="text-slate-400">No featured projects found.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {projects.map((project) => (
+                <div key={project.id} className="project-card glass-card rounded-2xl p-8 hover:scale-[1.01] transition-all flex flex-col justify-between group">
+                  <div>
+                    <h3 className="font-heading text-2xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.techStack?.map((tech) => (
+                        <span key={tech} className="text-xs px-2.5 py-1 rounded bg-slate-900 text-indigo-300 border border-slate-800">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 pt-4 border-t border-slate-900/60">
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                      >
+                        <Github size={14} />
+                        Code
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                      >
+                        <ExternalLink size={14} />
+                        Live Demo
+                      </a>
+                    )}
                   </div>
                 </div>
-                <div className="flex items-center gap-4 pt-4 border-t border-slate-900/60">
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
-                    >
-                      <Github size={14} />
-                      Code
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
-                    >
-                      <ExternalLink size={14} />
-                      Live Demo
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="text-center">
             <Link
@@ -540,16 +610,22 @@ export default function Home() {
       </section>
 
       {/* Latest Blogs Section */}
-      {blogs.length > 0 && (
-        <section id="blog" className="py-24 px-6 bg-slate-950/30 border-t border-slate-900">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
-                Latest Blog Posts
-                <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"></div>
-              </h2>
-            </div>
+      <section id="blog" className="py-24 px-6 bg-slate-950/30 border-t border-slate-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
+              Latest Blog Posts
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"></div>
+            </h2>
+          </div>
 
+          {blogsLoading ? (
+            <BlogsSkeleton />
+          ) : blogs.length === 0 ? (
+            <div className="text-center py-10 bg-slate-900/10 border border-slate-900/40 rounded-2xl mb-12">
+              <p className="text-slate-400">No blog posts found.</p>
+            </div>
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {blogs.map((blog) => (
                 <Link key={blog.id} href={`/blog/${blog.slug}`} className="blog-card glass-card rounded-2xl p-6 hover:-translate-y-1 transition-all flex flex-col justify-between group">
@@ -575,19 +651,19 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+          )}
 
-            <div className="text-center">
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all"
-              >
-                Browse All Posts
-                <ArrowRight size={14} />
-              </Link>
-            </div>
+          <div className="text-center">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all"
+            >
+              Browse All Posts
+              <ArrowRight size={14} />
+            </Link>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 border-t border-slate-900 bg-slate-950/40">
