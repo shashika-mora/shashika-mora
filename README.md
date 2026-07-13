@@ -1,18 +1,18 @@
-<h1 align="center">Hi there, I'm Shashika! 👋</h1>
+<h1 align="center">Hey, I'm Shashika 👋</h1>
 
 <h3 align="center">
-  CSE Undergrad @ University of Moratuwa 🎓 &nbsp;|&nbsp; SW/HW Builder &nbsp;|&nbsp; AI & Agentic Dev &nbsp;|&nbsp; UI/UX Designer &nbsp;|&nbsp; OS Tinkerer 🐧
+  CSE Undergrad @ University of Moratuwa &nbsp;·&nbsp; Builder &nbsp;·&nbsp; Tinkerer &nbsp;·&nbsp; Vibe Coder
 </h3>
+
+<p align="center">
+  I build things — web apps, mobile apps, AI agents, and the occasional Linux kernel patch.<br/>
+  Somewhere between a designer and a systems engineer, always exploring what's next.
+</p>
 
 <p align="center">
   <a href="https://shashika-dev.web.app"><img src="https://img.shields.io/badge/Portfolio-6366f1?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>
   <a href="https://www.linkedin.com/in/shashika-dayarathna-420875359"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
   <a href="mailto:dayarathnaamst.24@uom.lk"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
-</p>
-
-<p align="center">
-  I'm a Computer Science and Engineering undergraduate passionate about building across the <strong>full stack</strong> — from low-level OS kernel patches and embedded hardware to agentic AI systems, polished UI/UX, and production-grade cloud-backed applications.<br/><br/>
-  My development style is grounded in <strong>Pure / Vibe Coding</strong> — diving deep, breaking things intentionally, and iterating fast until it clicks.
 </p>
 
 ---
@@ -53,7 +53,6 @@
 ![Firebase_Auth](https://img.shields.io/badge/Firebase_Auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![Firebase_Hosting](https://img.shields.io/badge/Firebase_Hosting-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![Firebase_RTDB](https://img.shields.io/badge/Realtime_DB-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Firebase_Storage](https://img.shields.io/badge/Firebase_Storage-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![Firebase_Functions](https://img.shields.io/badge/Cloud_Functions-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 
 **Tools & Systems:**
@@ -61,38 +60,31 @@
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![Git](https://img.shields.io/badge/Git_%26_GitHub-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Mermaid.js](https://img.shields.io/badge/Mermaid.js-FF3670?style=for-the-badge&logo=markdown&logoColor=white)
 ![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)
 
 ---
 
-### 🔭 What I'm Building & Exploring
+### 🔭 Currently Into
 
-- 🤖 **Agentic AI Systems** — Building real-world agents using Gemini, Claude, MCP servers and Antigravity IDE for autonomous workflows, code generation, and task automation.
-- 🔥 **Full Firebase Ecosystem** — Deep-diving into Firestore, Auth, Hosting, Cloud Functions, Realtime DB, Storage, Remote Config, and Firebase Security Rules for production-grade deployments.
-- 📱 **Android & Cross-Platform Apps** — Native Android development (Java/Kotlin) alongside Flutter for cross-platform solutions with polished UX.
-- 🎨 **UI/UX Design & Systems** — Designing and implementing premium interface systems: glassmorphism, micro-animations with GSAP, dark-mode-first layouts, and responsive typography.
-- 🧠 **Generative AI & LLM Integration** — Working with Gemini APIs, prompt engineering, retrieval-augmented generation, and embedding AI workflows into full-stack apps.
-- 🐧 **OS & Kernel Engineering** — Custom Linux kernel patching, configuration, and debugging; exploring hardware-software boundaries.
-- 🏗️ **Scalable Backend Systems** — Architecting backends with clean NoSQL schemas, atomic Firestore transactions, and serverless Cloud Functions.
-- 🏆 **Competitive Programming** — Active participant in IEEE Xtreme, hackathons, and algorithmic competitions. Leveling up DSA skills continuously.
-- ✨ **Pure / Vibe Coding** — Turning abstract ideas into working software fast through iterative, instinct-driven development.
+- 🤖 Agentic AI systems and real-world LLM integrations
+- 🔥 The full Firebase ecosystem — from Firestore to Cloud Functions
+- 📱 Android and Flutter mobile development
+- 🎨 UI/UX design and premium interface systems
+- 🐧 OS internals, kernel-level engineering, and hardware-software boundaries
+- ✨ Turning ideas into working software, fast
 
 ---
 
-### ⚡ Outside the Terminal
+### ⚡ Beyond the Code
 
-When I'm not writing scripts or applying patches to an OS, you can find me:
-
-- 📖 Immersing myself in the pages of a good novel.
-- 🎞️ Watching documentaries to learn more about the world.
-- 📚 Studying philosophy and on a continuous journey of finding myself.
+- 📖 Good novels, 🎞️ documentaries, and 📚 philosophy
+- On a continuous journey of finding myself
 
 > *"We suffer more often in imagination than in reality."* — Seneca
 
 ---
 
-### 📫 Connect with me
+### 📫 Connect
 
 <p align="left">
   <a href="mailto:dayarathnaamst.24@uom.lk"><img src="https://img.shields.io/badge/Email_(Work)-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Work" /></a>
