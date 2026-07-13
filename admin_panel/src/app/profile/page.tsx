@@ -33,33 +33,42 @@ export default function ProfileEditor() {
   useEffect(() => {
     async function loadConfig() {
       setLoading(true);
-      const config = await getAboutConfig();
-      if (config) {
-        setName(config.name || '');
-        setRole(config.role || '');
-        setBio(config.bio || '');
-        setSecondaryBio(config.secondaryBio || '');
-        setGithubUrl(config.githubUrl || '');
-        setLinkedinUrl(config.linkedinUrl || '');
-        setContactEmail(config.contactEmail || '');
-        setResumeUrl(config.resumeUrl || '');
-        setAvailabilityStatus(config.availabilityStatus || '');
-        setIsAvailable(config.isAvailable !== false);
-        setAvatarUrl(config.avatarUrl || '');
-        setSkills(config.skills || []);
+      try {
+        const config = await getAboutConfig();
+        if (config) {
+          setName(config.name || '');
+          setRole(config.role || '');
+          setBio(config.bio || '');
+          setSecondaryBio(config.secondaryBio || '');
+          setGithubUrl(config.githubUrl || '');
+          setLinkedinUrl(config.linkedinUrl || '');
+          setContactEmail(config.contactEmail || '');
+          setResumeUrl(config.resumeUrl || '');
+          setAvailabilityStatus(config.availabilityStatus || '');
+          setIsAvailable(config.isAvailable !== false);
+          setAvatarUrl(config.avatarUrl || '');
+          setSkills(config.skills || []);
 
-        if (config.heroPhrases && config.heroPhrases.length > 0) {
-          setHeroPhrases(config.heroPhrases);
-        } else {
-          const parsed = (config.subtitle || '').split(',').map((ph, idx) => ({
-            text: ph.trim(),
-            visible: true,
-            order: idx
-          })).filter(ph => ph.text);
-          setHeroPhrases(parsed);
+          if (config.heroPhrases && config.heroPhrases.length > 0) {
+            setHeroPhrases(config.heroPhrases);
+          } else {
+            const parsed = (config.subtitle || '').split(',').map((ph, idx) => {
+              const textVal = ph ? ph.trim() : '';
+              return {
+                text: textVal,
+                visible: true,
+                order: idx
+              };
+            }).filter(ph => ph.text);
+            setHeroPhrases(parsed);
+          }
         }
+      } catch (err: any) {
+        console.error('Error loading config in editor:', err);
+        setStatus(prev => ({ ...prev, error: err.message || 'Failed to load profile config.' }));
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     loadConfig();
   }, []);

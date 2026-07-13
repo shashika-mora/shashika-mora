@@ -30,28 +30,27 @@ export default function RootLayout({ children }) {
       const isAdminUser = currentUser && currentUser.email?.toLowerCase() === 'admin@shashika.lk';
 
       if (currentUser && !isAdminUser) {
-        // Force log out any unauthorized user accounts
         signOut(auth);
         setUser(null);
         router.replace('/login');
       } else {
         setUser(currentUser);
-        
-        // If user is not logged in and is not on the login page, redirect to login
-        if (!currentUser && pathname !== '/login') {
-          router.replace('/login');
-        } 
-        // If user is logged in and is on the login page, redirect to dashboard root
-        else if (currentUser && pathname === '/login') {
-          router.replace('/');
-        } else {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     });
 
     return () => unsubscribe();
-  }, [pathname, router]);
+  }, [router]);
+
+  useEffect(() => {
+    if (loading) return;
+
+    if (!user && pathname !== '/login') {
+      router.replace('/login');
+    } else if (user && pathname === '/login') {
+      router.replace('/');
+    }
+  }, [user, pathname, loading, router]);
 
   // Render a loading spinner during initial authentication check
   const renderLoading = () => (
