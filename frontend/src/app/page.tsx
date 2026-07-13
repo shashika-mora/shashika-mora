@@ -26,7 +26,7 @@ const parseSkill = (skill: any) => {
 };
 
 const parsePhrases = (subtitle: string) => {
-  if (!subtitle) return ["Building software & solutions", "Exploring intelligent systems", "Solving real-world problems"];
+  if (!subtitle) return ["Building SW/HW solutions", "Exploring intelligent systems", "Solving real-world problems"];
   return subtitle.split(',').map(phrase => {
     let cleaned = phrase.trim();
     if (cleaned.toLowerCase().startsWith('and ')) {
@@ -35,7 +35,7 @@ const parsePhrases = (subtitle: string) => {
     if (cleaned.endsWith('.')) {
       cleaned = cleaned.substring(0, cleaned.length - 1).trim();
     }
-    return cleaned;
+    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
   });
 };
 
@@ -89,7 +89,7 @@ const DEFAULT_ABOUT = {
   name: 'Shashika Dayarathna',
   role: 'Software Engineer & UI Designer',
   title: 'Computer Science & Engineering Undergraduate',
-  subtitle: 'Building software, exploring intelligent systems, and solving real-world problems.',
+  subtitle: 'Building SW/HW solutions, Exploring intelligent systems, Solving real-world problems.',
   bio: "I'm a passionate developer focusing on robust backends, sleek UIs, and systems engineering. From building modern web apps to patching Linux kernels, I thrive on exploring the boundaries of technology.",
   secondaryBio: "With a strong foundation in Computer Science and Engineering from the University of Moratuwa, I've dedicated myself to continuous learning. Whether it's crafting scalable microservices, designing intuitive user experiences, or diving into hardware-level programming, I enjoy tackling complex challenges and delivering impactful solutions.",
   githubUrl: 'https://github.com/shashika-mora',
