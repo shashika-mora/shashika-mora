@@ -118,6 +118,23 @@ export async function getProjects(fetchMode = 'all') { // 'all', 'featured', 'pu
   }
 }
 
+export async function getProjectById(id) {
+  const docRef = doc(db, 'projects', id);
+  try {
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    const data = docSnap.data();
+    return {
+      id: docSnap.id,
+      ...data,
+      createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt,
+    };
+  } catch (error) {
+    console.error('Error getting project by id:', error);
+    return null;
+  }
+}
+
 export async function addProject(projectData) {
   const colRef = collection(db, 'projects');
   return await addDoc(colRef, {

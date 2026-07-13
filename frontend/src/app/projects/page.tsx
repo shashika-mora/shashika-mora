@@ -114,9 +114,9 @@ export default function Projects() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="project-card glass-card rounded-2xl overflow-hidden hover:-translate-y-1.5 transition-all flex flex-col justify-between group"
+              className="project-card glass-card rounded-2xl overflow-hidden hover:-translate-y-1.5 transition-all flex flex-col justify-between group cursor-pointer"
             >
-              <div>
+              <Link href={`/projects/${project.id}`} className="block flex-grow">
                 {project.imageUrl && (
                   <div className="h-48 w-full overflow-hidden mb-4">
                     <img 
@@ -130,7 +130,7 @@ export default function Projects() {
                   <h3 className="font-heading text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-slate-400 text-sm mb-6 leading-relaxed font-light">
+                  <p className="text-slate-400 text-sm mb-6 leading-relaxed font-light line-clamp-3">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-1.5 mb-6">
@@ -144,29 +144,37 @@ export default function Projects() {
                     ))}
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 pt-4 px-6 pb-6 border-t border-slate-900">
-                {project.githubUrl && (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors"
-                  >
-                    <Github size={14} />
-                    Code
-                  </a>
-                )}
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors"
-                  >
-                    <ExternalLink size={14} />
-                    Live Demo
-                  </a>
+              </Link>
+              
+              <div className="flex items-center justify-between pt-4 px-6 pb-6 border-t border-slate-900 bg-slate-950/20">
+                <div className="flex items-center gap-4">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors"
+                    >
+                      <Github size={14} />
+                      Code
+                    </a>
+                  )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors"
+                    >
+                      <ExternalLink size={14} />
+                      Live Demo
+                    </a>
+                  )}
+                </div>
+                {project.longDescription && (
+                  <Link href={`/projects/${project.id}`} className="text-xs font-semibold text-indigo-400 hover:text-indigo-350 transition-colors">
+                    Read Case Study →
+                  </Link>
                 )}
               </div>
             </div>

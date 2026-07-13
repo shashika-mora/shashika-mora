@@ -850,44 +850,62 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
               {projects.map((project) => (
-                <div key={project.id} className="project-card glass-card rounded-2xl p-8 hover:scale-[1.01] transition-all flex flex-col justify-between group">
-                  <div>
-                    <h3 className="font-heading text-2xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.techStack?.map((tech) => (
-                        <span key={tech} className="text-xs px-2.5 py-1 rounded bg-slate-900 text-indigo-300 border border-slate-800">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 pt-4 border-t border-slate-900/60">
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
-                      >
-                        <Github size={14} />
-                        Code
-                      </a>
+                <div key={project.id} className="project-card glass-card rounded-3xl overflow-hidden hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between group cursor-pointer">
+                  <Link href={`/projects/${project.id}`} className="block flex-grow">
+                    {project.imageUrl && (
+                      <div className="h-56 w-full overflow-hidden border-b border-slate-900/60">
+                        <img 
+                          src={project.imageUrl} 
+                          alt={project.title} 
+                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-all duration-700 ease-out"
+                        />
+                      </div>
                     )}
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
-                      >
-                        <ExternalLink size={14} />
-                        Live Demo
-                      </a>
+                    <div className="p-8">
+                      <h3 className="font-heading text-2xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-slate-400 text-sm mb-6 leading-relaxed font-light line-clamp-3">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.techStack?.map((tech) => (
+                          <span key={tech} className="text-xs px-2.5 py-1 rounded bg-slate-900 text-indigo-300 border border-slate-800">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex items-center justify-between px-8 pb-8 pt-4 border-t border-slate-900/60 bg-slate-950/20">
+                    <div className="flex items-center gap-4">
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                        >
+                          <Github size={14} />
+                          Code
+                        </a>
+                      )}
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                        >
+                          <ExternalLink size={14} />
+                          Live Demo
+                        </a>
+                      )}
+                    </div>
+                    {project.longDescription && (
+                      <Link href={`/projects/${project.id}`} className="text-xs font-semibold text-indigo-400 hover:text-indigo-350 transition-colors">
+                        Read Case Study →
+                      </Link>
                     )}
                   </div>
                 </div>
