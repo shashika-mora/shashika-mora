@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { getAboutConfig, getProjects, getBlogs, addMessage } from '../lib/firestore-service';
-import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram } from 'lucide-react';
+import { getAboutConfig, getProjects, getBlogs, getCompetitions, addMessage } from '../lib/firestore-service';
+import { ArrowRight, Mail, Linkedin, Github, ExternalLink, Terminal, Cpu, Layers, BookOpen, Send, CheckCircle, Facebook, Instagram, Trophy } from 'lucide-react';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -104,6 +104,56 @@ const DEFAULT_ABOUT = {
   ]
 };
 
+const DEFAULT_COMPETITIONS = [
+  {
+    id: 'comp-1',
+    title: 'IEEEXtreme 19.0',
+    award: 'Global Rank 45 | Country Rank 1',
+    date: 'Oct 2025',
+    description: 'Led a team of three to secure Global Rank 45 out of 8000+ teams in a 24-hour programming hackathon organized by IEEE. Solved complex algorithmic problems under time constraints.',
+    imageUrl: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=500&auto=format&fit=crop&q=60',
+    imageUrl2: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60',
+    link: 'https://ieeextreme.org',
+    order: 0
+  },
+  {
+    id: 'comp-2',
+    title: 'Mora Hack 2025',
+    award: 'Winner (1st Place)',
+    date: 'July 2025',
+    description: 'Designed and developed an AI-driven disaster response system within 36 hours. Focused on real-time routing algorithms for emergency vehicles and offline mobile communication protocols.',
+    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60',
+    imageUrl2: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&auto=format&fit=crop&q=60',
+    link: 'https://morahack.lk',
+    order: 1
+  }
+];
+
+function CompetitionsSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      {[1, 2].map((i) => (
+        <div key={i} className="glass-card rounded-2xl p-8 border border-slate-900/40 animate-pulse space-y-6">
+          <div className="flex justify-between items-start">
+            <div className="h-6 bg-slate-800 rounded-lg w-1/3"></div>
+            <div className="h-4 bg-slate-800 rounded-lg w-16"></div>
+          </div>
+          <div className="h-5 bg-slate-800 rounded-lg w-1/2"></div>
+          <div className="space-y-2">
+            <div className="h-4 bg-slate-800 rounded-lg w-full"></div>
+            <div className="h-4 bg-slate-800 rounded-lg w-5/6"></div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-32 bg-slate-800 rounded-lg"></div>
+            <div className="h-32 bg-slate-800 rounded-lg"></div>
+          </div>
+          <div className="h-6 bg-slate-800 rounded-lg w-1/4 pt-4 border-t border-slate-900"></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function ProjectsSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
@@ -149,10 +199,12 @@ export default function Home() {
   const [about, setAbout] = useState(DEFAULT_ABOUT);
   const [projects, setProjects] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [competitions, setCompetitions] = useState(DEFAULT_COMPETITIONS);
   
   const [aboutLoading, setAboutLoading] = useState(true);
   const [projectsLoading, setProjectsLoading] = useState(true);
   const [blogsLoading, setBlogsLoading] = useState(true);
+  const [competitionsLoading, setCompetitionsLoading] = useState(true);
 
   const containerRef = useRef(null);
 
@@ -187,6 +239,15 @@ export default function Home() {
       console.error(err);
       setBlogsLoading(false);
     });
+
+    // 4. Fetch Competitions
+    getCompetitions().then(data => {
+      if (data && data.length > 0) setCompetitions(data);
+      setCompetitionsLoading(false);
+    }).catch(err => {
+      console.error(err);
+      setCompetitionsLoading(false);
+    });
   }, []);
 
   // Recalculate ScrollTrigger on content load
@@ -194,7 +255,7 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       ScrollTrigger.refresh();
     }
-  }, [about, projects, blogs]);
+  }, [about, projects, blogs, competitions]);
 
   useGSAP(() => {
     if (!about) return;
@@ -332,7 +393,31 @@ export default function Home() {
       }
     });
 
-  }, { scope: containerRef, dependencies: [about, projects, blogs, aboutLoading, projectsLoading, blogsLoading] });
+    // Competitions Section
+    gsap.fromTo('#competitions .section-title', { opacity: 0, y: 20 }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      clearProps: 'all',
+      scrollTrigger: {
+        trigger: '#competitions',
+        start: 'top 85%',
+      }
+    });
+    gsap.fromTo('.competition-card', { opacity: 0, y: 30 }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      clearProps: 'all',
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: '.competition-card',
+        start: 'top 85%',
+      }
+    });
+
+  }, { scope: containerRef, dependencies: [about, projects, blogs, competitions, aboutLoading, projectsLoading, blogsLoading, competitionsLoading] });
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
@@ -606,6 +691,77 @@ export default function Home() {
               <ArrowRight size={14} />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Competitions Section */}
+      <section id="competitions" className="py-24 px-6 border-t border-slate-900 bg-slate-950/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16 flex flex-col items-center">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
+              Competitions & Achievements
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 to-indigo-500 rounded-full opacity-60"></div>
+            </h2>
+            <p className="text-slate-400 mt-4 max-w-xl">
+              Competitive coding milestones, hackathons, and software creation challenges I've participated in.
+            </p>
+          </div>
+
+          {competitionsLoading ? (
+            <CompetitionsSkeleton />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {competitions.map((comp) => (
+                <div key={comp.id} className="competition-card glass-card rounded-2xl p-8 hover:scale-[1.01] transition-all flex flex-col justify-between group">
+                  <div>
+                    <div className="flex justify-between items-start gap-4 mb-2">
+                      <h3 className="font-heading text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+                        {comp.title}
+                      </h3>
+                      <span className="text-xs text-slate-500 font-mono shrink-0">{comp.date}</span>
+                    </div>
+                    <div className="mb-4">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded bg-indigo-950/30 text-indigo-300 border border-indigo-900/30 text-xs font-medium">
+                        🏆 {comp.award}
+                      </span>
+                    </div>
+                    <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                      {comp.description}
+                    </p>
+                    
+                    {/* 2 Images side by side */}
+                    {(comp.imageUrl || comp.imageUrl2) && (
+                      <div className="grid grid-cols-2 gap-4 mt-4 mb-2 rounded-xl overflow-hidden">
+                        {comp.imageUrl && (
+                          <div className="h-32 sm:h-40 overflow-hidden relative rounded-lg border border-slate-900">
+                            <img src={comp.imageUrl} alt={`${comp.title} visual 1`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        )}
+                        {comp.imageUrl2 && (
+                          <div className="h-32 sm:h-40 overflow-hidden relative rounded-lg border border-slate-900">
+                            <img src={comp.imageUrl2} alt={`${comp.title} visual 2`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {comp.link && (
+                    <div className="flex items-center gap-2 pt-4 border-t border-slate-900/60 mt-6">
+                      <a
+                        href={comp.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                      >
+                        <ExternalLink size={14} />
+                        View Event Details
+                      </a>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

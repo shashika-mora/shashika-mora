@@ -85,7 +85,24 @@ Stores educational timeline milestones.
 
 ---
 
-### 1.5 Collection: `messages`
+### 1.5 Collection: `competitions`
+Stores competition wins, hackathons, and rankings.
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `title` | `string` | Competition title. |
+| `award` | `string` | Award or ranking (e.g. `"Winner (1st Place)"`). |
+| `description` | `string` | Detailed description of the event and accomplishment. |
+| `imageUrl` | `string` | Primary visual image link. |
+| `imageUrl2` | `string` | Secondary visual image link. |
+| `link` | `string` | (Optional) External event link. |
+| `date` | `string` | Month and year of competition (e.g. `"Oct 2025"`). |
+| `order` | `integer`| Sequencing index for sorting. |
+| `createdAt` | `timestamp`| Creation timestamp. |
+
+---
+
+### 1.6 Collection: `messages`
 Stores contact form submissions received from the landing page.
 
 | Property | Type | Description |
@@ -103,7 +120,7 @@ Stores contact form submissions received from the landing page.
 
 Access control is strictly managed at the database level to ensure public visitors cannot alter your portfolio data, while letting them submit message inquiries:
 
-*   **Public Reads**: Granted to `blogs`, `projects`, `academics`, and `/config/about`.
+*   **Public Reads**: Granted to `blogs`, `projects`, `academics`, `competitions`, and `/config/about`.
 *   **Public Writes**: Denied across all public documents. Only authorized accounts authenticated with `admin@shashika.lk` are allowed to write or modify documents.
 *   **Form Submissions**: Public users are granted `create` access on the `/messages` collection. The write operation undergoes rigid schema validation (email regex format, character size limits, field list whitelist) before acceptance. Public reads, updates, and deletes on messages are fully blocked.
 
@@ -126,6 +143,10 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     match /academics/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /competitions/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
     }

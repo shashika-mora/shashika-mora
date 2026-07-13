@@ -12,7 +12,8 @@ import {
   Mail,
   User,
   LogOut,
-  ExternalLink
+  ExternalLink,
+  Trophy
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -25,6 +26,7 @@ export default function AdminSidebar() {
     { name: 'Blogs', path: '/blogs', icon: FileText },
     { name: 'Projects', path: '/projects', icon: Briefcase },
     { name: 'Academic', path: '/academics', icon: GraduationCap },
+    { name: 'Competitions', path: '/competitions', icon: Trophy },
     { name: 'Messages', path: '/messages', icon: Mail },
     { name: 'Profile Settings', path: '/profile', icon: User },
   ];

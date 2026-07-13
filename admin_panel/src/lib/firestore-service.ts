@@ -231,3 +231,41 @@ export async function deleteMessage(id) {
   const docRef = doc(db, 'messages', id);
   return await deleteDoc(docRef);
 }
+
+// --- COMPETITIONS ---
+export async function getCompetitions() {
+  const colRef = collection(db, 'competitions');
+  try {
+    const q = query(colRef, orderBy('order', 'asc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt,
+      };
+    });
+  } catch (error) {
+    console.error('Error getting competitions:', error);
+    return [];
+  }
+}
+
+export async function addCompetition(competitionData) {
+  const colRef = collection(db, 'competitions');
+  return await addDoc(colRef, {
+    ...competitionData,
+    createdAt: serverTimestamp(),
+  });
+}
+
+export async function updateCompetition(id, competitionData) {
+  const docRef = doc(db, 'competitions', id);
+  return await updateDoc(docRef, competitionData);
+}
+
+export async function deleteCompetition(id) {
+  const docRef = doc(db, 'competitions', id);
+  return await deleteDoc(docRef);
+}

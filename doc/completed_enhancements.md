@@ -54,3 +54,12 @@ The user-facing site has been upgraded to deliver a premium, responsive, and rel
 
 ## 4. HEIC Image Pipeline
 *   **Format Conversion**: The raw HEIC image (`IMG_6814.HEIC`) was converted into a standard `hero.jpg` (JPEG) using a custom `heic-convert` Node pipeline to ensure compatibility across Chrome, Safari, Firefox, and mobile browsers.
+
+---
+
+## 5. Competitions & Achievements Integration
+*   **Database Schema & Rules**: Added a new Firestore collection `competitions` and configured appropriate security rules in `firestore.rules` to allow read-access to guests and write-access to administrators.
+*   **Admin Panel Manager**: Created a new page `admin_panel/src/app/competitions/page.tsx` displaying existing competitions in an interactive layout and providing forms for creating, editing, and deleting records. Added input fields for Primary and Secondary image URLs to showcase trophy/event and team photos.
+*   **Sidebar Navigation**: Added a link to the Competitions page with a Trophy icon in `AdminSidebar.tsx`.
+*   **Frontend Section**: Added a new section `Competitions & Achievements` on the main page layout, displaying a grid of competition wins. If multiple images are provided, it renders them in a two-column grid inside the card. Implemented skeleton loading with `CompetitionsSkeleton` and GSAP scroll animations.
+
