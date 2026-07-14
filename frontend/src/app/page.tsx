@@ -340,12 +340,15 @@ export default function Home() {
     }
   }, []);
 
-  // Recalculate ScrollTrigger on content load
+  // Recalculate ScrollTrigger once after initial data load — delayed to avoid scroll jump
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      ScrollTrigger.refresh();
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 800);
+      return () => clearTimeout(timer);
     }
-  }, [about, projects, blogs, competitions, thoughts, skills]);
+  }, []);
 
   // 1. Hero Animations (Runs exactly once on mount, preventing double-animation flash)
   useGSAP(() => {
@@ -722,26 +725,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-24 px-6 relative bg-slate-950/40">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
-              About Me
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full opacity-60"></div>
-            </h2>
-          </div>
-
-          <div className="about-card glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
-              <Terminal size={144} className="text-white" />
-            </div>
-            <div className="relative z-10">
-              <MarkdownRenderer content={about.secondaryBio || about.bio} />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Tech Stack Section */}
       <section id="skills" className="py-24 px-6 relative border-y border-slate-900 bg-slate-950/20">
@@ -1006,6 +989,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Latest Blogs Section */}
+      <section id="blog" className="py-24 px-6 bg-slate-950/30 border-t border-slate-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
+              Latest Blog Posts
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"></div>
+            </h2>
+          </div>
+
+          {blogsLoading ? (
+            <BlogsSkeleton />
+          ) : blogs.length === 0 ? (
+            <div className="text-center py-10 bg-slate-900/10 border border-slate-900/40 rounded-2xl mb-12">
+              <p className="text-slate-400">No blog posts found.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              {blogs.map((blog) => (
+                <Link key={blog.id} href={`/blog/${blog.slug}`} className="blog-card glass-card rounded-2xl p-6 hover:-translate-y-1 transition-all flex flex-col justify-between group">
+                  <div>
+                    {blog.imageUrl && (
+                      <div className="w-full h-48 rounded-xl overflow-hidden mb-4">
+                        <img src={blog.imageUrl} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                    )}
+                    <h3 className="font-heading text-lg font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
+                      {blog.title}
+                    </h3>
+                    <p className="text-slate-400 text-xs mb-4">
+                      {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString()}
+                    </p>
+                    <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                      {blog.summary}
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold text-indigo-400 group-hover:underline flex items-center gap-1 mt-4">
+                    Read Post <ArrowRight size={12} />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all"
+            >
+              Browse All Posts
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Thoughts Section */}
       <section id="thoughts" className="py-24 px-6 border-t border-slate-900 bg-slate-950/10">
         <div className="max-w-4xl mx-auto">
@@ -1087,58 +1126,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Latest Blogs Section */}
-      <section id="blog" className="py-24 px-6 bg-slate-950/30 border-t border-slate-900">
-        <div className="max-w-6xl mx-auto">
+      {/* About Section */}
+      <section id="about" className="py-24 px-6 relative bg-slate-950/40">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="section-title font-heading text-2xl md:text-4xl font-black mb-4 relative inline-block text-white">
-              Latest Blog Posts
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"></div>
+              About Me
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full opacity-60"></div>
             </h2>
           </div>
 
-          {blogsLoading ? (
-            <BlogsSkeleton />
-          ) : blogs.length === 0 ? (
-            <div className="text-center py-10 bg-slate-900/10 border border-slate-900/40 rounded-2xl mb-12">
-              <p className="text-slate-400">No blog posts found.</p>
+          <div className="about-card glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+              <Terminal size={144} className="text-white" />
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {blogs.map((blog) => (
-                <Link key={blog.id} href={`/blog/${blog.slug}`} className="blog-card glass-card rounded-2xl p-6 hover:-translate-y-1 transition-all flex flex-col justify-between group">
-                  <div>
-                    {blog.imageUrl && (
-                      <div className="w-full h-48 rounded-xl overflow-hidden mb-4">
-                        <img src={blog.imageUrl} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      </div>
-                    )}
-                    <h3 className="font-heading text-lg font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
-                      {blog.title}
-                    </h3>
-                    <p className="text-slate-400 text-xs mb-4">
-                      {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString()}
-                    </p>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                      {blog.summary}
-                    </p>
-                  </div>
-                  <span className="text-xs font-semibold text-indigo-400 group-hover:underline flex items-center gap-1 mt-4">
-                    Read Post <ArrowRight size={12} />
-                  </span>
-                </Link>
-              ))}
+            <div className="relative z-10">
+              <MarkdownRenderer content={about.secondaryBio || about.bio} />
             </div>
-          )}
-
-          <div className="text-center">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all"
-            >
-              Browse All Posts
-              <ArrowRight size={14} />
-            </Link>
           </div>
         </div>
       </section>
