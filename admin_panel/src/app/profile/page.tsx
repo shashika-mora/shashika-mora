@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getAboutConfig, updateAboutConfig } from '../../lib/firestore-service';
-import { Save, User, Github, Linkedin, Mail, Cpu, Plus, X, CheckCircle, AlertCircle, ArrowUp, ArrowDown, Eye, EyeOff, Trash2 } from 'lucide-react';
+import { Save, User, Github, Linkedin, Mail, Plus, X, CheckCircle, AlertCircle, ArrowUp, ArrowDown, Eye, EyeOff, Trash2 } from 'lucide-react';
 
 export default function ProfileEditor() {
   const [loading, setLoading] = useState(true);
@@ -21,14 +21,10 @@ export default function ProfileEditor() {
   const [isAvailable, setIsAvailable] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState('');
 
+
   // Hero Phrases Manager
   const [heroPhrases, setHeroPhrases] = useState([]);
   const [newPhraseText, setNewPhraseText] = useState('');
-
-  // Skills Manager
-  const [skills, setSkills] = useState([]);
-  const [newSkillName, setNewSkillName] = useState('');
-  const [newSkillIcon, setNewSkillIcon] = useState('');
 
   useEffect(() => {
     async function loadConfig() {
@@ -47,7 +43,6 @@ export default function ProfileEditor() {
           setAvailabilityStatus(config.availabilityStatus || '');
           setIsAvailable(config.isAvailable !== false);
           setAvatarUrl(config.avatarUrl || '');
-          setSkills(config.skills || []);
 
           if (config.heroPhrases && config.heroPhrases.length > 0) {
             setHeroPhrases(config.heroPhrases);
@@ -72,30 +67,6 @@ export default function ProfileEditor() {
     }
     loadConfig();
   }, []);
-
-  const handleAddSkill = () => {
-    if (newSkillName.trim()) {
-      const skillObj = {
-        name: newSkillName.trim(),
-        iconUrl: newSkillIcon.trim()
-      };
-      
-      const exists = skills.some(s => {
-        const parsed = typeof s === 'string' ? { name: s } : s;
-        return parsed.name?.toLowerCase() === skillObj.name.toLowerCase();
-      });
-
-      if (!exists) {
-        setSkills(prev => [...prev, skillObj]);
-        setNewSkillName('');
-        setNewSkillIcon('');
-      }
-    }
-  };
-
-  const handleRemoveSkill = (skillToRemove) => {
-    setSkills(prev => prev.filter(s => s !== skillToRemove));
-  };
 
   const handleAddPhrase = () => {
     if (newPhraseText.trim()) {
@@ -150,7 +121,6 @@ export default function ProfileEditor() {
       availabilityStatus,
       isAvailable,
       avatarUrl,
-      skills,
       heroPhrases,
       subtitle: heroPhrases.filter(ph => ph.visible).map(ph => ph.text).join(', ')
     };
@@ -179,7 +149,7 @@ export default function ProfileEditor() {
       {/* Header */}
       <div className="pb-6 border-b border-slate-900">
         <h1 className="font-heading text-3xl font-extrabold text-white">Profile Settings</h1>
-        <p className="text-slate-400 text-sm mt-1">Configure details, bio text, social handles, and technical skills.</p>
+        <p className="text-slate-400 text-sm mt-1">Configure details, bio text, social handles, and hero phrases.</p>
       </div>
 
       {status.success && (
@@ -196,9 +166,9 @@ export default function ProfileEditor() {
         </div>
       )}
 
-      <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column: Basic Info */}
-        <div className="lg:col-span-2 space-y-8">
+      <form onSubmit={handleSave} className="space-y-8">
+        {/* Main Content */}
+        <div className="space-y-8">
           <div className="glass-card p-8 rounded-2xl space-y-6">
             <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
               <User size={18} className="text-indigo-400" />
@@ -423,75 +393,7 @@ export default function ProfileEditor() {
               )}
             </div>
           </div>
-        </div>
 
-        {/* Right Column: Skills & Submit */}
-        <div className="space-y-8">
-          {/* Skills Panel */}
-          <div className="glass-card p-8 rounded-2xl space-y-6">
-            <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
-              <Cpu size={18} className="text-indigo-400" />
-              Technical Stack Skills
-            </h3>
-
-             <div className="space-y-3">
-              <input
-                type="text"
-                value={newSkillName}
-                onChange={(e) => setNewSkillName(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
-                placeholder="Skill name (e.g. React)"
-              />
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newSkillIcon}
-                  onChange={(e) => setNewSkillIcon(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSkill())}
-                  className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
-                  placeholder="Icon URL (e.g. https://...)"
-                />
-                <button
-                  type="button"
-                  onClick={handleAddSkill}
-                  className="px-4 rounded-xl bg-indigo-650 hover:bg-indigo-600 text-white text-xs font-semibold transition-all"
-                >
-                  <Plus size={16} />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 pt-2">
-              {skills.length === 0 ? (
-                <p className="text-slate-500 text-xs py-2">No skills configured.</p>
-              ) : (
-                skills.map((skill, index) => {
-                  const name = typeof skill === 'string' ? skill : skill.name || '';
-                  const iconUrl = typeof skill === 'string' ? '' : skill.iconUrl || '';
-                  return (
-                    <span
-                      key={index}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300"
-                    >
-                      {iconUrl && (
-                        <img src={iconUrl} alt={name} className="w-3.5 h-3.5 object-contain rounded-sm" />
-                      )}
-                      {name}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveSkill(skill)}
-                        className="text-slate-500 hover:text-pink-400 transition-colors"
-                      >
-                        <X size={12} />
-                      </button>
-                    </span>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-          {/* Action Button */}
           <button
             type="submit"
             disabled={status.loading}
