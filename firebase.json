@@ -19,11 +19,11 @@
       "rewrites": [
         {
           "source": "/blog/**",
-          "destination": "/blog/magic-of-vibe-coding.html"
+          "destination": "/blog.html"
         },
         {
           "source": "/projects/**",
-          "destination": "/projects/buslk.html"
+          "destination": "/projects.html"
         }
       ],
       "headers": [
