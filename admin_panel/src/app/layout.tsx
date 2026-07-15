@@ -27,7 +27,8 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      const isAdminUser = currentUser && currentUser.email?.toLowerCase() === 'admin@shashika.lk';
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || '';
+      const isAdminUser = currentUser && currentUser.email?.toLowerCase() === adminEmail.toLowerCase();
 
       if (currentUser && !isAdminUser) {
         signOut(auth);
