@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { getBlogBySlug } from '../../../lib/firestore-service';
 import { Calendar, Tag, ArrowLeft, ArrowRight, User } from 'lucide-react';
 import Link from 'next/link';
@@ -86,14 +87,16 @@ Vibe coding is not about being lazy—it's about leveraging raw curiosity to bui
   }
 };
 
-export default function BlogPostClient({ params }) {
-  const resolvedParams = use(params);
-  const slug = resolvedParams.slug;
+export default function BlogPostClient({ params }: { params: any }) {
+  const pathname = usePathname();
+  // Read slug from the live URL — works for pre-built AND newly-added posts
+  const slug = pathname?.split('/').filter(Boolean).pop() || '';
 
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!slug) return;
     async function loadPost() {
       const data = await getBlogBySlug(slug);
       if (data) {

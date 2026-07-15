@@ -1,19 +1,22 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { getProjectById } from '../../../lib/firestore-service';
 import { Calendar, Tag, ArrowLeft, ExternalLink, Github, Info } from 'lucide-react';
 import Link from 'next/link';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
 
-export default function ProjectDetailClient({ params }) {
-  const resolvedParams = use(params);
-  const id = resolvedParams.id;
+export default function ProjectDetailClient({ params }: { params: any }) {
+  const pathname = usePathname();
+  // Read id from the live URL — works for pre-built AND newly-added projects
+  const id = pathname?.split('/').filter(Boolean).pop() || '';
 
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id) return;
     async function loadProject() {
       const data = await getProjectById(id);
       if (data) {
