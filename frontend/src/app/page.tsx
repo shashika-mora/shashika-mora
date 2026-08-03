@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import {
   getAboutConfig, getProjects, getBlogs, getCompetitions,
-  addMessage, getThoughts, updateThoughtVote, getSkills
+  getThoughts, updateThoughtVote, getSkills
 } from '../lib/firestore-service';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
@@ -83,7 +83,7 @@ function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: str
   }, [currentText, isDeleting, currentPhraseIdx, phrases, typingSpeed]);
 
   return (
-    <span style={{ color: 'var(--dp-gold-bright)', fontWeight: 600, textShadow: '0 0 14px rgba(255, 215, 0, 0.4)' }}>
+    <span style={{ color: 'var(--dp-gold-bright)', fontWeight: 700, fontSize: '1.25rem', textShadow: '0 0 14px rgba(255, 215, 0, 0.4)' }}>
       {currentText}
       <span aria-hidden="true" style={{ borderRight: '2px solid var(--dp-gold-bright)', marginLeft: '4px', animation: 'pulse 1s step-end infinite' }} />
     </span>
@@ -91,10 +91,10 @@ function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: str
 }
 
 /* ═══════════════════════════════════════════════════════
-   DEFAULTS (shown until Firestore loads)
+   DEFAULTS
    ═══════════════════════════════════════════════════════ */
 const DEFAULT_ABOUT = {
-  name: 'Shashika Dayarathna',
+  name: 'Shashika',
   role: 'Software Engineer · UI/UX Designer · AI & Agentic Dev',
   title: 'CSE Undergraduate @ University of Moratuwa',
   subtitle: 'Building software and hardware solutions, Solving real-world problems, Exploring intelligent systems, Learning through projects and experimentation, Turning ideas into practical systems.',
@@ -141,7 +141,6 @@ const DEFAULT_COMPETITIONS = [
    HOME PAGE
    ═══════════════════════════════════════════════════════ */
 export default function Home() {
-  // Data state — initialized with DEFAULT_ABOUT to ensure stable layout
   const [about, setAbout]               = useState<any>(DEFAULT_ABOUT);
   const [projects, setProjects]         = useState<any[]>([]);
   const [blogs, setBlogs]               = useState<any[]>([]);
@@ -149,7 +148,6 @@ export default function Home() {
   const [thoughts, setThoughts]         = useState<any[]>([]);
   const [skills, setSkills]             = useState<any[]>([]);
 
-  // Loading state
   const [aboutLoading, setAboutLoading]               = useState(true);
   const [projectsLoading, setProjectsLoading]         = useState(true);
   const [blogsLoading, setBlogsLoading]               = useState(true);
@@ -157,23 +155,18 @@ export default function Home() {
   const [thoughtsLoading, setThoughtsLoading]         = useState(true);
   const [skillsLoading, setSkillsLoading]             = useState(true);
 
-  // Vote state
   const [votes, setVotes] = useState<Record<string, 'like' | 'dislike'>>({});
-
-  // Loader state
   const [loaderDone, setLoaderDone] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Data fetching (Preserved exact Firestore calls, safely merged with defaults)
   useEffect(() => {
     getAboutConfig().then(data => {
       if (data) {
         setAbout((prev: any) => ({
           ...DEFAULT_ABOUT,
           ...data,
-          // Guarantee core layout strings are never empty/undefined
-          name: data.name || DEFAULT_ABOUT.name,
+          name: data.name ? (data.name.includes('Shashika') ? 'Shashika' : data.name) : DEFAULT_ABOUT.name,
           title: data.title || DEFAULT_ABOUT.title,
           availabilityStatus: data.availabilityStatus || DEFAULT_ABOUT.availabilityStatus,
         }));
@@ -225,18 +218,18 @@ export default function Home() {
     return () => clearTimeout(t);
   }, []);
 
-  // Hero entrance animation — runs once when loaderDone is true
+  // Entrance animation — clean opacity reveal without scaling container
   useGSAP(() => {
     if (!loaderDone) return;
     gsap.timeline()
-      .fromTo('.dp-hero-badge',  { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' })
-      .fromTo('.dp-hero-title',  { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
-      .fromTo('.dp-hero-sub-line', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' }, '-=0.4')
-      .fromTo('.dp-hero-btn',    { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
-      .fromTo('.dp-hero-avatar', { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.7, ease: 'power2.out', clearProps: 'all' }, '-=0.5');
+      .fromTo('.dp-hero-badge',    { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' })
+      .fromTo('.dp-hero-title',    { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.dp-hero-sub-text', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' }, '-=0.4')
+      .fromTo('.dp-hero-btn',      { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.dp-hero-avatar',   { opacity: 0 },         { opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'all' }, '-=0.5');
   }, { scope: containerRef, dependencies: [loaderDone] });
 
-  // Scroll reveal animations for sections below hero
+  // Scroll reveal for sections below hero
   useGSAP(() => {
     if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading && thoughtsLoading) return;
 
@@ -261,7 +254,6 @@ export default function Home() {
     if (!thoughtsLoading)      revealStagger('.thought-card');
   }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading, thoughtsLoading, skillsLoading] });
 
-  // Vote handler
   const handleVote = async (id: string, type: 'like' | 'dislike') => {
     const currentVote = votes[id];
     let updates: Record<string, number> = {};
@@ -309,7 +301,7 @@ export default function Home() {
       <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
 
         {/* ════════════════════════════════════════
-            HERO SECTION — PERMANENT LARGE DESIGN
+            HERO SECTION — EXACT MATCH TO DESIGN
             ════════════════════════════════════════ */}
         <section
           style={{
@@ -327,30 +319,30 @@ export default function Home() {
               maxWidth: '1280px',
               width: '100%',
               margin: '0 auto',
-              display: 'grid',
-              gridTemplateColumns: '1fr 340px',
-              gap: '64px',
+              display: 'flex',
               alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '48px',
               position: 'relative',
               zIndex: 1,
             }}
           >
-            {/* Text column — Stable large typography */}
-            <div style={{ width: '100%', maxWidth: '720px' }}>
-              {/* Availability badge */}
+            {/* Left text column — pure obsidian background, NO red-orange glow box */}
+            <div style={{ flex: '1 1 0%', maxWidth: '720px' }}>
+
+              {/* Availability status badge */}
               <div
                 className="dp-hero-badge"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '10px',
-                  padding: '7px 18px 7px 14px',
-                  background: 'rgba(25, 21, 18, 0.85)',
+                  padding: '6px 16px 6px 12px',
+                  background: 'rgba(20, 17, 15, 0.9)',
                   border: '1px solid var(--dp-border)',
                   borderRadius: '4px',
-                  marginBottom: '28px',
-                  boxShadow: '0 0 15px rgba(0,0,0,0.5)',
-                  backdropFilter: 'blur(8px)',
+                  marginBottom: '24px',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.5)',
                 }}
               >
                 <span style={{ position: 'relative', display: 'flex', width: '9px', height: '9px' }}>
@@ -375,21 +367,21 @@ export default function Home() {
                     }}
                   />
                 </span>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--dp-gold-soft)' }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--dp-gold-soft)' }}>
                   {about.availabilityStatus || 'Available for Opportunities'}
                 </span>
               </div>
 
-              {/* Theme tagline overline */}
+              {/* Tagline overline */}
               <p
-                className="dp-hero-sub-line"
+                className="dp-hero-sub-text"
                 style={{
-                  fontSize: '0.8rem',
+                  fontSize: '0.82rem',
                   fontWeight: 800,
-                  letterSpacing: '0.24em',
+                  letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: 'var(--dp-gold-bright)',
-                  marginBottom: '14px',
+                  marginBottom: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
@@ -399,33 +391,40 @@ export default function Home() {
                 IDEAS HATCH HERE. SYSTEMS TAKE FLIGHT.
               </p>
 
-              {/* Main title heading — Large permanent scale */}
+              {/* Main Heading — HUGE bold text */}
               <h1
                 className="dp-hero-title"
                 style={{
                   fontFamily: 'var(--font-heading, Georgia, serif)',
-                  fontSize: 'clamp(3.2rem, 6.2vw, 5.2rem)',
+                  fontSize: 'clamp(3.5rem, 6.5vw, 5.5rem)',
                   fontWeight: 900,
-                  lineHeight: 1.08,
+                  lineHeight: 1.05,
                   letterSpacing: '-0.02em',
                   color: '#ffffff',
-                  marginBottom: '18px',
+                  marginBottom: '20px',
                 }}
               >
                 {"Hi, I'm"}{' '}
-                <span className="dp-title-gradient">
-                  {about.name || 'Shashika Dayarathna'}.
+                <span
+                  style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #ffd700 35%, #ff5a13 70%, #e62e2e 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    display: 'inline-block',
+                  }}
+                >
+                  Shashika.
                 </span>
               </h1>
 
-              {/* Professional subtitle */}
+              {/* Professional Subtitle */}
               <p
-                className="dp-hero-sub-line"
+                className="dp-hero-sub-text"
                 style={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.25rem',
                   color: 'var(--dp-smoke)',
                   lineHeight: 1.7,
-                  marginBottom: '14px',
+                  marginBottom: '16px',
                   fontWeight: 500,
                 }}
               >
@@ -434,33 +433,33 @@ export default function Home() {
 
               {/* Dynamic Typewriter text */}
               <p
-                className="dp-hero-sub-line"
-                style={{ fontSize: '1.18rem', color: 'var(--dp-text)', marginBottom: '44px', minHeight: '2.2em' }}
+                className="dp-hero-sub-text"
+                style={{ fontSize: '1.25rem', color: 'var(--dp-text)', marginBottom: '44px', minHeight: '2.2em' }}
               >
                 <TypewriterEffect subtitle={about.subtitle} phrases={about.heroPhrases} />
               </p>
 
-              {/* Action Buttons — Prominent CTAs */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px' }}>
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px', alignItems: 'center' }}>
                 {about.resumeUrl ? (
                   <a
                     href={about.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="dp-hero-btn dp-btn-primary"
-                    style={{ padding: '16px 36px', fontSize: '0.95rem' }}
+                    style={{ padding: '16px 36px', fontSize: '0.95rem', fontWeight: 700 }}
                   >
                     Download CV 📜
                   </a>
                 ) : (
-                  <span className="dp-hero-btn dp-btn-disabled" title="CV Coming Soon" style={{ padding: '16px 36px', fontSize: '0.95rem' }}>
+                  <span className="dp-hero-btn dp-btn-disabled" title="CV Coming Soon" style={{ padding: '16px 36px', fontSize: '0.95rem', fontWeight: 700 }}>
                     Download CV 📜
                   </span>
                 )}
                 <a
                   href="#contact"
                   className="dp-hero-btn dp-btn-secondary"
-                  style={{ padding: '16px 36px', fontSize: '0.95rem' }}
+                  style={{ padding: '16px 36px', fontSize: '0.95rem', fontWeight: 700 }}
                 >
                   Send a Raven 🗡️
                   <ArrowRight size={16} aria-hidden="true" />
@@ -468,35 +467,22 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Profile Avatar Frame */}
+            {/* Profile Avatar Frame — Right side fixed 340px width */}
             <div
               className="dp-hero-avatar"
               style={{ position: 'relative', flexShrink: 0, width: '340px', height: '400px' }}
             >
-              {/* Gold & Blood Red Aura */}
-              <div
-                aria-hidden="true"
-                style={{
-                  position: 'absolute',
-                  inset: '-12px',
-                  background: 'linear-gradient(135deg, var(--dp-blood), var(--dp-ember), var(--dp-gold-bright))',
-                  borderRadius: '8px',
-                  opacity: 0.45,
-                  filter: 'blur(14px)',
-                }}
-              />
-
               {/* Image frame */}
               <div
                 style={{
                   position: 'relative',
                   width: '340px',
                   height: '400px',
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   overflow: 'hidden',
-                  border: '1px solid var(--dp-border)',
-                  background: 'var(--dp-charcoal)',
-                  boxShadow: '0 15px 40px rgba(0,0,0,0.8)',
+                  border: '1px solid rgba(212, 175, 55, 0.4)',
+                  background: '#120f0d',
+                  boxShadow: '0 15px 40px rgba(0,0,0,0.9), 0 0 25px rgba(212, 175, 55, 0.25)',
                 }}
               >
                 <img
@@ -534,7 +520,7 @@ export default function Home() {
                 >
                   <span
                     style={{
-                      fontSize: '0.68rem',
+                      fontSize: '0.72rem',
                       fontWeight: 800,
                       letterSpacing: '0.18em',
                       textTransform: 'uppercase',
@@ -550,16 +536,16 @@ export default function Home() {
               <div
                 style={{
                   position: 'absolute',
-                  bottom: '-20px',
-                  right: '-20px',
-                  background: 'var(--dp-obsidian)',
-                  border: '1px solid var(--dp-border)',
+                  bottom: '-18px',
+                  right: '-18px',
+                  background: '#0a0807',
+                  border: '1px solid rgba(212, 175, 55, 0.4)',
                   borderRadius: '6px',
                   padding: '10px 14px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.8)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.9)',
                 }}
               >
                 <DragonSigil size={26} glowing />
@@ -628,15 +614,19 @@ export default function Home() {
           75%  { transform: scale(2.2); opacity: 0; }
           100% { opacity: 0; }
         }
-        @media (max-width: 900px) {
-          section > div[style*="grid-template-columns"] {
-            grid-template-columns: 1fr !important;
+        @media (max-width: 960px) {
+          section:first-of-type > div {
+            flex-direction: column !important;
+            align-items: flex-start !important;
           }
           .dp-hero-avatar { display: none !important; }
         }
         @media (max-width: 640px) {
           section:first-of-type {
             padding: 110px 16px 60px !important;
+          }
+          h1.dp-hero-title {
+            font-size: 2.8rem !important;
           }
         }
       `}</style>
