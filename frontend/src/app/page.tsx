@@ -19,6 +19,7 @@ import CompetitionsSection from '../components/sections/CompetitionsSection';
 import BlogSection from '../components/sections/BlogSection';
 import ThoughtsSection from '../components/sections/ThoughtsSection';
 import ContactSection from '../components/sections/ContactSection';
+import DragonPassionNote from '../components/sections/DragonPassionNote';
 import DragonSigil from '../components/dragonpit/DragonSigil';
 import DragonpitLoader from '../components/dragonpit/DragonpitLoader';
 
@@ -94,16 +95,16 @@ const DEFAULT_ABOUT = {
 };
 
 export default function Home() {
-  const [about, setAbout]               = useState<any>(DEFAULT_ABOUT);
-  const [projects, setProjects]         = useState<any[]>([]);
-  const [blogs, setBlogs]               = useState<any[]>([]);
+  const [about, setAbout] = useState<any>(DEFAULT_ABOUT);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
   const [competitions, setCompetitions] = useState<any[]>([]);
-  const [thoughts, setThoughts]         = useState<any[]>([]);
-  const [skills, setSkills]             = useState<any[]>([]);
+  const [thoughts, setThoughts] = useState<any[]>([]);
+  const [skills, setSkills] = useState<any[]>([]);
 
-  const [loading, setLoading]           = useState(true);
-  const [votes, setVotes]               = useState<Record<string, 'like' | 'dislike'>>({});
-  const [loaderDone, setLoaderDone]     = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [votes, setVotes] = useState<Record<string, 'like' | 'dislike'>>({});
+  const [loaderDone, setLoaderDone] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -140,11 +141,11 @@ export default function Home() {
   useGSAP(() => {
     if (!loaderDone) return;
     gsap.timeline()
-      .fromTo('.dp-hero-badge',    { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' })
-      .fromTo('.dp-hero-title',    { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.dp-hero-badge', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' })
+      .fromTo('.dp-hero-title', { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
       .fromTo('.dp-hero-sub-text', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' }, '-=0.4')
-      .fromTo('.dp-hero-btn',      { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
-      .fromTo('.dp-hero-avatar',   { opacity: 0 },         { opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'all' }, '-=0.5');
+      .fromTo('.dp-hero-btn', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.dp-hero-avatar', { opacity: 0 }, { opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'all' }, '-=0.5');
 
     setTimeout(() => ScrollTrigger.refresh(), 300);
   }, { scope: containerRef, dependencies: [loaderDone] });
@@ -323,7 +324,7 @@ export default function Home() {
                 <TypewriterEffect />
               </div>
 
-              {/* Action Buttons with clean spacing & unified hover effect */}
+              {/* Action Buttons with clean spacing & ASOIAF thematic emojis */}
               <div
                 className="dp-hero-btn"
                 style={{
@@ -334,12 +335,13 @@ export default function Home() {
                 }}
               >
                 <Link href="#projects" className="dp-btn-hero">
-                  Explore The Pit
+                  Explore The Pit 🐉
                   <ArrowRight size={16} aria-hidden="true" />
                 </Link>
 
                 <Link href="#contact" className="dp-btn-hero">
-                  Send a Raven
+                  Send a Raven 🐦‍⬛
+                  <ArrowRight size={16} aria-hidden="true" />
                 </Link>
 
                 <a
@@ -348,7 +350,7 @@ export default function Home() {
                   rel={about?.resumeUrl ? 'noopener noreferrer' : undefined}
                   className="dp-btn-hero"
                 >
-                  View Scroll (CV)
+                  View Scroll (CV) 📜
                 </a>
               </div>
             </div>
@@ -543,7 +545,10 @@ export default function Home() {
         {/* 6. About */}
         <AboutSection about={about} />
 
-        {/* 7. Contact */}
+        {/* 7. Dragon Passion & Lore Note */}
+        <DragonPassionNote />
+
+        {/* 8. Contact */}
         <ContactSection about={about} />
 
       </div>
