@@ -210,13 +210,29 @@ export default function Home() {
             overflow: 'hidden',
           }}
         >
-          {/* Subtle Ambient Background Gradients */}
+          {/* Hero Background Image with subtle blur & dark overlay gradient */}
           <div
             aria-hidden="true"
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'radial-gradient(ellipse at 50% 30%, rgba(138, 13, 13, 0.15) 0%, rgba(212, 175, 55, 0.05) 50%, transparent 80%)',
+              backgroundImage: 'url(/dragonpit/hero_bg.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center 30%',
+              filter: 'blur(4px) brightness(0.65) contrast(1.1)',
+              transform: 'scale(1.05)',
+              zIndex: 0,
+            }}
+          />
+
+          {/* Dark Vignette Gradient Overlay for Crisp Text Contrast */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(ellipse at center, rgba(10, 8, 7, 0.45) 0%, rgba(10, 8, 7, 0.85) 75%, #0a0807 100%), linear-gradient(to bottom, rgba(10, 8, 7, 0.5) 0%, transparent 40%, rgba(10, 8, 7, 0.95) 100%)',
+              zIndex: 1,
               pointerEvents: 'none',
             }}
           />
@@ -231,7 +247,7 @@ export default function Home() {
               justifyContent: 'space-between',
               gap: '48px',
               position: 'relative',
-              zIndex: 1,
+              zIndex: 2,
             }}
           >
             {/* Left Column: Hero Content */}
