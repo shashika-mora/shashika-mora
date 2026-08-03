@@ -89,7 +89,7 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Skills"
-          themed="VERMITHOR · THE BRONZE FURY (SYSTEMS ARCHITECTURE)"
+          themed="VERMITHOR THE BRONZE FURY - SYSTEMS ARCHITECTURE"
           description="Backend architecture, system design, hardware, and engineering technologies forged through experience."
         />
 

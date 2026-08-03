@@ -28,7 +28,7 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Blog"
-          themed="DREAMFYRE · THE WRITTEN ARCHIVES & RESEARCH"
+          themed="DREAMFYRE THE BLUE QUEEN · ARCHIVES & RESEARCH"
           description="Technical write-ups, learning notes, AI explorations, and architectural breakdowns."
         />
 
@@ -87,19 +87,23 @@ function BlogCard({ blog }: { blog: any }) {
         boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
       }}
     >
-      {blog.coverImage && (
-        <Link href={`/blog/${blog.slug}`} tabIndex={-1} aria-hidden="true">
-          <div style={{ height: '200px', overflow: 'hidden', borderBottom: '1px solid rgba(212, 175, 55, 0.25)' }}>
-            <img
-              src={blog.coverImage}
-              alt={blogTitle}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-              onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.06)'; }}
-              onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
-            />
-          </div>
-        </Link>
-      )}
+      {(() => {
+        const cover = blog.coverImage || blog.imageUrl || blog.image;
+        if (!cover) return null;
+        return (
+          <Link href={`/blog/${blog.slug}`} tabIndex={-1} aria-hidden="true">
+            <div style={{ height: '200px', overflow: 'hidden', borderBottom: '1px solid rgba(212, 175, 55, 0.25)' }}>
+              <img
+                src={cover}
+                alt={blogTitle}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.06)'; }}
+                onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
+              />
+            </div>
+          </Link>
+        );
+      })()}
 
       <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: '14px', flexGrow: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

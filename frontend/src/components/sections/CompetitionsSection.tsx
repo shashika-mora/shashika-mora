@@ -140,33 +140,38 @@ function CompetitionCard({ comp }: { comp: any }) {
         </p>
       )}
 
-      {/* Dual images */}
-      {(comp.imageUrl || comp.imageUrl2) && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '14px', borderRadius: '4px', overflow: 'hidden' }}>
-          {comp.imageUrl && (
-            <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
-              <img
-                src={comp.imageUrl}
-                alt={`${compTitle} — photo 1`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)'; }}
-                onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
-              />
-            </div>
-          )}
-          {comp.imageUrl2 && (
-            <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
-              <img
-                src={comp.imageUrl2}
-                alt={`${compTitle} — photo 2`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)'; }}
-                onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
-              />
-            </div>
-          )}
-        </div>
-      )}
+      {/* Competition Images */}
+      {(() => {
+        const img1 = comp.imageUrl || comp.image || comp.coverImage;
+        const img2 = comp.imageUrl2 || comp.image2;
+        if (!img1 && !img2) return null;
+        return (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '12px', borderRadius: '4px', overflow: 'hidden' }}>
+            {img1 && (
+              <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                <img
+                  src={img1}
+                  alt={`${compTitle} — photo 1`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                  onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)'; }}
+                  onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
+                />
+              </div>
+            )}
+            {img2 && (
+              <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                <img
+                  src={img2}
+                  alt={`${compTitle} — photo 2`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                  onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)'; }}
+                  onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Link */}
       {compLink && (

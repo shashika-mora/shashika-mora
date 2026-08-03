@@ -60,7 +60,7 @@ export default function BlogPage() {
           />
           <div>
             <span style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase' }}>
-              DREAMFYRE · THE WRITTEN ARCHIVES
+              DREAMFYRE THE BLUE QUEEN · ARCHIVES & RESEARCH
             </span>
             <h1 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '2.2rem', fontWeight: 900, color: '#ffffff', marginTop: '4px', marginBottom: '8px' }}>
               The Written Archives & Blog
@@ -104,19 +104,23 @@ export default function BlogPage() {
               className="blog-post-card dp-panel dp-ember-hover"
               style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
             >
-              {blog.coverImage && (
-                <Link href={`/blog/${blog.slug}`} tabIndex={-1} aria-hidden="true">
-                  <div style={{ height: '240px', overflow: 'hidden', borderBottom: '1px solid rgba(212, 175, 55, 0.25)' }}>
-                    <img
-                      src={blog.coverImage}
-                      alt={blog.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                      onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.04)'; }}
-                      onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
-                    />
-                  </div>
-                </Link>
-              )}
+              {(() => {
+                const cover = blog.coverImage || blog.imageUrl || blog.image;
+                if (!cover) return null;
+                return (
+                  <Link href={`/blog/${blog.slug}`} tabIndex={-1} aria-hidden="true">
+                    <div style={{ height: '240px', overflow: 'hidden', borderBottom: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                      <img
+                        src={cover}
+                        alt={blog.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                        onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.04)'; }}
+                        onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
+                      />
+                    </div>
+                  </Link>
+                );
+              })()}
               <div style={{ padding: '32px 36px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '14px', fontSize: '0.78rem', color: 'var(--dp-smoke)' }}>
                   {blog.category && (

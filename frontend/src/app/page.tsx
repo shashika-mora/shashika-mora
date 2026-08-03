@@ -307,14 +307,14 @@ export default function Home() {
                 <TypewriterEffect />
               </div>
 
-              {/* Action Buttons with expanded spacing & unified hover effect */}
+              {/* Action Buttons with clean spacing & unified hover effect */}
               <div
                 className="dp-hero-btn"
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
                   alignItems: 'center',
-                  gap: '24px',
+                  gap: '20px 24px',
                 }}
               >
                 <Link href="#projects" className="dp-btn-hero">
@@ -326,16 +326,14 @@ export default function Home() {
                   Send a Raven
                 </Link>
 
-                {about?.resumeUrl && (
-                  <a
-                    href={about.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="dp-btn-hero"
-                  >
-                    View Scroll (CV)
-                  </a>
-                )}
+                <a
+                  href={about?.resumeUrl || '#contact'}
+                  target={about?.resumeUrl ? '_blank' : undefined}
+                  rel={about?.resumeUrl ? 'noopener noreferrer' : undefined}
+                  className="dp-btn-hero"
+                >
+                  View Scroll (CV)
+                </a>
               </div>
             </div>
 

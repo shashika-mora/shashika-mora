@@ -42,6 +42,8 @@ export interface BlogPost {
   content: string;
   excerpt?: string;
   coverImage?: string;
+  imageUrl?: string;
+  image?: string;
   category?: string;
   published?: boolean;
   publishedAt?: string;
@@ -57,6 +59,9 @@ export interface Competition {
   description?: string;
   imageUrl?: string;
   imageUrl2?: string;
+  image?: string;
+  image2?: string;
+  coverImage?: string;
   link?: string;
   order?: number;
   createdAt?: string;

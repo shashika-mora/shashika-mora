@@ -139,20 +139,25 @@ export default function CompetitionsPage() {
                 </p>
               )}
 
-              {(comp.imageUrl || comp.imageUrl2) && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginTop: 'auto' }}>
-                  {comp.imageUrl && (
-                    <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
-                      <img src={comp.imageUrl} alt={comp.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    </div>
-                  )}
-                  {comp.imageUrl2 && (
-                    <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
-                      <img src={comp.imageUrl2} alt={comp.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    </div>
-                  )}
-                </div>
-              )}
+              {(() => {
+                const img1 = comp.imageUrl || comp.image || comp.coverImage;
+                const img2 = comp.imageUrl2 || comp.image2;
+                if (!img1 && !img2) return null;
+                return (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '12px', marginTop: 'auto' }}>
+                    {img1 && (
+                      <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                        <img src={img1} alt={comp.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    )}
+                    {img2 && (
+                      <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                        <img src={img2} alt={comp.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               {comp.link && (
                 <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
