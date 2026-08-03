@@ -31,12 +31,21 @@ export default function ThoughtsSection({ thoughts, loading, votes, onVote }: Th
         {loading ? (
           <ThoughtsSkeleton />
         ) : thoughts.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '48px', border: '1px solid var(--dp-border)', borderRadius: '6px', color: 'var(--dp-muted)', background: 'var(--dp-panel)' }}>
-            <MessageSquare size={36} className="mx-auto mb-3 text-[var(--dp-gold)] opacity-70" />
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '48px',
+              background: '#14100d',
+              border: '1px solid rgba(212, 175, 55, 0.35)',
+              borderRadius: '8px',
+              color: 'var(--dp-muted)',
+            }}
+          >
+            <MessageSquare size={36} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
             <p>No thoughts posted yet.</p>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
             {thoughts.map(thought => (
               <ThoughtCard
                 key={thought.id}
@@ -64,14 +73,14 @@ function ThoughtCard({ thought, vote, onVote }: { thought: any; vote?: string; o
     <article
       className="thought-card dp-ember-hover"
       style={{
-        background: 'var(--dp-panel)',
-        border: '1px solid var(--dp-border)',
-        borderRadius: '6px',
-        padding: '26px 30px',
+        background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+        border: '1px solid rgba(212, 175, 55, 0.35)',
+        borderRadius: '8px',
+        padding: '30px 34px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+        gap: '18px',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
       }}
     >
       {/* Meta row */}
@@ -83,8 +92,8 @@ function ThoughtCard({ thought, vote, onVote }: { thought: any; vote?: string; o
               fontWeight: 800,
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              padding: '4px 10px',
-              background: 'rgba(138, 13, 13, 0.3)',
+              padding: '4px 12px',
+              background: 'rgba(138, 13, 13, 0.45)',
               border: '1px solid var(--dp-red-bright)',
               borderRadius: '3px',
               color: 'var(--dp-gold-bright)',
@@ -94,19 +103,19 @@ function ThoughtCard({ thought, vote, onVote }: { thought: any; vote?: string; o
           </span>
         )}
         {thought.date && (
-          <span style={{ fontSize: '0.76rem', color: 'var(--dp-smoke)', fontFamily: 'monospace', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.78rem', color: 'var(--dp-smoke)', fontFamily: 'monospace', fontWeight: 600 }}>
             {thought.date}
           </span>
         )}
       </div>
 
       {/* Content */}
-      <p style={{ color: '#ffffff', fontSize: '0.96rem', lineHeight: 1.75, whiteSpace: 'pre-wrap', fontWeight: 400 }}>
+      <p style={{ color: '#ffffff', fontSize: '0.98rem', lineHeight: 1.75, whiteSpace: 'pre-wrap', fontWeight: 400 }}>
         {thought.content}
       </p>
 
       {/* Vote row */}
-      <div style={{ display: 'flex', gap: '12px', borderTop: '1px solid var(--dp-border)', paddingTop: '16px' }}>
+      <div style={{ display: 'flex', gap: '12px', borderTop: '1px solid rgba(212, 175, 55, 0.25)', paddingTop: '18px' }}>
         <button
           onClick={() => onVote(thought.id, 'like')}
           aria-pressed={vote === 'like'}
@@ -132,13 +141,24 @@ function ThoughtCard({ thought, vote, onVote }: { thought: any; vote?: string; o
 
 function ThoughtsSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {[1, 2, 3].map(i => (
-        <div key={i} style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '6px', padding: '26px 30px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div
+          key={i}
+          style={{
+            background: '#14100d',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            borderRadius: '8px',
+            padding: '30px 34px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
+          }}
+        >
           <div style={{ display: 'flex', gap: '12px' }}>
-            <div style={{ height: '22px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '70px', animation: 'pulse 1.5s ease-in-out infinite' }} />
+            <div style={{ height: '22px', background: '#1c1713', borderRadius: '3px', width: '70px', animation: 'pulse 1.5s ease-in-out infinite' }} />
           </div>
-          <div style={{ height: '16px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '100%' }} />
+          <div style={{ height: '16px', background: '#1c1713', borderRadius: '3px', width: '100%' }} />
         </div>
       ))}
     </div>

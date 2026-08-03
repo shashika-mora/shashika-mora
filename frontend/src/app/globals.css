@@ -13,10 +13,10 @@
 :root {
   --dp-black:       #030202;
   --dp-obsidian:    #0a0807;
-  --dp-charcoal:    #14110f;
-  --dp-panel:       #191512;
-  --dp-panel-soft:  #211b17;
-  --dp-panel-hover: #261f1a;
+  --dp-charcoal:    #120f0d;
+  --dp-panel:       #120f0d;
+  --dp-panel-soft:  #181411;
+  --dp-panel-hover: #1e1915;
 
   --dp-blood:       #8a0d0d;
   --dp-red:         #b81414;
@@ -29,16 +29,16 @@
   --dp-gold-bright: #ffd700;
   --dp-gold-soft:   #e6c875;
 
-  --dp-smoke:       #c7c0b5;
-  --dp-text:        #f5efea;
-  --dp-muted:       #b3aba0;
-  --dp-border:      rgba(212, 175, 55, 0.25);
-  --dp-border-red:  rgba(184, 20, 20, 0.45);
+  --dp-smoke:       #d1cac0;
+  --dp-text:        #ffffff;
+  --dp-muted:       #bfa382;
+  --dp-border:      rgba(212, 175, 55, 0.32);
+  --dp-border-red:  rgba(230, 46, 46, 0.55);
 
   /* Glow */
-  --dp-glow-red:    rgba(184, 20, 20, 0.35);
-  --dp-glow-ember:  rgba(255, 90, 19, 0.28);
-  --dp-glow-gold:   rgba(212, 175, 55, 0.25);
+  --dp-glow-red:    rgba(184, 20, 20, 0.45);
+  --dp-glow-ember:  rgba(255, 90, 19, 0.35);
+  --dp-glow-gold:   rgba(255, 215, 0, 0.3);
 }
 
 /* ── Base ── */
@@ -69,35 +69,37 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--dp-red-bright); }
 
 /* ══════════════════════════════════════════════
-   DRAGONPIT UTILITY CLASSES
+   DRAGONPIT UTILITY CLASSES — CARDS & PANELS
    ══════════════════════════════════════════════ */
 
-/* Panel — obsidian surface with gold border */
+/* Panel — sleek dark obsidian panel with crisp gold border */
 .dp-panel {
-  background: var(--dp-panel);
+  background: linear-gradient(180deg, rgba(22, 18, 15, 0.95) 0%, rgba(13, 11, 9, 0.98) 100%);
   border: 1px solid var(--dp-border);
-  border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(12px);
 }
 
 .dp-panel-soft {
-  background: var(--dp-panel-soft);
+  background: linear-gradient(180deg, rgba(28, 23, 19, 0.9) 0%, rgba(18, 15, 12, 0.95) 100%);
   border: 1px solid var(--dp-border);
+  border-radius: 8px;
 }
 
 /* Ember glow on hover */
 .dp-ember-hover {
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .dp-ember-hover:hover {
-  border-color: rgba(212, 175, 55, 0.55);
-  box-shadow: 0 8px 32px var(--dp-glow-red), 0 0 15px var(--dp-glow-gold), inset 0 0 12px rgba(255, 90, 19, 0.06);
-  background: var(--dp-panel-hover);
+  border-color: var(--dp-gold-bright);
+  box-shadow: 0 12px 36px rgba(184, 20, 20, 0.35), 0 0 20px rgba(255, 215, 0, 0.25), inset 0 1px 0 rgba(255, 215, 0, 0.2);
+  transform: translateY(-3px);
 }
 
 /* Radiant Gold-Ember Text Gradients */
 .dp-title-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, var(--dp-gold-bright) 35%, var(--dp-ember) 75%, var(--dp-red-bright) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--dp-gold-bright) 40%, var(--dp-ember) 80%, var(--dp-red-bright) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -157,18 +159,18 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--dp-charcoal);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(22, 18, 15, 0.9);
+  border: 1px solid var(--dp-border);
   border-radius: 4px;
-  font-size: 0.8rem;
-  color: var(--dp-text);
+  font-size: 0.82rem;
+  color: #ffffff;
   font-weight: 600;
   transition: all 0.25s ease;
 }
 .dp-skill-chip:hover {
   border-color: var(--dp-gold-bright);
   color: #ffffff;
-  background: rgba(138, 13, 13, 0.35);
+  background: rgba(138, 13, 13, 0.4);
   box-shadow: 0 0 14px var(--dp-glow-red), 0 0 6px var(--dp-glow-gold);
   transform: translateY(-2px);
 }
@@ -210,7 +212,7 @@ body {
   justify-content: center;
   gap: 10px;
   padding: 13px 32px;
-  background: rgba(20, 17, 15, 0.8);
+  background: rgba(20, 17, 15, 0.9);
   color: var(--dp-gold-soft);
   font-weight: 700;
   font-size: 0.9rem;
@@ -225,7 +227,7 @@ body {
 .dp-btn-secondary:hover {
   border-color: var(--dp-gold-bright);
   color: #ffffff;
-  background: rgba(138, 13, 13, 0.25);
+  background: rgba(138, 13, 13, 0.35);
   box-shadow: 0 0 20px var(--dp-glow-gold);
   transform: translateY(-2px);
 }
@@ -251,32 +253,32 @@ body {
 /* Form inputs */
 .dp-input {
   width: 100%;
-  background: var(--dp-charcoal);
-  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: rgba(18, 15, 12, 0.95);
+  border: 1px solid var(--dp-border);
   border-radius: 4px;
   padding: 14px 18px;
   font-size: 0.9rem;
-  color: var(--dp-text);
+  color: #ffffff;
   outline: none;
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 .dp-input:focus {
   border-color: var(--dp-gold-bright);
-  box-shadow: 0 0 12px var(--dp-glow-gold), 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 14px var(--dp-glow-gold), 0 0 0 2px rgba(212, 175, 55, 0.25);
 }
 .dp-input::placeholder {
   color: var(--dp-muted);
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 /* Form label */
 .dp-label {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--dp-gold-soft);
+  color: var(--dp-gold-bright);
   margin-bottom: 8px;
 }
 
@@ -284,11 +286,11 @@ body {
 .dp-tech-badge {
   font-size: 0.72rem;
   padding: 4px 12px;
-  background: rgba(138, 13, 13, 0.25);
-  color: var(--dp-gold-soft);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(138, 13, 13, 0.35);
+  color: var(--dp-gold-bright);
+  border: 1px solid var(--dp-border);
   border-radius: 3px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Vote button */
@@ -297,27 +299,28 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--dp-charcoal);
+  background: rgba(22, 18, 15, 0.9);
   border: 1px solid var(--dp-border);
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: var(--dp-muted);
+  color: var(--dp-gold-soft);
   cursor: pointer;
   transition: all 0.2s;
 }
 .dp-vote-btn:hover {
   color: #ffffff;
   border-color: var(--dp-gold-bright);
+  background: rgba(138, 13, 13, 0.3);
 }
 .dp-vote-btn.active-like {
-  background: rgba(184, 20, 20, 0.35);
-  border-color: var(--dp-red-bright);
-  color: var(--dp-gold-bright);
-  box-shadow: 0 0 12px var(--dp-glow-red);
+  background: rgba(184, 20, 20, 0.45);
+  border-color: var(--dp-gold-bright);
+  color: #ffffff;
+  box-shadow: 0 0 14px var(--dp-glow-red);
 }
 .dp-vote-btn.active-dislike {
-  background: rgba(30, 24, 20, 0.8);
+  background: rgba(30, 24, 20, 0.9);
   border-color: var(--dp-border);
   color: var(--dp-smoke);
 }
