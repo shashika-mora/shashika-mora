@@ -2,8 +2,7 @@
 
 import { Cpu, Layers, BookOpen } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
-
-const CATEGORY_ICONS = [Cpu, Layers, BookOpen];
+import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
 
 const parseSkill = (skill: any) => {
   if (!skill) return { name: '', iconUrl: '' };
@@ -14,7 +13,7 @@ const parseSkill = (skill: any) => {
     }
     return { name: skill, iconUrl: '' };
   }
-  return { name: skill.name || '', iconUrl: skill.iconUrl || '' };
+  return { name: skill.name || '', iconUrl: skill.iconUrl || skill.icon || '' };
 };
 
 interface SkillsSectionProps {
@@ -25,7 +24,6 @@ interface SkillsSectionProps {
 
 export default function SkillsSection({ skills, about, loading }: SkillsSectionProps) {
   const hasStructuredSkills = skills && skills.length > 0;
-  const fallbackSkills = hasStructuredSkills ? [] : (Array.isArray(about?.skills) ? about.skills : []);
 
   return (
     <section
@@ -35,19 +33,11 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
         borderTop: '1px solid var(--dp-border)',
         background: 'rgba(10,8,7,0.7)',
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      {/* Scale pattern overlay */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: "url('/dragonpit/scale-pattern.svg')",
-          backgroundSize: '80px 80px',
-          opacity: 0.04,
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Background Dragon Parallax Layer */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_and_silverwing.jpg" opacity={0.08} position="bottom-left" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
@@ -92,124 +82,67 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
         {loading ? (
           <SkillsSkeleton />
         ) : hasStructuredSkills ? (
-          <GroupedSkills skills={skills} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px' }}>
+            {skills.map((categoryGroup, i) => {
+              const IconComp = [Cpu, Layers, BookOpen][i % 3];
+              return (
+                <div
+                  key={categoryGroup.id || i}
+                  className="skills-card dp-ember-hover"
+                  style={{
+                    background: 'var(--dp-panel)',
+                    border: '1px solid var(--dp-border)',
+                    borderRadius: '6px',
+                    padding: '28px 32px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', paddingBottom: '14px', borderBottom: '1px solid rgba(212, 175, 55, 0.2)' }}>
+                    <IconComp size={20} style={{ color: 'var(--dp-gold-bright)' }} />
+                    <h3 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '1.15rem', fontWeight: 800, color: '#ffffff' }}>
+                      {categoryGroup.category || categoryGroup.title || 'Engineering Domain'}
+                    </h3>
+                  </div>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {(categoryGroup.items || categoryGroup.skills || []).map((skillItem: any, idx: number) => {
+                      const { name, iconUrl } = parseSkill(skillItem);
+                      return (
+                        <span key={idx} className="dp-tech-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                          {iconUrl && (
+                            <img
+                              src={iconUrl}
+                              alt=""
+                              style={{ width: '14px', height: '14px', objectFit: 'contain' }}
+                              onError={e => { (e.target as HTMLElement).style.display = 'none'; }}
+                            />
+                          )}
+                          {name}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         ) : (
-          <FlatSkills skills={fallbackSkills} />
+          <div className="dp-panel" style={{ padding: '32px', textAlign: 'center', color: 'var(--dp-muted)' }}>
+            <p>No structured skill categories found.</p>
+          </div>
         )}
       </div>
     </section>
   );
 }
 
-function GroupedSkills({ skills }: { skills: any[] }) {
-  const groups: Record<string, any[]> = {};
-  skills.forEach(skill => {
-    if (skill.visible === false) return;
-    const cat = skill.category || 'General';
-    if (!groups[cat]) groups[cat] = [];
-    groups[cat].push(skill);
-  });
-
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '22px' }}>
-      {Object.entries(groups).map(([category, items], idx) => {
-        const Icon = CATEGORY_ICONS[idx % CATEGORY_ICONS.length];
-        return (
-          <div
-            key={category}
-            className="dp-ember-hover"
-            style={{
-              background: 'var(--dp-panel)',
-              border: '1px solid var(--dp-border)',
-              borderRadius: '6px',
-              padding: '26px',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-            }}
-          >
-            <h3
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--dp-gold-bright)',
-                borderBottom: '1px solid var(--dp-border)',
-                paddingBottom: '14px',
-                marginBottom: '18px',
-              }}
-            >
-              <Icon size={16} aria-hidden="true" className="text-[var(--dp-ember)]" />
-              {category}
-            </h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {items.map((skill, i) => (
-                <span key={i} className="dp-skill-chip skill-chip">
-                  {skill.iconUrl && (
-                    <img
-                      src={skill.iconUrl}
-                      alt=""
-                      width={16}
-                      height={16}
-                      style={{ objectFit: 'contain', flexShrink: 0 }}
-                    />
-                  )}
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function FlatSkills({ skills }: { skills: any[] }) {
-  return (
-    <div
-      style={{
-        background: 'var(--dp-panel)',
-        border: '1px solid var(--dp-border)',
-        borderRadius: '6px',
-        padding: '36px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '12px',
-        justifyContent: 'center',
-      }}
-    >
-      {skills.map((skill, i) => {
-        const { name, iconUrl } = parseSkill(skill);
-        return (
-          <span key={i} className="dp-skill-chip skill-chip">
-            {iconUrl && (
-              <img src={iconUrl} alt="" width={16} height={16} style={{ objectFit: 'contain' }} />
-            )}
-            {name}
-          </span>
-        );
-      })}
-    </div>
-  );
-}
-
 function SkillsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '22px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px' }}>
       {[1, 2, 3].map(i => (
-        <div
-          key={i}
-          style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '6px', padding: '26px', animation: 'pulse 1.5s ease-in-out infinite' }}
-        >
-          <div style={{ height: '18px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '45%', marginBottom: '18px' }} />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-            {[1, 2, 3, 4, 5].map(j => (
-              <div key={j} style={{ height: '32px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: `${60 + j * 14}px` }} />
-            ))}
-          </div>
+        <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ height: '20px', background: '#1c1713', borderRadius: '3px', width: '50%' }} />
+          <div style={{ height: '36px', background: '#1c1713', borderRadius: '3px', width: '90%' }} />
         </div>
       ))}
     </div>

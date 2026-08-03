@@ -3,30 +3,69 @@
 import Link from 'next/link';
 import { ThumbsUp, ThumbsDown, ArrowRight, MessageSquare } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
+import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
 
 interface ThoughtsSectionProps {
   thoughts: any[];
   loading: boolean;
-  votes: Record<string, 'like' | 'dislike'>;
   onVote: (id: string, type: 'like' | 'dislike') => void;
+  userVotes: Record<string, 'like' | 'dislike'>;
 }
 
-export default function ThoughtsSection({ thoughts, loading, votes, onVote }: ThoughtsSectionProps) {
+export default function ThoughtsSection({ thoughts, loading, onVote, userVotes }: ThoughtsSectionProps) {
   return (
     <section
       id="thoughts"
       style={{
         padding: '100px 24px',
         borderTop: '1px solid var(--dp-border)',
-        background: 'rgba(10,8,7,0.6)',
+        background: 'rgba(10,8,7,0.7)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      {/* Background Dragon Parallax Layer */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/meleys_1.jpg" opacity={0.08} position="bottom-right" />
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Thoughts"
-          themed="MURMURS FROM THE PIT"
-          description="Daily notes, academic insights, and real-time updates direct from the forge."
+          themed="MELEYS THE RED QUEEN · MURMURS FROM THE PIT"
+          description="Quick technical thoughts, architectural notes, code snippets, and daily logs."
         />
+
+        {/* Meleys Dragon Feature Header Card */}
+        <div
+          className="mb-10 dp-ember-hover"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '24px',
+            alignItems: 'center',
+            background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            borderRadius: '8px',
+            padding: '24px 32px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
+          }}
+        >
+          <img
+            src="/dragonpit/meleys_1.jpg"
+            alt="Meleys The Red Queen — Murmurs Dragon Guardian"
+            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/dragonpit/caraxes-hero.png';
+            }}
+          />
+          <div>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '6px' }}>
+              MELEYS THE RED QUEEN · MURMURS GUARDIAN
+            </h4>
+            <p style={{ fontSize: '0.88rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
+              Symbolizing swift technical insights, live thoughts, active community discourse, and engineering reflections.
+            </p>
+          </div>
+        </div>
 
         {loading ? (
           <ThoughtsSkeleton />
@@ -39,27 +78,106 @@ export default function ThoughtsSection({ thoughts, loading, votes, onVote }: Th
               border: '1px solid rgba(212, 175, 55, 0.35)',
               borderRadius: '8px',
               color: 'var(--dp-muted)',
+              marginBottom: '32px',
             }}
           >
             <MessageSquare size={36} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
-            <p>No thoughts posted yet.</p>
+            <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No thoughts recorded yet.</p>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-            {thoughts.map(thought => (
-              <ThoughtCard
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px', marginBottom: '40px' }}>
+            {thoughts.slice(0, 3).map(thought => (
+              <article
                 key={thought.id}
-                thought={thought}
-                vote={votes[thought.id]}
-                onVote={onVote}
-              />
+                className="thought-card dp-ember-hover"
+                style={{
+                  background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+                  border: '1px solid rgba(212, 175, 55, 0.35)',
+                  borderRadius: '8px',
+                  padding: '28px 32px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                  {thought.category && (
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 800,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        padding: '3px 10px',
+                        background: 'rgba(138, 13, 13, 0.35)',
+                        border: '1px solid var(--dp-border)',
+                        borderRadius: '3px',
+                        color: 'var(--dp-gold-bright)',
+                      }}
+                    >
+                      {thought.category}
+                    </span>
+                  )}
+                  {thought.date && (
+                    <span style={{ fontSize: '0.76rem', color: 'var(--dp-smoke)', fontFamily: 'monospace' }}>
+                      {thought.date}
+                    </span>
+                  )}
+                </div>
+
+                <p style={{ color: '#ffffff', fontSize: '0.94rem', lineHeight: 1.7, flexGrow: 1, whiteSpace: 'pre-wrap' }}>
+                  {thought.content}
+                </p>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', paddingTop: '14px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
+                  <button
+                    onClick={() => onVote(thought.id, 'like')}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 14px',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      border: userVotes[thought.id] === 'like' ? '1px solid var(--dp-gold-bright)' : '1px solid rgba(212, 175, 55, 0.3)',
+                      background: userVotes[thought.id] === 'like' ? 'rgba(212, 175, 55, 0.2)' : 'rgba(15, 12, 9, 0.9)',
+                      color: userVotes[thought.id] === 'like' ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <ThumbsUp size={14} /> {thought.likes || 0}
+                  </button>
+                  <button
+                    onClick={() => onVote(thought.id, 'dislike')}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 14px',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      border: userVotes[thought.id] === 'dislike' ? '1px solid var(--dp-red-bright)' : '1px solid rgba(212, 175, 55, 0.3)',
+                      background: userVotes[thought.id] === 'dislike' ? 'rgba(138, 13, 13, 0.3)' : 'rgba(15, 12, 9, 0.9)',
+                      color: userVotes[thought.id] === 'dislike' ? 'var(--dp-red-bright)' : 'var(--dp-smoke)',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <ThumbsDown size={14} /> {thought.dislikes || 0}
+                  </button>
+                </div>
+              </article>
             ))}
           </div>
         )}
 
-        <div style={{ textAlign: 'center', marginTop: '36px' }}>
+        <div style={{ textAlign: 'center', marginTop: '16px' }}>
           <Link href="/thoughts" className="dp-btn-secondary" style={{ display: 'inline-flex' }}>
-            See All Murmurs 🐉
+            Read All Thoughts 💬
             <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
@@ -68,97 +186,13 @@ export default function ThoughtsSection({ thoughts, loading, votes, onVote }: Th
   );
 }
 
-function ThoughtCard({ thought, vote, onVote }: { thought: any; vote?: string; onVote: (id: string, type: 'like' | 'dislike') => void }) {
-  return (
-    <article
-      className="thought-card dp-ember-hover"
-      style={{
-        background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
-        border: '1px solid rgba(212, 175, 55, 0.35)',
-        borderRadius: '8px',
-        padding: '30px 34px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '18px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
-      }}
-    >
-      {/* Meta row */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        {thought.category && (
-          <span
-            style={{
-              fontSize: '0.68rem',
-              fontWeight: 800,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              padding: '4px 12px',
-              background: 'rgba(138, 13, 13, 0.45)',
-              border: '1px solid var(--dp-red-bright)',
-              borderRadius: '3px',
-              color: 'var(--dp-gold-bright)',
-            }}
-          >
-            {thought.category}
-          </span>
-        )}
-        {thought.date && (
-          <span style={{ fontSize: '0.78rem', color: 'var(--dp-smoke)', fontFamily: 'monospace', fontWeight: 600 }}>
-            {thought.date}
-          </span>
-        )}
-      </div>
-
-      {/* Content */}
-      <p style={{ color: '#ffffff', fontSize: '0.98rem', lineHeight: 1.75, whiteSpace: 'pre-wrap', fontWeight: 400 }}>
-        {thought.content}
-      </p>
-
-      {/* Vote row */}
-      <div style={{ display: 'flex', gap: '12px', borderTop: '1px solid rgba(212, 175, 55, 0.25)', paddingTop: '18px' }}>
-        <button
-          onClick={() => onVote(thought.id, 'like')}
-          aria-pressed={vote === 'like'}
-          aria-label={`Like — ${thought.likes || 0} likes`}
-          className={`dp-vote-btn ${vote === 'like' ? 'active-like' : ''}`}
-        >
-          <ThumbsUp size={15} aria-hidden="true" />
-          <span>{thought.likes || 0}</span>
-        </button>
-        <button
-          onClick={() => onVote(thought.id, 'dislike')}
-          aria-pressed={vote === 'dislike'}
-          aria-label={`Dislike — ${thought.dislikes || 0} dislikes`}
-          className={`dp-vote-btn ${vote === 'dislike' ? 'active-dislike' : ''}`}
-        >
-          <ThumbsDown size={15} aria-hidden="true" />
-          <span>{thought.dislikes || 0}</span>
-        </button>
-      </div>
-    </article>
-  );
-}
-
 function ThoughtsSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px', marginBottom: '40px' }}>
       {[1, 2, 3].map(i => (
-        <div
-          key={i}
-          style={{
-            background: '#14100d',
-            border: '1px solid rgba(212, 175, 55, 0.35)',
-            borderRadius: '8px',
-            padding: '30px 34px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '14px',
-          }}
-        >
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <div style={{ height: '22px', background: '#1c1713', borderRadius: '3px', width: '70px', animation: 'pulse 1.5s ease-in-out infinite' }} />
-          </div>
-          <div style={{ height: '16px', background: '#1c1713', borderRadius: '3px', width: '100%' }} />
+        <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ height: '18px', background: '#1c1713', borderRadius: '3px', width: '40%' }} />
+          <div style={{ height: '48px', background: '#1c1713', borderRadius: '3px', width: '90%' }} />
         </div>
       ))}
     </div>

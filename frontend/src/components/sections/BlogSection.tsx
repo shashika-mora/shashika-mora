@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
+import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
 
 interface BlogSectionProps {
   blogs: any[];
@@ -16,9 +17,14 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
       style={{
         padding: '100px 24px',
         borderTop: '1px solid var(--dp-border)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      {/* Background Dragon Parallax Layer */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.08} position="top-left" />
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Blog"
           themed="DREAMFYRE · THE WRITTEN ARCHIVES & RESEARCH"
@@ -95,6 +101,11 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
 }
 
 function BlogCard({ blog }: { blog: any }) {
+  const blogTitle = blog.title || '';
+  const blogExcerpt = blog.excerpt || blog.summary || '';
+  const blogCategory = blog.category || blog.tag || '';
+  const blogDate = blog.publishedAt || blog.createdAt || '';
+
   return (
     <article
       className="blog-card dp-ember-hover"
@@ -108,13 +119,12 @@ function BlogCard({ blog }: { blog: any }) {
         boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
       }}
     >
-      {/* Cover image if available */}
       {blog.coverImage && (
         <Link href={`/blog/${blog.slug}`} tabIndex={-1} aria-hidden="true">
           <div style={{ height: '200px', overflow: 'hidden', borderBottom: '1px solid rgba(212, 175, 55, 0.25)' }}>
             <img
               src={blog.coverImage}
-              alt={blog.title}
+              alt={blogTitle}
               style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
               onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.06)'; }}
               onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
@@ -124,9 +134,8 @@ function BlogCard({ blog }: { blog: any }) {
       )}
 
       <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: '14px', flexGrow: 1 }}>
-        {/* Meta */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {blog.category && (
+          {blogCategory && (
             <span
               style={{
                 fontSize: '0.68rem',
@@ -140,12 +149,12 @@ function BlogCard({ blog }: { blog: any }) {
                 color: 'var(--dp-gold-bright)',
               }}
             >
-              {blog.category}
+              {blogCategory}
             </span>
           )}
-          {blog.publishedAt && (
+          {blogDate && (
             <span style={{ fontSize: '0.76rem', color: 'var(--dp-smoke)', fontFamily: 'monospace', fontWeight: 600 }}>
-              {new Date(blog.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+              {new Date(blogDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
             </span>
           )}
         </div>
@@ -162,13 +171,13 @@ function BlogCard({ blog }: { blog: any }) {
             }}
             className="hover:text-[var(--dp-gold-bright)]"
           >
-            {blog.title}
+            {blogTitle}
           </h3>
         </Link>
 
-        {blog.excerpt && (
+        {blogExcerpt && (
           <p style={{ color: 'var(--dp-smoke)', fontSize: '0.88rem', lineHeight: 1.7 }}>
-            {blog.excerpt}
+            {blogExcerpt}
           </p>
         )}
 

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Github, ExternalLink, ArrowRight, Shield } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
+import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
 
 interface ProjectsSectionProps {
   projects: any[];
@@ -11,13 +12,47 @@ interface ProjectsSectionProps {
 
 export default function ProjectsSection({ projects, loading }: ProjectsSectionProps) {
   return (
-    <section id="projects" style={{ padding: '100px 24px', position: 'relative' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+    <section id="projects" style={{ padding: '100px 24px', position: 'relative', overflow: 'hidden' }}>
+      {/* Background Dragon Parallax Layer */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/caraxes_2.jpg" opacity={0.09} position="top-left" />
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Projects"
           themed="CARAXES THE BLOOD WYRM · DRAGONS OF THE PIT"
           description="A curated selection of software and hardware systems forged through experimentation, design, and code."
         />
+
+        {/* Caraxes Dragon Guardian Feature Header Card */}
+        <div
+          className="mb-10 dp-ember-hover"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '24px',
+            alignItems: 'center',
+            background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            borderRadius: '8px',
+            padding: '24px 32px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
+          }}
+        >
+          <img
+            src="/dragonpit/caraxes_1.jpg"
+            alt="Caraxes The Blood Wyrm — Projects Dragon Guardian"
+            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/dragonpit/caraxes-hero.png'; }}
+          />
+          <div>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '6px' }}>
+              CARAXES THE BLOOD WYRM · GUARDIAN OF THE FORGE
+            </h4>
+            <p style={{ fontSize: '0.88rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
+              Symbolizing formidable systems, battle-tested software engineering, computer science projects, and architectural power.
+            </p>
+          </div>
+        </div>
 
         {loading ? (
           <ProjectsSkeleton />
@@ -31,10 +66,10 @@ export default function ProjectsSection({ projects, loading }: ProjectsSectionPr
             }}
           >
             <Shield size={36} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
-            <p>No records have entered the Dragonpit yet.</p>
+            <p>No published project records have entered the Dragonpit yet.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '32px', marginBottom: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '32px', marginBottom: '40px' }}>
             {projects.map(project => (
               <ProjectCard key={project.id} project={project} />
             ))}
@@ -54,6 +89,10 @@ export default function ProjectsSection({ projects, loading }: ProjectsSectionPr
 
 function ProjectCard({ project }: { project: any }) {
   const displayImage = project.imageUrl || '/dragonpit/project-placeholder.png';
+  const descriptionText = project.description || project.shortDescription || '';
+  const techStackList = project.techStack || project.tags || [];
+  const githubLink = project.githubUrl || project.github || '';
+  const liveLink = project.liveUrl || project.demoUrl || project.link || '';
 
   return (
     <article
@@ -118,12 +157,14 @@ function ProjectCard({ project }: { project: any }) {
         >
           {project.title}
         </h3>
-        <p style={{ color: 'var(--dp-smoke)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '20px' }}>
-          {project.description}
-        </p>
-        {project.techStack && project.techStack.length > 0 && (
+        {descriptionText && (
+          <p style={{ color: 'var(--dp-smoke)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '20px' }}>
+            {descriptionText}
+          </p>
+        )}
+        {techStackList.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {project.techStack.map((tech: string) => (
+            {techStackList.map((tech: string) => (
               <span key={tech} className="dp-tech-badge">{tech}</span>
             ))}
           </div>
@@ -142,9 +183,9 @@ function ProjectCard({ project }: { project: any }) {
         }}
       >
         <div style={{ display: 'flex', gap: '18px' }}>
-          {project.githubUrl && (
+          {githubLink && (
             <a
-              href={project.githubUrl}
+              href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${project.title} source code on GitHub`}
@@ -156,9 +197,9 @@ function ProjectCard({ project }: { project: any }) {
               <Github size={15} aria-hidden="true" /> Code
             </a>
           )}
-          {project.liveUrl && (
+          {liveLink && (
             <a
-              href={project.liveUrl}
+              href={liveLink}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Visit ${project.title} live demo`}
@@ -188,7 +229,7 @@ function ProjectCard({ project }: { project: any }) {
 
 function ProjectsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '32px', marginBottom: '40px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 380px), 1fr))', gap: '32px', marginBottom: '40px' }}>
       {[1, 2, 3, 4].map(i => (
         <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', overflow: 'hidden' }}>
           <div style={{ height: '220px', background: '#1c1713', animation: 'pulse 1.5s ease-in-out infinite' }} />

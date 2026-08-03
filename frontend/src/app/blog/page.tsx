@@ -7,6 +7,8 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
+import DragonBackgroundLayer from '../../components/dragonpit/DragonBackgroundLayer';
+
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,8 @@ export default function BlogPage() {
   }, { scope: containerRef, dependencies: [filteredBlogs, loading] });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px' }}>
+    <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.08} position="top-right" />
       {/* Back Link */}
       <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '28px', fontWeight: 600 }}>
         <ArrowLeft size={16} /> Back to Dragonpit

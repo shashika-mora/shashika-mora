@@ -93,39 +93,11 @@ const DEFAULT_ABOUT = {
   skills: [],
 };
 
-const DEFAULT_COMPETITIONS = [
-  {
-    id: 'comp-1',
-    title: 'IEEEXtreme 19.0',
-    award: 'Global Rank 45 | Country Rank 1',
-    date: 'Oct 2025',
-    description: 'Led a team of three to secure Global Rank 45 out of 8000+ teams in a 24-hour programming hackathon organized by IEEE.',
-    imageUrl: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=500&auto=format&fit=crop&q=60',
-    imageUrl2: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60',
-    link: 'https://ieeextreme.org',
-    order: 0,
-  },
-  {
-    id: 'comp-2',
-    title: 'Mora Hack 2025',
-    award: 'Winner (1st Place)',
-    date: 'July 2025',
-    description: 'Designed and developed an AI-driven disaster response system within 36 hours.',
-    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60',
-    imageUrl2: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&auto=format&fit=crop&q=60',
-    link: 'https://morahack.lk',
-    order: 1,
-  },
-];
-
-/* ═══════════════════════════════════════════════════════
-   HOME PAGE
-   ═══════════════════════════════════════════════════════ */
 export default function Home() {
   const [about, setAbout]               = useState<any>(DEFAULT_ABOUT);
   const [projects, setProjects]         = useState<any[]>([]);
   const [blogs, setBlogs]               = useState<any[]>([]);
-  const [competitions, setCompetitions] = useState<any[]>(DEFAULT_COMPETITIONS);
+  const [competitions, setCompetitions] = useState<any[]>([]);
   const [thoughts, setThoughts]         = useState<any[]>([]);
   const [skills, setSkills]             = useState<any[]>([]);
 
@@ -574,7 +546,7 @@ export default function Home() {
         <ThoughtsSection
           thoughts={thoughts}
           loading={thoughtsLoading}
-          votes={votes}
+          userVotes={votes}
           onVote={handleVote}
         />
 

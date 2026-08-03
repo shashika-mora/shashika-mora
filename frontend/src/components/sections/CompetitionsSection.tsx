@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ExternalLink, ArrowRight, Trophy } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
+import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
 
 interface CompetitionsSectionProps {
   competitions: any[];
@@ -17,9 +18,14 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
         padding: '100px 24px',
         borderTop: '1px solid var(--dp-border)',
         background: 'rgba(10,8,7,0.5)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      {/* Background Dragon Parallax Layer */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_2.jpg" opacity={0.09} position="top-right" />
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Competitions"
           themed="SUNFYRE THE GOLDEN · TRIALS BY FIRE & TRIUMPHS"
@@ -96,6 +102,12 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
 }
 
 function CompetitionCard({ comp }: { comp: any }) {
+  const compTitle = comp.title || comp.name || '';
+  const compAward = comp.award || comp.rank || comp.achievement || '';
+  const compDate = comp.date || comp.year || comp.period || '';
+  const compDesc = comp.description || comp.summary || '';
+  const compLink = comp.link || comp.url || '';
+
   return (
     <article
       className="competition-card dp-ember-hover"
@@ -121,17 +133,17 @@ function CompetitionCard({ comp }: { comp: any }) {
             color: '#ffffff',
           }}
         >
-          {comp.title}
+          {compTitle}
         </h3>
-        {comp.date && (
+        {compDate && (
           <span style={{ fontSize: '0.74rem', color: 'var(--dp-gold-bright)', fontFamily: 'monospace', whiteSpace: 'nowrap', fontWeight: 700 }}>
-            {comp.date}
+            {compDate}
           </span>
         )}
       </div>
 
       {/* Award badge */}
-      {comp.award && (
+      {compAward && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <span
             style={{
@@ -148,15 +160,15 @@ function CompetitionCard({ comp }: { comp: any }) {
             }}
           >
             <Trophy size={14} aria-hidden="true" className="text-[var(--dp-gold-bright)]" />
-            {comp.award}
+            {compAward}
           </span>
         </div>
       )}
 
       {/* Description */}
-      {comp.description && (
+      {compDesc && (
         <p style={{ color: 'var(--dp-smoke)', fontSize: '0.92rem', lineHeight: 1.75 }}>
-          {comp.description}
+          {compDesc}
         </p>
       )}
 
@@ -167,7 +179,7 @@ function CompetitionCard({ comp }: { comp: any }) {
             <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
               <img
                 src={comp.imageUrl}
-                alt={`${comp.title} — photo 1`}
+                alt={`${compTitle} — photo 1`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
                 onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)'; }}
                 onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
@@ -178,7 +190,7 @@ function CompetitionCard({ comp }: { comp: any }) {
             <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
               <img
                 src={comp.imageUrl2}
-                alt={`${comp.title} — photo 2`}
+                alt={`${compTitle} — photo 2`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
                 onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)'; }}
                 onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
@@ -189,10 +201,10 @@ function CompetitionCard({ comp }: { comp: any }) {
       )}
 
       {/* Link */}
-      {comp.link && (
+      {compLink && (
         <div style={{ borderTop: '1px solid rgba(212, 175, 55, 0.25)', paddingTop: '18px' }}>
           <a
-            href={comp.link}
+            href={compLink}
             target="_blank"
             rel="noopener noreferrer"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 700, color: 'var(--dp-gold-bright)', textDecoration: 'none', transition: 'color 0.2s' }}

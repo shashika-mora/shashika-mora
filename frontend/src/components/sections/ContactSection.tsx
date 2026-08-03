@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Mail, Linkedin, Github, Facebook, Instagram, Send, CheckCircle, AlertTriangle } from 'lucide-react';
 import { addMessage } from '../../lib/firestore-service';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
+import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
 
 interface ContactSectionProps {
   about: any;
@@ -38,13 +39,13 @@ export default function ContactSection({ about }: ContactSectionProps) {
   };
 
   const socialItems = [
-    { label: 'Raven (Work Email)', icon: Mail, href: `mailto:${about?.email || about?.contactEmail}`, text: about?.email || about?.contactEmail },
-    { label: 'Raven (Personal Email)', icon: Mail, href: `mailto:${about?.emailPersonal || 'shashikatheekshana67@gmail.com'}`, text: about?.emailPersonal || 'shashikatheekshana67@gmail.com' },
+    { label: 'Raven (Work Email)', icon: Mail, href: about?.email || about?.contactEmail ? `mailto:${about?.email || about?.contactEmail}` : undefined, text: about?.email || about?.contactEmail },
+    { label: 'Raven (Personal Email)', icon: Mail, href: about?.emailPersonal ? `mailto:${about?.emailPersonal}` : undefined, text: about?.emailPersonal },
     { label: 'LinkedIn Realm', icon: Linkedin, href: about?.linkedinUrl, text: 'shashika-dayarathna', external: true },
     { label: 'GitHub Forge', icon: Github, href: about?.githubUrl, text: 'shashika-mora', external: true },
     { label: 'Facebook', icon: Facebook, href: about?.facebookUrl || 'https://web.facebook.com/shashika.dayarathna.2025/', text: 'shashika.dayarathna.2025', external: true },
     { label: 'Instagram', icon: Instagram, href: about?.instaUrl || 'https://www.instagram.com/shashika_daya/', text: 'shashika_daya', external: true },
-  ].filter(s => s.href);
+  ].filter(s => s.href && s.text);
 
   return (
     <section
@@ -54,14 +55,49 @@ export default function ContactSection({ about }: ContactSectionProps) {
         borderTop: '1px solid var(--dp-border)',
         background: 'rgba(10,8,7,0.7)',
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
+      {/* Background Dragon Parallax Layer */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/veghar_1.jpg" opacity={0.09} position="bottom-left" />
+
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Contact"
-          themed="SEND A RAVEN"
+          themed="VHAGAR THE HOARY DREAD · SEND A RAVEN"
           description="Whether for engineering inquiries, software projects, research, or dragon lore — send a raven across the realm."
         />
+
+        {/* Vhagar Dragon Guardian Header Card */}
+        <div
+          className="mb-10 dp-ember-hover"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '24px',
+            alignItems: 'center',
+            background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            borderRadius: '8px',
+            padding: '24px 32px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
+          }}
+        >
+          <img
+            src="/dragonpit/veghar_1.jpg"
+            alt="Vhagar The Hoary Dread — Raven Guardian"
+            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/dragonpit/tessarion.jpg'; }}
+          />
+          <div>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '6px' }}>
+              VHAGAR THE HOARY DREAD · RAVEN & MESSAGES GUARDIAN
+            </h4>
+            <p style={{ fontSize: '0.88rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
+              Symbolizing grand scale communication, long-lasting partnerships, prompt professional response, and realm-wide reach.
+            </p>
+          </div>
+        </div>
 
         <div
           className="contact-card"
@@ -131,7 +167,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
                   value={formData.name}
                   onChange={handleChange}
                   className="dp-input"
-                  placeholder="Lord / Ser / Lady..."
+                  placeholder="Your Name..."
                 />
               </div>
               <div>
@@ -144,7 +180,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
                   value={formData.email}
                   onChange={handleChange}
                   className="dp-input"
-                  placeholder="raven@castle.com"
+                  placeholder="you@example.com"
                 />
               </div>
             </div>
@@ -172,7 +208,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
                 value={formData.message}
                 onChange={handleChange}
                 className="dp-input"
-                placeholder="Inscribe your parchment..."
+                placeholder="Write your message..."
                 style={{ resize: 'vertical' }}
               />
             </div>
