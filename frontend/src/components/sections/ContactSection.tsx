@@ -68,37 +68,6 @@ export default function ContactSection({ about }: ContactSectionProps) {
           description="Whether for engineering inquiries, software projects, research, or dragon lore — send a raven across the realm."
         />
 
-        {/* Vhagar Dragon Guardian Header Card */}
-        <div
-          className="mb-10 dp-ember-hover"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr',
-            gap: '24px',
-            alignItems: 'center',
-            background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
-            border: '1px solid rgba(212, 175, 55, 0.35)',
-            borderRadius: '8px',
-            padding: '24px 32px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
-          }}
-        >
-          <img
-            src="/dragonpit/veghar_1.jpg"
-            alt="Vhagar The Hoary Dread — Raven Guardian"
-            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
-            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/dragonpit/tessarion.jpg'; }}
-          />
-          <div>
-            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '6px' }}>
-              VHAGAR THE HOARY DREAD · RAVEN & MESSAGES GUARDIAN
-            </h4>
-            <p style={{ fontSize: '0.88rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
-              Symbolizing grand scale communication, long-lasting partnerships, prompt professional response, and realm-wide reach.
-            </p>
-          </div>
-        </div>
-
         <div
           className="contact-card"
           style={{

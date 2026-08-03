@@ -1,8 +1,19 @@
 'use client';
 
-import { Cpu, Layers, BookOpen } from 'lucide-react';
+import { useMemo } from 'react';
+import { Cpu, Layers, BookOpen, Wrench, Code2, Database } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
 import DragonBackgroundLayer from '../dragonpit/DragonBackgroundLayer';
+
+const CATEGORY_ICONS: Record<string, any> = {
+  frontend: Code2,
+  backend: Cpu,
+  languages: Code2,
+  databases: Database,
+  database: Database,
+  tools: Wrench,
+  devops: Layers,
+};
 
 const parseSkill = (skill: any) => {
   if (!skill) return { name: '', iconUrl: '' };
@@ -13,7 +24,10 @@ const parseSkill = (skill: any) => {
     }
     return { name: skill, iconUrl: '' };
   }
-  return { name: skill.name || '', iconUrl: skill.iconUrl || skill.icon || '' };
+  return {
+    name: skill.name || skill.title || skill.label || '',
+    iconUrl: skill.iconUrl || skill.icon || skill.logo || '',
+  };
 };
 
 interface SkillsSectionProps {
@@ -23,7 +37,39 @@ interface SkillsSectionProps {
 }
 
 export default function SkillsSection({ skills, about, loading }: SkillsSectionProps) {
-  const hasStructuredSkills = skills && skills.length > 0;
+  const categories = useMemo(() => {
+    if (!skills || skills.length === 0) {
+      const fallback = Array.isArray(about?.skills) ? about.skills : [];
+      if (fallback.length > 0) {
+        return [{ category: 'Technical Skills', items: fallback }];
+      }
+      return [];
+    }
+
+    // Check if items are already grouped into categories
+    const isGrouped = skills.some(s => Array.isArray(s.items) || Array.isArray(s.skills));
+    if (isGrouped) {
+      return skills
+        .map(group => ({
+          category: group.category || group.title || 'Engineering Domain',
+          items: group.items || group.skills || [],
+        }))
+        .filter(g => g.items.length > 0);
+    }
+
+    // Flat list of skill documents -> group by category
+    const map: Record<string, any[]> = {};
+    skills.forEach(item => {
+      const cat = item.category || item.group || 'General Skills';
+      if (!map[cat]) map[cat] = [];
+      map[cat].push(item);
+    });
+
+    return Object.entries(map).map(([category, items]) => ({
+      category,
+      items,
+    }));
+  }, [skills, about]);
 
   return (
     <section
@@ -37,7 +83,7 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_and_silverwing.jpg" opacity={0.08} position="bottom-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_and_silverwing.jpg" opacity={0.04} position="bottom-left" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
@@ -46,48 +92,17 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
           description="Backend architecture, system design, hardware, and engineering technologies forged through experience."
         />
 
-        {/* Vermithor Dragon Feature Header Card */}
-        <div
-          className="mb-10 dp-ember-hover"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr',
-            gap: '24px',
-            alignItems: 'center',
-            background: 'var(--dp-panel)',
-            border: '1px solid var(--dp-border)',
-            borderRadius: '6px',
-            padding: '20px 28px',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
-          }}
-        >
-          <img
-            src="/dragonpit/vermithor_1.jpg"
-            alt="Vermithor The Bronze Fury — System Architecture Dragon Guardian"
-            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = '/dragonpit/vermithor-skills.png';
-            }}
-          />
-          <div>
-            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '4px' }}>
-              VERMITHOR · THE BRONZE FURY GUARDIAN
-            </h4>
-            <p style={{ fontSize: '0.85rem', color: 'var(--dp-smoke)', lineHeight: 1.5 }}>
-              Symbolizing heavy technical foundations, operating systems, database architecture, low-level power, and robust software engineering capabilities.
-            </p>
-          </div>
-        </div>
-
         {loading ? (
           <SkillsSkeleton />
-        ) : hasStructuredSkills ? (
+        ) : categories.length > 0 ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px' }}>
-            {skills.map((categoryGroup, i) => {
-              const IconComp = [Cpu, Layers, BookOpen][i % 3];
+            {categories.map((catGroup, i) => {
+              const catKey = catGroup.category.toLowerCase().trim();
+              const IconComp = CATEGORY_ICONS[catKey] || [Cpu, Layers, BookOpen][i % 3];
+
               return (
                 <div
-                  key={categoryGroup.id || i}
+                  key={catGroup.category || i}
                   className="skills-card dp-ember-hover"
                   style={{
                     background: 'var(--dp-panel)',
@@ -100,13 +115,15 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', paddingBottom: '14px', borderBottom: '1px solid rgba(212, 175, 55, 0.2)' }}>
                     <IconComp size={20} style={{ color: 'var(--dp-gold-bright)' }} />
                     <h3 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '1.15rem', fontWeight: 800, color: '#ffffff' }}>
-                      {categoryGroup.category || categoryGroup.title || 'Engineering Domain'}
+                      {catGroup.category}
                     </h3>
                   </div>
 
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                    {(categoryGroup.items || categoryGroup.skills || []).map((skillItem: any, idx: number) => {
+                    {catGroup.items.map((skillItem: any, idx: number) => {
                       const { name, iconUrl } = parseSkill(skillItem);
+                      if (!name) return null;
+
                       return (
                         <span key={idx} className="dp-tech-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                           {iconUrl && (
@@ -128,7 +145,7 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
           </div>
         ) : (
           <div className="dp-panel" style={{ padding: '32px', textAlign: 'center', color: 'var(--dp-muted)' }}>
-            <p>No structured skill categories found.</p>
+            <p>No skills have been published yet.</p>
           </div>
         )}
       </div>
