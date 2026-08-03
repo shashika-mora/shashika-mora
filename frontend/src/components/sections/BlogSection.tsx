@@ -22,7 +22,7 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.08} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="bottom-left" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

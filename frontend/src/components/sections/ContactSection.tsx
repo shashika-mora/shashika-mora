@@ -59,7 +59,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/veghar_1.jpg" opacity={0.09} position="bottom-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/Meleys_Seasmoke_Vermax.jpg" opacity={0.14} position="top-right" />
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

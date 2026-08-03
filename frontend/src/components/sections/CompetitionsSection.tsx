@@ -23,7 +23,7 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_2.jpg" opacity={0.09} position="top-right" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_3.jpg" opacity={0.14} position="top-right" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

@@ -7,13 +7,15 @@ interface DragonBackgroundLayerProps {
   alt?: string;
   opacity?: number;
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center-right' | 'center-left';
+  size?: number;
 }
 
 export default function DragonBackgroundLayer({
   imageSrc,
   alt = '',
-  opacity = 0.04,
+  opacity = 0.12,
   position = 'top-right',
+  size = 540,
 }: DragonBackgroundLayerProps) {
   const layerRef = useRef<HTMLDivElement>(null);
 
@@ -24,7 +26,7 @@ export default function DragonBackgroundLayer({
       rafId = requestAnimationFrame(() => {
         if (!layerRef.current) return;
         const scrolled = window.scrollY;
-        layerRef.current.style.transform = `translate3d(0, ${scrolled * 0.03}px, 0)`;
+        layerRef.current.style.transform = `translate3d(0, ${scrolled * 0.035}px, 0)`;
       });
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -37,18 +39,18 @@ export default function DragonBackgroundLayer({
   const getPositionStyles = (): React.CSSProperties => {
     switch (position) {
       case 'top-left':
-        return { top: '-5%', left: '-10%' };
+        return { top: '0%', left: '-4%' };
       case 'bottom-right':
-        return { bottom: '-5%', right: '-10%' };
+        return { bottom: '0%', right: '-4%' };
       case 'bottom-left':
-        return { bottom: '-5%', left: '-10%' };
+        return { bottom: '0%', left: '-4%' };
       case 'center-right':
-        return { top: '25%', right: '-10%' };
+        return { top: '20%', right: '-4%' };
       case 'center-left':
-        return { top: '25%', left: '-10%' };
+        return { top: '20%', left: '-4%' };
       case 'top-right':
       default:
-        return { top: '-5%', right: '-10%' };
+        return { top: '0%', right: '-4%' };
     }
   };
 
@@ -58,16 +60,16 @@ export default function DragonBackgroundLayer({
       aria-hidden="true"
       style={{
         position: 'absolute',
-        width: '650px',
-        height: '650px',
+        width: `${size}px`,
+        height: `${size}px`,
         pointerEvents: 'none',
         zIndex: 0,
         opacity,
         overflow: 'hidden',
-        filter: 'grayscale(0.6) contrast(1.2) sepia(0.3)',
-        mixBlendMode: 'screen',
-        WebkitMaskImage: 'radial-gradient(circle at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%)',
-        maskImage: 'radial-gradient(circle at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%)',
+        filter: 'contrast(1.25) sepia(0.2) saturate(1.1)',
+        mixBlendMode: 'lighten',
+        WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 78%)',
+        maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 78%)',
         willChange: 'transform',
         ...getPositionStyles(),
       }}
@@ -82,7 +84,7 @@ export default function DragonBackgroundLayer({
           height: '100%',
           objectFit: 'cover',
           objectPosition: 'center',
-          filter: 'brightness(0.9)',
+          filter: 'brightness(1.15)',
         }}
       />
     </div>

@@ -22,7 +22,7 @@ export default function ProjectsSection({ projects, loading }: ProjectsSectionPr
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/caraxes_2.jpg" opacity={0.04} position="top-right" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/caraxes_3.jpg" opacity={0.14} position="bottom-left" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

@@ -24,7 +24,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/syrax_and_silverwing.jpg" opacity={0.05} position="top-right" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/Syrax_Caraxes_Vhagar.jpg" opacity={0.14} position="bottom-left" />
 
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

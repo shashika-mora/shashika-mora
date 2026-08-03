@@ -25,7 +25,7 @@ export default function ThoughtsSection({ thoughts, loading, onVote, userVotes }
       }}
     >
       {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/meleys_1.jpg" opacity={0.08} position="bottom-right" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/meleys_3.jpg" opacity={0.14} position="top-right" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
