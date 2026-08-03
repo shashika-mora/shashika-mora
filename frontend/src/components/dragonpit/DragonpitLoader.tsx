@@ -1,25 +1,24 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import styles from './DragonpitLoader.module.css';
 
 const SESSION_KEY = 'dragonpit-intro-seen';
-const MAX_DURATION = 3000; // never block longer than 3 s
+const MIN_DISPLAY_TIME = 2600; // Guaranteed minimum display time to showcase loader artwork
 
 const SUBTITLES = [
-  'Kindling the flame\u2026',
-  'Opening the chronicles\u2026',
-  'Summoning the archives\u2026',
+  'Kindling the dragon flame…',
+  'Opening the Valyrian archives…',
+  'Summoning dragons of the pit…',
   'The Dragonpit is ready.',
 ];
 
 /** Ember particle data */
-const EMBERS = Array.from({ length: 14 }, (_, i) => ({
+const EMBERS = Array.from({ length: 16 }, (_, i) => ({
   id: i,
-  x: 90 + Math.sin((i / 14) * Math.PI * 2) * 82,
-  y: 90 + Math.cos((i / 14) * Math.PI * 2) * 82,
-  delay: (i / 14) * 1.4,
-  tx: `${(i % 2 === 0 ? 1 : -1) * (6 + (i % 4) * 4)}px`,
+  x: 100 + Math.sin((i / 16) * Math.PI * 2) * 90,
+  y: 100 + Math.cos((i / 16) * Math.PI * 2) * 90,
+  delay: (i / 16) * 1.4,
+  tx: `${(i % 2 === 0 ? 1 : -1) * (8 + (i % 4) * 5)}px`,
   size: 2 + (i % 3),
 }));
 
@@ -33,29 +32,20 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
   const [phase, setPhase] = useState<'intro' | 'exit'>('intro');
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Check session storage — skip if already seen this session
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const seen = sessionStorage.getItem(SESSION_KEY);
-    if (seen) {
-      // Already seen — exit immediately
-      setVisible(false);
-      onComplete();
-      return;
-    }
-
-    // Rotate subtitle text every 600 ms
+    // Rotate subtitle text
     let idx = 0;
     const subtitleTimer = setInterval(() => {
       idx = (idx + 1) % SUBTITLES.length;
       setSubtitleIdx(idx);
-    }, 600);
+    }, 650);
 
-    // Auto-exit after MAX_DURATION
+    // Guaranteed minimum display duration so viewers get to see the artwork
     timerRef.current = setTimeout(() => {
       handleExit();
-    }, MAX_DURATION);
+    }, MIN_DISPLAY_TIME);
 
     return () => {
       clearInterval(subtitleTimer);
@@ -67,7 +57,6 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
   const handleExit = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
     setPhase('exit');
-    // Prevent body scroll restoration
     setTimeout(() => {
       setVisible(false);
       try {
@@ -88,15 +77,28 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: 'var(--dp-black)',
+        background: '#040303',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        animation: phase === 'exit' ? 'loaderExit 0.6s ease forwards' : 'none',
+        animation: phase === 'exit' ? 'loaderExit 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' : 'none',
       }}
     >
+      {/* Ambient background fire glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(184, 20, 20, 0.25) 0%, rgba(255, 90, 19, 0.12) 45%, transparent 70%)',
+          filter: 'blur(40px)',
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* Skip button */}
       <button
         onClick={handleExit}
@@ -105,99 +107,94 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
           position: 'absolute',
           top: '24px',
           right: '24px',
-          background: 'transparent',
+          background: 'rgba(20, 17, 15, 0.8)',
           border: '1px solid var(--dp-border)',
-          color: 'var(--dp-muted)',
-          fontSize: '0.7rem',
-          letterSpacing: '0.12em',
+          color: 'var(--dp-gold-soft)',
+          fontSize: '0.72rem',
+          fontWeight: 700,
+          letterSpacing: '0.14em',
           textTransform: 'uppercase',
-          padding: '6px 14px',
-          borderRadius: '2px',
+          padding: '8px 16px',
+          borderRadius: '4px',
           cursor: 'pointer',
           zIndex: 10,
-          transition: 'color 0.2s, border-color 0.2s',
+          transition: 'all 0.2s',
+          backdropFilter: 'blur(8px)',
         }}
         onMouseEnter={e => {
-          (e.currentTarget as HTMLButtonElement).style.color = 'var(--dp-gold)';
-          (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--dp-gold)';
+          (e.currentTarget as HTMLButtonElement).style.color = '#ffffff';
+          (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--dp-gold-bright)';
+          (e.currentTarget as HTMLButtonElement).style.background = 'rgba(138, 13, 13, 0.4)';
         }}
         onMouseLeave={e => {
-          (e.currentTarget as HTMLButtonElement).style.color = 'var(--dp-muted)';
+          (e.currentTarget as HTMLButtonElement).style.color = 'var(--dp-gold-soft)';
           (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--dp-border)';
+          (e.currentTarget as HTMLButtonElement).style.background = 'rgba(20, 17, 15, 0.8)';
         }}
       >
-        Skip Intro
+        Skip Intro ⚔️
       </button>
 
-      {/* SVG stage — medallion + fire ring + embers */}
-      <div style={{ position: 'relative', width: 220, height: 220 }}>
+      {/* Main Banner Artwork Stage */}
+      <div style={{ position: 'relative', width: 260, height: 260 }}>
+        {/* SVG Fire Ring & Embers */}
         <svg
-          width="220"
-          height="220"
-          viewBox="0 0 220 220"
+          width="260"
+          height="260"
+          viewBox="0 0 260 260"
           fill="none"
           aria-hidden="true"
           style={{ position: 'absolute', inset: 0 }}
         >
-          {/* Dark medallion background */}
+          {/* Travelling fire ring stroke */}
           <circle
-            cx="110" cy="110" r="90"
-            fill="#060504"
-            style={{
-              animation: 'medallionAppear 0.5s ease forwards',
-            }}
-          />
-
-          {/* Fire ring — travelling dashed stroke */}
-          <circle
-            cx="110" cy="110" r="90"
+            cx="130" cy="130" r="115"
             stroke="url(#fireGrad)"
-            strokeWidth="3"
-            strokeDasharray="565"
-            strokeDashoffset="565"
+            strokeWidth="3.5"
+            strokeDasharray="722"
+            strokeDashoffset="722"
             strokeLinecap="round"
             style={{
-              animation: 'fireRingTravel 2s ease-in-out 0.4s forwards',
+              animation: 'fireRingTravel 2.2s ease-in-out 0.2s forwards',
               transformOrigin: 'center',
             }}
           />
 
-          {/* Outer gold ring */}
+          {/* Outer gold accent circle */}
           <circle
-            cx="110" cy="110" r="96"
-            stroke="#c79a45" strokeWidth="0.5" opacity="0.3"
+            cx="130" cy="130" r="124"
+            stroke="#ffd700" strokeWidth="0.8" opacity="0.4"
           />
 
-          {/* Gradient definitions */}
           <defs>
             <linearGradient id="fireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#6f0909"/>
-              <stop offset="30%" stopColor="#a31313"/>
-              <stop offset="60%" stopColor="#ff5a13"/>
-              <stop offset="80%" stopColor="#f28b1d"/>
-              <stop offset="100%" stopColor="#c79a45"/>
+              <stop offset="0%" stopColor="#8a0d0d"/>
+              <stop offset="35%" stopColor="#b81414"/>
+              <stop offset="65%" stopColor="#ff5a13"/>
+              <stop offset="85%" stopColor="#ff7b00"/>
+              <stop offset="100%" stopColor="#ffd700"/>
             </linearGradient>
           </defs>
 
-          {/* Ember particles — decorative, aria-hidden on parent SVG */}
+          {/* Ember particles */}
           {EMBERS.map(e => (
             <circle
               key={e.id}
               cx={e.x}
               cy={e.y}
               r={e.size}
-              fill={e.id % 3 === 0 ? '#ff5a13' : e.id % 3 === 1 ? '#f28b1d' : '#c79a45'}
+              fill={e.id % 3 === 0 ? '#ff5a13' : e.id % 3 === 1 ? '#ff7b00' : '#ffd700'}
               style={{
                 opacity: 0,
                 // @ts-ignore
                 '--tx': e.tx,
-                animation: `emberRise 1.2s ease-out ${0.6 + e.delay}s forwards`,
+                animation: `emberRise 1.4s ease-out ${0.4 + e.delay}s forwards`,
               } as React.CSSProperties}
             />
           ))}
         </svg>
 
-        {/* Sigil image centered in medallion */}
+        {/* Dragonpit Banner Image (my_banner.png) Centered in Fire Ring */}
         <div
           style={{
             position: 'absolute',
@@ -208,36 +205,32 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
           }}
         >
           <img
-            src="/dragonpit/sigil-three-headed-red.svg"
-            alt="The Dragonpit — three-headed dragon sigil"
-            width={130}
-            height={130}
+            src="/dragonpit/my_banner.png"
+            alt="The Dragonpit Emblem Banner"
             style={{
-              width: 130,
-              height: 130,
+              width: 190,
+              height: 190,
               objectFit: 'contain',
-              animation: 'sigilGlow 1.8s ease forwards 0.3s',
+              animation: 'sigilGlow 1.8s ease forwards 0.2s',
               opacity: 0,
-            }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
             }}
           />
         </div>
       </div>
 
-      {/* Title text */}
-      <div style={{ marginTop: '32px', textAlign: 'center', userSelect: 'none' }}>
+      {/* Subtitles & Title */}
+      <div style={{ marginTop: '36px', textAlign: 'center', userSelect: 'none', zIndex: 1 }}>
         <p
           style={{
             fontFamily: 'var(--font-heading, Georgia, serif)',
             fontWeight: 900,
-            fontSize: '0.7rem',
-            letterSpacing: '0.18em',
+            fontSize: '0.85rem',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: 'var(--dp-gold)',
+            color: 'var(--dp-gold-bright)',
             opacity: 0,
-            animation: 'textReveal 0.8s ease forwards 1.4s',
+            animation: 'textReveal 0.8s ease forwards 0.6s',
+            textShadow: '0 0 12px rgba(255, 215, 0, 0.4)',
           }}
         >
           AWAKENING THE DRAGONPIT
@@ -245,53 +238,48 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
         <p
           aria-live="polite"
           style={{
-            marginTop: '10px',
-            fontSize: '0.65rem',
-            letterSpacing: '0.1em',
-            color: 'var(--dp-muted)',
-            minHeight: '1.2em',
+            marginTop: '12px',
+            fontSize: '0.78rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            color: 'var(--dp-smoke)',
+            minHeight: '1.4em',
             transition: 'opacity 0.3s',
-            opacity: 0.6,
+            opacity: 0.85,
           }}
         >
           {SUBTITLES[subtitleIdx]}
         </p>
       </div>
 
-      {/* Inline keyframe styles — loader exit needs to be inline since it references state */}
       <style>{`
-        @keyframes medallionAppear {
-          0%   { opacity: 0; }
-          100% { opacity: 1; }
-        }
         @keyframes sigilGlow {
-          0%   { opacity: 0; filter: drop-shadow(0 0 0px #a31313) brightness(0.3); }
-          40%  { opacity: 0.6; filter: drop-shadow(0 0 16px #a31313) brightness(0.7); }
-          100% { opacity: 1; filter: drop-shadow(0 0 32px #d32323) drop-shadow(0 0 60px #6f0909) brightness(1); }
+          0%   { opacity: 0; filter: drop-shadow(0 0 0px #8a0d0d) brightness(0.4); transform: scale(0.92); }
+          50%  { opacity: 0.8; filter: drop-shadow(0 0 25px #ff5a13) brightness(0.9); transform: scale(1.02); }
+          100% { opacity: 1; filter: drop-shadow(0 0 35px #ff5a13) drop-shadow(0 0 65px #8a0d0d) brightness(1.08); transform: scale(1); }
         }
         @keyframes fireRingTravel {
-          0%   { stroke-dashoffset: 565; opacity: 0; }
-          10%  { opacity: 1; }
-          90%  { opacity: 1; }
-          100% { stroke-dashoffset: -565; opacity: 0; }
+          0%   { stroke-dashoffset: 722; opacity: 0; }
+          15%  { opacity: 1; }
+          85%  { opacity: 1; }
+          100% { stroke-dashoffset: -722; opacity: 0; }
         }
         @keyframes emberRise {
           0%   { opacity: 0.9; transform: translateY(0) translateX(0) scale(1); }
           70%  { opacity: 0.4; }
-          100% { opacity: 0; transform: translateY(-70px) translateX(var(--tx)) scale(0.2); }
+          100% { opacity: 0; transform: translateY(-80px) translateX(var(--tx)) scale(0.2); }
         }
         @keyframes textReveal {
-          0%   { opacity: 0; letter-spacing: 0.3em; }
-          100% { opacity: 1; letter-spacing: 0.18em; }
+          0%   { opacity: 0; letter-spacing: 0.35em; }
+          100% { opacity: 1; letter-spacing: 0.22em; }
         }
         @keyframes loaderExit {
-          0%   { opacity: 1; }
-          100% { opacity: 0; }
+          0%   { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(1.03); }
         }
         @media (prefers-reduced-motion: reduce) {
-          /* Skip fire animation, just show sigil */
           circle[stroke="url(#fireGrad)"] { display: none !important; }
-          img[alt*="dragon"] { opacity: 1 !important; animation: none !important; filter: drop-shadow(0 0 20px #a31313) !important; }
+          img[alt*="Dragonpit"] { opacity: 1 !important; animation: none !important; }
         }
       `}</style>
     </div>

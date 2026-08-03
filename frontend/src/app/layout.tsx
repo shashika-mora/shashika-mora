@@ -21,7 +21,7 @@ export const metadata = {
   description:
     'The Dragonpit is the dynamic portfolio of Shashika Dayarathna, a Computer Science and Engineering undergraduate at the University of Moratuwa, featuring projects, academic progress, competitions, technical writing and ongoing learning.',
   icons: [
-    { rel: 'icon', url: '/dragonpit/favicon-dragonpit.svg', type: 'image/svg+xml' },
+    { rel: 'icon', url: '/dragonpit/my_banner.png', type: 'image/png' },
   ],
   openGraph: {
     title: 'The Dragonpit | Shashika Dayarathna',
