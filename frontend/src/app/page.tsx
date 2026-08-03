@@ -298,7 +298,7 @@ export default function Home() {
       <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
 
         {/* ════════════════════════════════════════
-            HERO SECTION
+            HERO SECTION — CLEAN OBSIDIAN
             ════════════════════════════════════════ */}
         <section
           style={{
@@ -308,24 +308,8 @@ export default function Home() {
             justifyContent: 'center',
             padding: '130px 24px 80px',
             position: 'relative',
-            overflow: 'hidden',
           }}
         >
-          {/* Seamless Transparent SVG Dragon Silhouette Backdrop */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: "url('/dragonpit/hero-dragon-silhouette.svg')",
-              backgroundPosition: 'center 40%',
-              backgroundSize: '850px auto',
-              backgroundRepeat: 'no-repeat',
-              opacity: 0.45,
-              pointerEvents: 'none',
-            }}
-          />
-
           <div
             style={{
               maxWidth: '1280px',
@@ -589,6 +573,64 @@ export default function Home() {
           >
             <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dp-gold-soft)' }}>Scroll</span>
             <div style={{ width: '2px', height: '36px', background: 'linear-gradient(var(--dp-gold-bright), var(--dp-ember), transparent)', borderRadius: '1px' }} />
+          </div>
+        </section>
+
+        {/* 🐉 DRAGON FEATURE ARTWORK BANNER (Image 1 Artwork) 🐉 */}
+        <section
+          style={{
+            padding: '40px 24px',
+            maxWidth: '1280px',
+            margin: '0 auto 60px',
+            position: 'relative',
+          }}
+        >
+          <div
+            className="dp-ember-hover"
+            style={{
+              position: 'relative',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              border: '1px solid var(--dp-border)',
+              background: 'var(--dp-panel)',
+              height: '360px',
+              boxShadow: '0 16px 40px rgba(0,0,0,0.8)',
+            }}
+          >
+            <img
+              src="/dragonpit/flying-dragon-art.png"
+              alt="The Dragonpit — Ideas Hatch Here. Systems Take Flight."
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                filter: 'brightness(0.85) contrast(1.1)',
+              }}
+            />
+            {/* Banner overlay caption */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(90deg, rgba(8,7,6,0.92) 0%, rgba(8,7,6,0.4) 60%, transparent 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0 48px',
+              }}
+            >
+              <div style={{ maxWidth: '520px' }}>
+                <p style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)', marginBottom: '8px' }}>
+                  THE DRAGONPIT ARCHIVES
+                </p>
+                <h3 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginBottom: '12px', lineHeight: 1.2 }}>
+                  Ideas Hatch Here.<br />Systems Take Flight.
+                </h3>
+                <p style={{ fontSize: '0.9rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
+                  Welcome to my personal engineering portfolio — an obsidian pit of projects, low-level experiments, research, and technical writing.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
