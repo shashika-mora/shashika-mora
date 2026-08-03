@@ -21,9 +21,39 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <DragonpitSectionHeader
           label="Blog"
-          themed="THE WRITTEN ARCHIVES"
-          description="Technical write-ups, learning notes, and architectural breakdowns from the forge."
+          themed="DREAMFYRE · THE WRITTEN ARCHIVES & RESEARCH"
+          description="Technical write-ups, learning notes, AI explorations, and architectural breakdowns."
         />
+
+        {/* Dreamfyre Dragon Feature Header Card */}
+        <div
+          className="mb-10 dp-ember-hover"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '24px',
+            alignItems: 'center',
+            background: 'var(--dp-panel)',
+            border: '1px solid var(--dp-border)',
+            borderRadius: '6px',
+            padding: '20px 28px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+          }}
+        >
+          <img
+            src="/dragonpit/dreamfyre-blog.png"
+            alt="Dreamfyre Pale Blue Dragon — Research & Wisdom Guardian"
+            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+          />
+          <div>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '4px' }}>
+              DREAMFYRE · RESEARCH & WISDOM GUARDIAN
+            </h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--dp-smoke)', lineHeight: 1.5 }}>
+              Symbolizing imagination, artificial intelligence, technical writing, lore, reading, and deep reflective thinking.
+            </p>
+          </div>
+        </div>
 
         {loading ? (
           <BlogSkeleton />
@@ -57,8 +87,7 @@ function BlogCard({ blog }: { blog: any }) {
     ? new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     : '';
 
-  // Use blog image or dragon project placeholder fallback
-  const displayImage = blog.imageUrl || '/dragonpit/project-placeholder.png';
+  const displayImage = blog.imageUrl || '/dragonpit/dreamfyre-blog.png';
 
   return (
     <Link

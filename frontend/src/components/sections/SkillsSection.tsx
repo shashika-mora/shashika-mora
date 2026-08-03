@@ -52,9 +52,39 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Skills"
-          themed="THE ARSENAL OF VALYRIA"
-          description="Technologies, systems, and engineering capabilities forged through code and experimentation."
+          themed="VERMITHOR · THE BRONZE FURY (SYSTEMS ARCHITECTURE)"
+          description="Backend architecture, system design, hardware, and engineering technologies forged through experience."
         />
+
+        {/* Vermithor Dragon Feature Header Card */}
+        <div
+          className="mb-10 dp-ember-hover"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '24px',
+            alignItems: 'center',
+            background: 'var(--dp-panel)',
+            border: '1px solid var(--dp-border)',
+            borderRadius: '6px',
+            padding: '20px 28px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+          }}
+        >
+          <img
+            src="/dragonpit/vermithor-skills.png"
+            alt="Vermithor The Bronze Fury — System Architecture Dragon Guardian"
+            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+          />
+          <div>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '4px' }}>
+              VERMITHOR · THE BRONZE FURY GUARDIAN
+            </h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--dp-smoke)', lineHeight: 1.5 }}>
+              Symbolizing heavy technical foundations, operating systems, database architecture, low-level power, and robust software engineering capabilities.
+            </p>
+          </div>
+        </div>
 
         {loading ? (
           <SkillsSkeleton />

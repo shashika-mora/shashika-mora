@@ -298,7 +298,7 @@ export default function Home() {
       <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
 
         {/* ════════════════════════════════════════
-            HERO SECTION — CLEAN OBSIDIAN
+            HERO SECTION — CARAXES BLOOD WYRM GUARDIAN
             ════════════════════════════════════════ */}
         <section
           style={{
@@ -324,7 +324,7 @@ export default function Home() {
             }}
           >
             {/* Text column */}
-            <div style={{ maxWidth: '700px' }}>
+            <div style={{ maxWidth: '680px' }}>
               {/* Availability badge */}
               <div
                 className="dp-hero-badge"
@@ -454,7 +454,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Profile Avatar Frame */}
+            {/* Profile Avatar Frame & Caraxes Blood Wyrm Artwork */}
             <div
               className="dp-hero-avatar"
               style={{ position: 'relative', flexShrink: 0 }}
@@ -464,11 +464,11 @@ export default function Home() {
                 aria-hidden="true"
                 style={{
                   position: 'absolute',
-                  inset: '-10px',
+                  inset: '-12px',
                   background: 'linear-gradient(135deg, var(--dp-blood), var(--dp-ember), var(--dp-gold-bright))',
                   borderRadius: '8px',
                   opacity: 0.45,
-                  filter: 'blur(12px)',
+                  filter: 'blur(14px)',
                 }}
               />
 
@@ -576,7 +576,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 🐉 DRAGON FEATURE ARTWORK BANNER (Image 1 Artwork) 🐉 */}
+        {/* 🐉 CARAXES THE BLOOD WYRM FLIGHT BANNER 🐉 */}
         <section
           style={{
             padding: '40px 24px',
@@ -598,14 +598,14 @@ export default function Home() {
             }}
           >
             <img
-              src="/dragonpit/flying-dragon-art.png"
-              alt="The Dragonpit — Ideas Hatch Here. Systems Take Flight."
+              src="/dragonpit/caraxes-flight-banner.png"
+              alt="Caraxes the Blood Wyrm — Ideas Hatch Here. Systems Take Flight."
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
                 objectPosition: 'center',
-                filter: 'brightness(0.85) contrast(1.1)',
+                filter: 'brightness(0.88) contrast(1.1)',
               }}
             />
             {/* Banner overlay caption */}
@@ -613,21 +613,21 @@ export default function Home() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(90deg, rgba(8,7,6,0.92) 0%, rgba(8,7,6,0.4) 60%, transparent 100%)',
+                background: 'linear-gradient(90deg, rgba(8,7,6,0.95) 0%, rgba(8,7,6,0.5) 60%, transparent 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 padding: '0 48px',
               }}
             >
-              <div style={{ maxWidth: '520px' }}>
+              <div style={{ maxWidth: '540px' }}>
                 <p style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)', marginBottom: '8px' }}>
-                  THE DRAGONPIT ARCHIVES
+                  ⚔️ CARAXES · THE BLOOD WYRM ⚔️
                 </p>
                 <h3 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginBottom: '12px', lineHeight: 1.2 }}>
                   Ideas Hatch Here.<br />Systems Take Flight.
                 </h3>
                 <p style={{ fontSize: '0.9rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
-                  Welcome to my personal engineering portfolio — an obsidian pit of projects, low-level experiments, research, and technical writing.
+                  Welcome to my personal engineering portfolio — an obsidian pit of software architecture, intelligent systems, hardware experiments, and dragon lore.
                 </p>
               </div>
             </div>
@@ -638,16 +638,16 @@ export default function Home() {
             PAGE SECTIONS
             ════════════════════════════════════════ */}
 
-        {/* 1. Skills */}
+        {/* 1. Skills (Vermithor the Bronze Fury) */}
         <SkillsSection skills={skills} about={about} loading={skillsLoading} />
 
-        {/* 2. Featured Projects */}
+        {/* 2. Featured Projects (Caraxes dragons of the pit) */}
         <ProjectsSection projects={projects} loading={projectsLoading} />
 
-        {/* 3. Competitions */}
+        {/* 3. Competitions (Sunfyre the Golden) */}
         <CompetitionsSection competitions={competitions} loading={competitionsLoading} />
 
-        {/* 4. Blog */}
+        {/* 4. Blog (Dreamfyre the Pale Blue) */}
         <BlogSection blogs={blogs} loading={blogsLoading} />
 
         {/* 5. Thoughts */}

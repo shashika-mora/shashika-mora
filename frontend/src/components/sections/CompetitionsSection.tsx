@@ -22,9 +22,39 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <DragonpitSectionHeader
           label="Competitions"
-          themed="TRIALS BY FIRE"
-          description="Competitive programming milestones, hackathons, and software engineering challenges."
+          themed="SUNFYRE THE GOLDEN · TRIALS BY FIRE & TRIUMPHS"
+          description="Competitive programming milestones, hackathons, and software engineering achievements."
         />
+
+        {/* Sunfyre Golden Dragon Feature Header Card */}
+        <div
+          className="mb-10 dp-ember-hover"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '24px',
+            alignItems: 'center',
+            background: 'var(--dp-panel)',
+            border: '1px solid var(--dp-border)',
+            borderRadius: '6px',
+            padding: '20px 28px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+          }}
+        >
+          <img
+            src="/dragonpit/sunfyre-competitions.png"
+            alt="Sunfyre The Golden — Achievements Dragon Guardian"
+            style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+          />
+          <div>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '4px' }}>
+              SUNFYRE THE GOLDEN · TRIUMPH & RESILIENCE GUARDIAN
+            </h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--dp-smoke)', lineHeight: 1.5 }}>
+              Symbolizing excellence, high-visibility hackathons, contest resilience, returning from setbacks, and golden engineering achievements.
+            </p>
+          </div>
+        </div>
 
         {loading ? (
           <CompetitionsSkeleton />
