@@ -72,9 +72,12 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
           }}
         >
           <img
-            src="/dragonpit/vermithor-skills.png"
+            src="/dragonpit/vermithor_1.jpg"
             alt="Vermithor The Bronze Fury — System Architecture Dragon Guardian"
             style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/dragonpit/vermithor-skills.png';
+            }}
           />
           <div>
             <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '4px' }}>

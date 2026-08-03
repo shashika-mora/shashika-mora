@@ -33,23 +33,26 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
             gridTemplateColumns: 'auto 1fr',
             gap: '24px',
             alignItems: 'center',
-            background: 'var(--dp-panel)',
-            border: '1px solid var(--dp-border)',
-            borderRadius: '6px',
-            padding: '20px 28px',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+            background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            borderRadius: '8px',
+            padding: '24px 32px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
           }}
         >
           <img
-            src="/dragonpit/dreamfyre-blog.png"
+            src="/dragonpit/dreamfyre.jpg"
             alt="Dreamfyre Pale Blue Dragon — Research & Wisdom Guardian"
             style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/dragonpit/dreamfyre-blog.png';
+            }}
           />
           <div>
-            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '4px' }}>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '6px' }}>
               DREAMFYRE · RESEARCH & WISDOM GUARDIAN
             </h4>
-            <p style={{ fontSize: '0.85rem', color: 'var(--dp-smoke)', lineHeight: 1.5 }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
               Symbolizing imagination, artificial intelligence, technical writing, lore, reading, and deep reflective thinking.
             </p>
           </div>
@@ -58,12 +61,22 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
         {loading ? (
           <BlogSkeleton />
         ) : blogs.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '48px', border: '1px solid var(--dp-border)', borderRadius: '6px', color: 'var(--dp-muted)', background: 'var(--dp-panel)' }}>
-            <BookOpen size={36} className="mx-auto mb-3 text-[var(--dp-gold)] opacity-70" />
-            <p>No chronicles written yet.</p>
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '48px',
+              background: '#14100d',
+              border: '1px solid rgba(212, 175, 55, 0.35)',
+              borderRadius: '8px',
+              color: 'var(--dp-muted)',
+              marginBottom: '32px',
+            }}
+          >
+            <BookOpen size={36} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
+            <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No articles have been published yet.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px', marginBottom: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '32px', marginBottom: '40px' }}>
             {blogs.map(blog => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
@@ -72,7 +85,7 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
 
         <div style={{ textAlign: 'center', marginTop: '16px' }}>
           <Link href="/blog" className="dp-btn-secondary" style={{ display: 'inline-flex' }}>
-            Browse All Chronicles 📜
+            Explore All Archives 📜
             <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
@@ -82,91 +95,107 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
 }
 
 function BlogCard({ blog }: { blog: any }) {
-  const publishDate = blog.publishedAt || blog.createdAt;
-  const formattedDate = publishDate
-    ? new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-    : '';
-
-  const displayImage = blog.imageUrl || '/dragonpit/dreamfyre-blog.png';
-
   return (
-    <Link
-      href={`/blog/${blog.slug}`}
+    <article
       className="blog-card dp-ember-hover"
       style={{
+        background: 'linear-gradient(180deg, #16120e 0%, #0f0c09 100%)',
+        border: '1px solid rgba(212, 175, 55, 0.35)',
+        borderRadius: '8px',
+        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        background: 'var(--dp-panel)',
-        border: '1px solid var(--dp-border)',
-        borderRadius: '6px',
-        overflow: 'hidden',
-        textDecoration: 'none',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,215,0,0.12)',
       }}
     >
-      {/* Cover image */}
-      <div style={{ height: '190px', overflow: 'hidden', borderBottom: '1px solid var(--dp-border)', flexShrink: 0, position: 'relative' }}>
-        <img
-          src={displayImage}
-          alt={blog.title || 'Blog cover image'}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-          onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.06)'; }}
-          onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
-        />
+      {/* Cover image if available */}
+      {blog.coverImage && (
+        <Link href={`/blog/${blog.slug}`} tabIndex={-1} aria-hidden="true">
+          <div style={{ height: '200px', overflow: 'hidden', borderBottom: '1px solid rgba(212, 175, 55, 0.25)' }}>
+            <img
+              src={blog.coverImage}
+              alt={blog.title}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+              onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.06)'; }}
+              onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
+            />
+          </div>
+        </Link>
+      )}
+
+      <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: '14px', flexGrow: 1 }}>
+        {/* Meta */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {blog.category && (
+            <span
+              style={{
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                padding: '3px 10px',
+                background: 'rgba(138, 13, 13, 0.35)',
+                border: '1px solid var(--dp-border)',
+                borderRadius: '3px',
+                color: 'var(--dp-gold-bright)',
+              }}
+            >
+              {blog.category}
+            </span>
+          )}
+          {blog.publishedAt && (
+            <span style={{ fontSize: '0.76rem', color: 'var(--dp-smoke)', fontFamily: 'monospace', fontWeight: 600 }}>
+              {new Date(blog.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+            </span>
+          )}
+        </div>
+
+        <Link href={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
+          <h3
+            style={{
+              fontFamily: 'var(--font-heading, Georgia, serif)',
+              fontSize: '1.25rem',
+              fontWeight: 800,
+              color: '#ffffff',
+              lineHeight: 1.35,
+              transition: 'color 0.2s',
+            }}
+            className="hover:text-[var(--dp-gold-bright)]"
+          >
+            {blog.title}
+          </h3>
+        </Link>
+
+        {blog.excerpt && (
+          <p style={{ color: 'var(--dp-smoke)', fontSize: '0.88rem', lineHeight: 1.7 }}>
+            {blog.excerpt}
+          </p>
+        )}
+
+        <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
+          <Link
+            href={`/blog/${blog.slug}`}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', fontWeight: 700, color: 'var(--dp-gold-bright)', textDecoration: 'none', transition: 'color 0.2s' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#ffffff'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--dp-gold-bright)'; }}
+          >
+            Read Archive Entry
+            <ArrowRight size={14} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
-
-      <div style={{ padding: '22px 24px', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {/* Date */}
-        <time
-          dateTime={publishDate}
-          style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)' }}
-        >
-          {formattedDate}
-        </time>
-
-        {/* Title */}
-        <h3
-          style={{
-            fontFamily: 'var(--font-heading, Georgia, serif)',
-            fontSize: '1.05rem',
-            fontWeight: 800,
-            color: '#ffffff',
-            lineHeight: 1.5,
-          }}
-        >
-          {blog.title}
-        </h3>
-
-        {/* Summary */}
-        <p style={{ fontSize: '0.86rem', color: 'var(--dp-smoke)', lineHeight: 1.7, flexGrow: 1 }}>
-          {blog.summary}
-        </p>
-
-        {/* Read link */}
-        <span
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontSize: '0.78rem', fontWeight: 700,
-            color: 'var(--dp-gold-bright)',
-            marginTop: '10px',
-          }}
-        >
-          Read Chronicle <ArrowRight size={14} aria-hidden="true" />
-        </span>
-      </div>
-    </Link>
+    </article>
   );
 }
 
 function BlogSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px', marginBottom: '40px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '32px', marginBottom: '40px' }}>
       {[1, 2, 3].map(i => (
-        <div key={i} style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '6px', overflow: 'hidden' }}>
-          <div style={{ height: '190px', background: 'var(--dp-charcoal)', animation: 'pulse 1.5s ease-in-out infinite' }} />
-          <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ height: '12px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '35%' }} />
-            <div style={{ height: '18px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '85%' }} />
-          </div>
+        <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ height: '20px', background: '#1c1713', borderRadius: '3px', width: '50%', animation: 'pulse 1.5s ease-in-out infinite' }} />
+          <div style={{ height: '24px', background: '#1c1713', borderRadius: '3px', width: '85%' }} />
+          <div style={{ height: '14px', background: '#1c1713', borderRadius: '3px', width: '95%' }} />
         </div>
       ))}
     </div>

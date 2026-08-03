@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { getThoughts, updateThoughtVote } from '../../lib/firestore-service';
-import { ThumbsUp, ThumbsDown, ArrowLeft, Search, Tag } from 'lucide-react';
+import { getThoughts, updateThoughtVote, Thought } from '../../lib/firestore-service';
+import { ThumbsUp, ThumbsDown, ArrowLeft, Search, Tag, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 const CATEGORIES = ['All', 'Tech', 'Academic', 'Life', 'Ideas', 'General'];
-
 const VOTES_KEY = 'thoughts_votes';
 
 function loadVotes(): Record<string, 'like' | 'dislike'> {
@@ -25,12 +24,12 @@ function saveVotes(votes: Record<string, 'like' | 'dislike'>) {
 }
 
 export default function ThoughtsPage() {
-  const [thoughts, setThoughts] = useState([]);
+  const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [votes, setVotes] = useState<Record<string, 'like' | 'dislike'>>({});
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setVotes(loadVotes());
@@ -45,8 +44,8 @@ export default function ThoughtsPage() {
   const filtered = thoughts.filter((t) => {
     const matchCat = selectedCategory === 'All' || t.category === selectedCategory;
     const matchSearch =
-      t.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.category?.toLowerCase().includes(searchTerm.toLowerCase());
+      (t.content || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (t.category || '').toLowerCase().includes(searchTerm.toLowerCase());
     return matchCat && matchSearch;
   });
 
@@ -59,21 +58,17 @@ export default function ThoughtsPage() {
       const prevThoughts = thoughts;
       const prevVotes = { ...votes };
 
-      // Optimistic update
       const newVotes = { ...votes };
       const thoughtUpdates: Record<string, number> = {};
 
       if (isSame) {
-        // Toggle off
         delete newVotes[id];
         thoughtUpdates[type === 'like' ? 'likes' : 'dislikes'] = -1;
       } else if (isSwitch) {
-        // Switch vote
         newVotes[id] = type;
         thoughtUpdates[type === 'like' ? 'likes' : 'dislikes'] = 1;
         thoughtUpdates[type === 'like' ? 'dislikes' : 'likes'] = -1;
       } else {
-        // Fresh vote
         newVotes[id] = type;
         thoughtUpdates[type === 'like' ? 'likes' : 'dislikes'] = 1;
       }
@@ -85,8 +80,8 @@ export default function ThoughtsPage() {
           t.id === id
             ? {
                 ...t,
-                likes: (t.likes || 0) + (thoughtUpdates.likes || 0),
-                dislikes: (t.dislikes || 0) + (thoughtUpdates.dislikes || 0),
+                likes: Math.max(0, (t.likes || 0) + (thoughtUpdates.likes || 0)),
+                dislikes: Math.max(0, (t.dislikes || 0) + (thoughtUpdates.dislikes || 0)),
               }
             : t
         )
@@ -95,7 +90,6 @@ export default function ThoughtsPage() {
       try {
         await updateThoughtVote(id, thoughtUpdates);
       } catch {
-        // Rollback
         setThoughts(prevThoughts);
         setVotes(prevVotes);
         saveVotes(prevVotes);
@@ -109,142 +103,163 @@ export default function ThoughtsPage() {
     gsap.fromTo(
       '.thought-item',
       { opacity: 0, y: 18 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.07,
-        ease: 'power2.out',
-        clearProps: 'all',
-      }
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out', clearProps: 'all' }
     );
   }, { scope: containerRef, dependencies: [filtered, loading] });
 
   return (
-    <div ref={containerRef} className="max-w-3xl mx-auto px-6 py-12 md:py-20">
-      {/* Header */}
-      <div className="mb-12">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-6 group"
-        >
-          <ArrowLeft size={16} className="transform group-hover:-translate-x-1 transition-transform" />
-          Back to Home
-        </Link>
-        <h1 className="font-heading text-2xl md:text-4xl font-black text-white mb-4">
-          Daily Thoughts & Updates
-        </h1>
-        <p className="text-slate-400 text-lg max-w-xl font-light">
-          Random thoughts, academic notes, code findings, and daily updates published directly from the dashboard.
-        </p>
+    <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px' }}>
+      {/* Back Link */}
+      <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '28px', fontWeight: 600 }}>
+        <ArrowLeft size={16} /> Back to Dragonpit
+      </Link>
+
+      {/* Header Banner */}
+      <div className="dp-panel mb-10" style={{ padding: '36px 40px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <img
+            src="/dragonpit/meleys_1.jpg"
+            alt="Meleys The Red Queen Dragon Guardian"
+            style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/dragonpit/caraxes-hero.png'; }}
+          />
+          <div>
+            <span style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase' }}>
+              MELEYS · MURMURS FROM THE PIT
+            </span>
+            <h1 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '2.2rem', fontWeight: 900, color: '#ffffff', marginTop: '4px', marginBottom: '8px' }}>
+              Thoughts & Murmurs
+            </h1>
+            <p style={{ color: 'var(--dp-smoke)', fontSize: '0.95rem', maxWidth: '700px', lineHeight: 1.6 }}>
+              Quick thoughts, architectural notes, code snippets, and reflections from daily engineering.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col gap-4 mb-10 pb-6 border-b border-slate-900">
-        <div className="relative w-full md:max-w-sm">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+      {/* Search & Categories */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: '40px', paddingBottom: '24px', borderBottom: '1px solid var(--dp-border)' }}>
+        <div style={{ position: 'relative', maxWidth: '400px', width: '100%' }}>
+          <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--dp-muted)' }} size={18} />
           <input
             type="text"
             placeholder="Search thoughts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-full pl-11 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+            className="dp-input"
+            style={{ paddingLeft: '48px' }}
           />
         </div>
-
-        <div className="flex flex-wrap gap-2">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === cat
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-slate-800/80'
-              }`}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '4px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                border: '1px solid var(--dp-border)',
+                background: selectedCategory === cat ? 'var(--dp-blood)' : 'rgba(22, 18, 15, 0.9)',
+                color: selectedCategory === cat ? '#ffffff' : 'var(--dp-gold-soft)',
+                transition: 'all 0.2s',
+              }}
             >
-              {cat !== 'All' && <Tag size={10} />}
               {cat}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Results count */}
-      {!loading && (
-        <p className="text-xs text-slate-500 mb-6">
-          {filtered.length} {filtered.length === 1 ? 'entry' : 'entries'}
-          {selectedCategory !== 'All' && ` in ${selectedCategory}`}
-          {searchTerm && ` matching "${searchTerm}"`}
-        </p>
-      )}
-
       {/* Content */}
       {loading ? (
-        <div className="text-center py-20">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500 border-r-2 mb-4" />
-          <p className="text-slate-400">Loading thoughts...</p>
+        <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <p style={{ color: 'var(--dp-muted)' }}>Loading thoughts...</p>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20 bg-slate-900/10 border border-slate-900/40 rounded-2xl">
-          <p className="text-slate-400">No thoughts found.</p>
-          {(searchTerm || selectedCategory !== 'All') && (
-            <button
-              onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }}
-              className="mt-3 text-xs text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2"
-            >
-              Clear filters
-            </button>
-          )}
+        <div className="dp-panel" style={{ textAlign: 'center', padding: '60px 24px', color: 'var(--dp-muted)' }}>
+          <MessageSquare size={40} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
+          <p style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff', marginBottom: '8px' }}>No thoughts recorded yet</p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--dp-muted)' }}>No thoughts match your query or category selection.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-5">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {filtered.map((thought) => {
             const userVote = votes[thought.id];
             return (
-              <div
-                key={thought.id}
-                className="thought-item glass-card p-6 md:p-7 rounded-2xl border border-slate-900 hover:border-slate-800 transition-all flex flex-col gap-4"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] px-2 py-0.5 font-bold uppercase rounded bg-indigo-950 text-indigo-400 border border-indigo-900/40">
+              <article key={thought.id} className="thought-item dp-panel dp-ember-hover" style={{ padding: '28px 34px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                  {thought.category && (
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 800,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        padding: '3px 10px',
+                        background: 'rgba(138, 13, 13, 0.35)',
+                        border: '1px solid var(--dp-border)',
+                        borderRadius: '3px',
+                        color: 'var(--dp-gold-bright)',
+                      }}
+                    >
                       {thought.category}
                     </span>
-                    <span className="text-xs text-slate-500 font-medium">{thought.date}</span>
-                  </div>
-
-                  <p className="text-slate-300 text-sm md:text-base whitespace-pre-wrap font-light leading-relaxed">
-                    {thought.content}
-                  </p>
+                  )}
+                  {thought.date && (
+                    <span style={{ fontSize: '0.76rem', color: 'var(--dp-smoke)', fontFamily: 'monospace' }}>
+                      {thought.date}
+                    </span>
+                  )}
                 </div>
 
-                <div className="flex items-center gap-3 pt-3 border-t border-slate-900/60 text-xs font-semibold">
+                <p style={{ color: '#ffffff', fontSize: '0.96rem', lineHeight: 1.75, whiteSpace: 'pre-wrap' }}>
+                  {thought.content}
+                </p>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', paddingTop: '14px', borderTop: '1px solid rgba(212, 175, 55, 0.25)' }}>
                   <button
                     onClick={() => handleVote(thought.id, 'like')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all active:scale-95 ${
-                      userVote === 'like'
-                        ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-400'
-                        : 'bg-slate-900 border-slate-850 text-slate-400 hover:text-slate-200 hover:border-slate-800'
-                    }`}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 14px',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      border: userVote === 'like' ? '1px solid var(--dp-gold-bright)' : '1px solid rgba(212, 175, 55, 0.3)',
+                      background: userVote === 'like' ? 'rgba(212, 175, 55, 0.2)' : 'rgba(15, 12, 9, 0.9)',
+                      color: userVote === 'like' ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)',
+                      transition: 'all 0.2s',
+                    }}
                   >
-                    <ThumbsUp size={13} />
-                    <span>{thought.likes || 0}</span>
+                    <ThumbsUp size={14} /> {thought.likes || 0}
                   </button>
-
                   <button
                     onClick={() => handleVote(thought.id, 'dislike')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all active:scale-95 ${
-                      userVote === 'dislike'
-                        ? 'bg-rose-950/40 border-rose-500/50 text-rose-400'
-                        : 'bg-slate-900 border-slate-850 text-slate-400 hover:text-slate-200 hover:border-slate-800'
-                    }`}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 14px',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      border: userVote === 'dislike' ? '1px solid var(--dp-red-bright)' : '1px solid rgba(212, 175, 55, 0.3)',
+                      background: userVote === 'dislike' ? 'rgba(138, 13, 13, 0.3)' : 'rgba(15, 12, 9, 0.9)',
+                      color: userVote === 'dislike' ? 'var(--dp-red-bright)' : 'var(--dp-smoke)',
+                      transition: 'all 0.2s',
+                    }}
                   >
-                    <ThumbsDown size={13} />
-                    <span>{thought.dislikes || 0}</span>
+                    <ThumbsDown size={14} /> {thought.dislikes || 0}
                   </button>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

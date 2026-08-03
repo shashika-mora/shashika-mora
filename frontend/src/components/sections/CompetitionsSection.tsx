@@ -42,9 +42,12 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
           }}
         >
           <img
-            src="/dragonpit/sunfyre-competitions.png"
+            src="/dragonpit/sunfyre_1.jpg"
             alt="Sunfyre The Golden — Achievements Dragon Guardian"
             style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--dp-gold-bright)' }}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/dragonpit/sunfyre-competitions.png';
+            }}
           />
           <div>
             <h4 style={{ fontSize: '0.9rem', fontWeight: 800, letterSpacing: '0.12em', color: 'var(--dp-gold-bright)', textTransform: 'uppercase', marginBottom: '6px' }}>
@@ -58,8 +61,23 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
 
         {loading ? (
           <CompetitionsSkeleton />
+        ) : competitions.length === 0 ? (
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '48px',
+              background: '#14100d',
+              border: '1px solid rgba(212, 175, 55, 0.35)',
+              borderRadius: '8px',
+              color: 'var(--dp-muted)',
+              marginBottom: '32px',
+            }}
+          >
+            <Trophy size={36} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
+            <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No competition records have been published yet.</p>
+          </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '32px', marginBottom: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '32px', marginBottom: '40px' }}>
             {competitions.map(comp => (
               <CompetitionCard key={comp.id} comp={comp} />
             ))}
@@ -105,9 +123,11 @@ function CompetitionCard({ comp }: { comp: any }) {
         >
           {comp.title}
         </h3>
-        <span style={{ fontSize: '0.74rem', color: 'var(--dp-gold-bright)', fontFamily: 'monospace', whiteSpace: 'nowrap', fontWeight: 700 }}>
-          {comp.date}
-        </span>
+        {comp.date && (
+          <span style={{ fontSize: '0.74rem', color: 'var(--dp-gold-bright)', fontFamily: 'monospace', whiteSpace: 'nowrap', fontWeight: 700 }}>
+            {comp.date}
+          </span>
+        )}
       </div>
 
       {/* Award badge */}
@@ -134,13 +154,15 @@ function CompetitionCard({ comp }: { comp: any }) {
       )}
 
       {/* Description */}
-      <p style={{ color: 'var(--dp-smoke)', fontSize: '0.92rem', lineHeight: 1.75 }}>
-        {comp.description}
-      </p>
+      {comp.description && (
+        <p style={{ color: 'var(--dp-smoke)', fontSize: '0.92rem', lineHeight: 1.75 }}>
+          {comp.description}
+        </p>
+      )}
 
       {/* Dual images */}
       {(comp.imageUrl || comp.imageUrl2) && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', borderRadius: '4px', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '14px', borderRadius: '4px', overflow: 'hidden' }}>
           {comp.imageUrl && (
             <div style={{ height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.25)' }}>
               <img
@@ -188,7 +210,7 @@ function CompetitionCard({ comp }: { comp: any }) {
 
 function CompetitionsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '32px', marginBottom: '40px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '32px', marginBottom: '40px' }}>
       {[1, 2].map(i => (
         <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '32px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
           <div style={{ height: '22px', background: '#1c1713', borderRadius: '3px', width: '60%', animation: 'pulse 1.5s ease-in-out infinite' }} />

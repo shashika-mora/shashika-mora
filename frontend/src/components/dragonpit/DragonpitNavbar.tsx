@@ -27,8 +27,6 @@ export default function DragonpitNavbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => { setIsOpen(false); }, [pathname]);
-
   const getHref = (item: typeof NAV_ITEMS[0]) => {
     if (item.hash.startsWith('#')) {
       return pathname === '/' ? item.hash : item.pagePath;
@@ -87,7 +85,7 @@ export default function DragonpitNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex" style={{ alignItems: 'center', gap: '28px' }}>
+        <div className="hidden md:flex items-center gap-7">
           {NAV_ITEMS.map(link => (
             <Link
               key={link.name}
@@ -125,9 +123,9 @@ export default function DragonpitNavbar() {
           ))}
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger button: uses Tailwind md:hidden without inline display flex */}
         <button
-          className="md:hidden"
+          className="flex items-center p-1.5 md:hidden"
           onClick={() => setIsOpen(prev => !prev)}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
@@ -136,9 +134,6 @@ export default function DragonpitNavbar() {
             border: 'none',
             color: 'var(--dp-gold-bright)',
             cursor: 'pointer',
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
           }}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -146,48 +141,44 @@ export default function DragonpitNavbar() {
       </div>
 
       {/* Mobile drawer */}
-      <div
-        aria-hidden={!isOpen}
-        style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          background: 'rgba(8, 7, 6, 0.98)',
-          borderBottom: '1px solid var(--dp-border)',
-          backdropFilter: 'blur(16px)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: isOpen ? '28px 0' : '0',
-          gap: '20px',
-          overflow: 'hidden',
-          maxHeight: isOpen ? '500px' : '0',
-          transition: 'max-height 0.35s ease, padding 0.35s ease',
-          pointerEvents: isOpen ? 'auto' : 'none',
-        }}
-      >
-        {NAV_ITEMS.map(link => (
-          <Link
-            key={link.name}
-            href={getHref(link)}
-            onClick={() => setIsOpen(false)}
-            style={{
-              fontSize: '1rem',
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textDecoration: 'none',
-              color: isActive(link) ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)',
-              minHeight: '44px',
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'color 0.2s',
-            }}
-          >
-            {link.name}
-          </Link>
-        ))}
-      </div>
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            background: 'rgba(8, 7, 6, 0.98)',
+            borderBottom: '1px solid var(--dp-border)',
+            backdropFilter: 'blur(16px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '24px 0',
+            gap: '18px',
+          }}
+        >
+          {NAV_ITEMS.map(link => (
+            <Link
+              key={link.name}
+              href={getHref(link)}
+              onClick={() => setIsOpen(false)}
+              style={{
+                fontSize: '1rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textDecoration: 'none',
+                color: isActive(link) ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)',
+                minHeight: '44px',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
