@@ -40,7 +40,8 @@ export default function BlogPage() {
 
   return (
     <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
-      <DragonBackgroundLayer imageSrc="/dragonpit/moon_dancer_1.jpg" opacity={0.14} position="top-right" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/moon_dancer_1.jpg" opacity={0.14} position="bottom-right" />
       {/* Back Link */}
       <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '28px', fontWeight: 600 }}>
         <ArrowLeft size={16} /> Back to Dragonpit

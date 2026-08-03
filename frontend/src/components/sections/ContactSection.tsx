@@ -58,8 +58,9 @@ export default function ContactSection({ about }: ContactSectionProps) {
         overflow: 'hidden',
       }}
     >
-      {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/Meleys_Seasmoke_Vermax.jpg" opacity={0.14} position="top-right" />
+      {/* Dual Background Dragon Parallax Layers */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/veghar_1.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/Meleys_Seasmoke_Vermax.jpg" opacity={0.14} position="bottom-right" />
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

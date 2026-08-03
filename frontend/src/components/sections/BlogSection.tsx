@@ -21,8 +21,9 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
         overflow: 'hidden',
       }}
     >
-      {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="bottom-left" />
+      {/* Dual Background Dragon Parallax Layers */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/moon_dancer_1.jpg" opacity={0.14} position="bottom-right" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

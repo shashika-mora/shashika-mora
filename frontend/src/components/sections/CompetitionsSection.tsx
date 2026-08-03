@@ -22,8 +22,9 @@ export default function CompetitionsSection({ competitions, loading }: Competiti
         overflow: 'hidden',
       }}
     >
-      {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_3.jpg" opacity={0.14} position="top-right" />
+      {/* Dual Background Dragon Parallax Layers */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_1.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_3.jpg" opacity={0.14} position="bottom-right" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

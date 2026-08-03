@@ -23,8 +23,9 @@ export default function AboutSection({ about }: AboutSectionProps) {
         overflow: 'hidden',
       }}
     >
-      {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/Syrax_Caraxes_Vhagar.jpg" opacity={0.14} position="bottom-left" />
+      {/* Dual Background Dragon Parallax Layers */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/syrax_1.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/Syrax_Caraxes_Vhagar.jpg" opacity={0.14} position="bottom-right" />
 
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader

@@ -82,8 +82,9 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
         overflow: 'hidden',
       }}
     >
-      {/* Background Dragon Parallax Layer */}
-      <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_1.jpg" opacity={0.14} position="top-right" />
+      {/* Dual Background Dragon Parallax Layers */}
+      <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_1.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_and_silverwing.jpg" opacity={0.14} position="bottom-right" />
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
