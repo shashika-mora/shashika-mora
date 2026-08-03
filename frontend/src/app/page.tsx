@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   getAboutConfig, getProjects, getBlogs, getCompetitions,
   getThoughts, updateThoughtVote, getSkills
 } from '../lib/firestore-service';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -101,58 +101,32 @@ export default function Home() {
   const [thoughts, setThoughts]         = useState<any[]>([]);
   const [skills, setSkills]             = useState<any[]>([]);
 
-  const [aboutLoading, setAboutLoading]               = useState(true);
-  const [projectsLoading, setProjectsLoading]         = useState(true);
-  const [blogsLoading, setBlogsLoading]               = useState(true);
-  const [competitionsLoading, setCompetitionsLoading] = useState(true);
-  const [thoughtsLoading, setThoughtsLoading]         = useState(true);
-  const [skillsLoading, setSkillsLoading]             = useState(true);
-
-  const [votes, setVotes] = useState<Record<string, 'like' | 'dislike'>>({});
-  const [loaderDone, setLoaderDone] = useState(false);
+  const [loading, setLoading]           = useState(true);
+  const [votes, setVotes]               = useState<Record<string, 'like' | 'dislike'>>({});
+  const [loaderDone, setLoaderDone]     = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Unified single-pass data fetching
   useEffect(() => {
-    getAboutConfig().then(data => {
-      if (data) {
-        setAbout((prev: any) => ({
-          ...DEFAULT_ABOUT,
-          ...data,
-        }));
-      }
-      setAboutLoading(false);
-    }).catch(() => setAboutLoading(false));
-
-    getProjects('featured').then(async data => {
-      if (data && data.length > 0) {
-        setProjects(data);
-      } else {
-        const all = await getProjects('published');
-        setProjects(all.slice(0, 4));
-      }
-      setProjectsLoading(false);
-    }).catch(() => setProjectsLoading(false));
-
-    getBlogs(true).then(data => {
-      if (data) setBlogs(data.slice(0, 3));
-      setBlogsLoading(false);
-    }).catch(() => setBlogsLoading(false));
-
-    getCompetitions().then(data => {
-      if (data && data.length > 0) setCompetitions(data);
-      setCompetitionsLoading(false);
-    }).catch(() => setCompetitionsLoading(false));
-
-    getThoughts().then(data => {
-      if (data) setThoughts(data);
-      setThoughtsLoading(false);
-    }).catch(() => setThoughtsLoading(false));
-
-    getSkills().then(data => {
-      if (data && data.length > 0) setSkills(data);
-      setSkillsLoading(false);
-    }).catch(() => setSkillsLoading(false));
+    Promise.all([
+      getAboutConfig(),
+      getProjects('featured').then(async data => (data && data.length > 0 ? data : (await getProjects('published')).slice(0, 4))),
+      getBlogs(true).then(data => data?.slice(0, 3) || []),
+      getCompetitions(),
+      getThoughts(),
+      getSkills(),
+    ]).then(([aboutData, projectsData, blogsData, compsData, thoughtsData, skillsData]) => {
+      if (aboutData) setAbout((prev: any) => ({ ...prev, ...aboutData }));
+      setProjects(projectsData || []);
+      setBlogs(blogsData || []);
+      setCompetitions(compsData || []);
+      setThoughts(thoughtsData || []);
+      setSkills(skillsData || []);
+      setLoading(false);
+    }).catch(() => {
+      setLoading(false);
+    });
 
     if (typeof window !== 'undefined') {
       try {
@@ -162,13 +136,7 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const t = setTimeout(() => ScrollTrigger.refresh(), 800);
-    return () => clearTimeout(t);
-  }, []);
-
-  // Entrance animation — clean opacity reveal without scaling container
+  // Hero entrance animation after intro completes
   useGSAP(() => {
     if (!loaderDone) return;
     gsap.timeline()
@@ -177,32 +145,9 @@ export default function Home() {
       .fromTo('.dp-hero-sub-text', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' }, '-=0.4')
       .fromTo('.dp-hero-btn',      { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
       .fromTo('.dp-hero-avatar',   { opacity: 0 },         { opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'all' }, '-=0.5');
+
+    setTimeout(() => ScrollTrigger.refresh(), 300);
   }, { scope: containerRef, dependencies: [loaderDone] });
-
-  // Scroll reveal for sections below hero
-  useGSAP(() => {
-    if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading && thoughtsLoading) return;
-
-    const reveal = (selector: string, vars: gsap.TweenVars = {}) =>
-      gsap.fromTo(selector, { opacity: 0, y: 24, ...vars }, {
-        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', clearProps: 'all',
-        scrollTrigger: { trigger: selector, start: 'top 85%' },
-        ...vars,
-      });
-
-    const revealStagger = (selector: string, delay = 0.15) =>
-      gsap.fromTo(selector, { opacity: 0, y: 28 }, {
-        opacity: 1, y: 0, duration: 0.6, stagger: delay, ease: 'power2.out', clearProps: 'all',
-        scrollTrigger: { trigger: selector, start: 'top 85%' },
-      });
-
-    reveal('#about .about-card');
-    if (!skillsLoading)        revealStagger('.skill-chip', 0.04);
-    if (!projectsLoading)      revealStagger('.project-card');
-    if (!competitionsLoading)  revealStagger('.competition-card');
-    if (!blogsLoading)         revealStagger('.blog-card');
-    if (!thoughtsLoading)      revealStagger('.thought-card');
-  }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading, thoughtsLoading, skillsLoading] });
 
   const handleVote = async (id: string, type: 'like' | 'dislike') => {
     const currentVote = votes[id];
@@ -248,22 +193,34 @@ export default function Home() {
     <>
       <DragonpitLoader onComplete={() => setLoaderDone(true)} />
 
-      <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
+      <div ref={containerRef} style={{ background: '#0a0807', color: '#f3e8d7', minHeight: '100vh', overflowX: 'hidden' }}>
 
         {/* ════════════════════════════════════════
-            HERO SECTION — PERMANENT ORIGINAL DESIGN
+            HERO SECTION
             ════════════════════════════════════════ */}
         <section
           style={{
-            minHeight: 'calc(100vh - 80px)',
+            position: 'relative',
+            minHeight: '100vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '120px 24px 80px',
-            position: 'relative',
-            background: 'transparent',
+            padding: '140px 24px 80px',
+            borderBottom: '1px solid var(--dp-border)',
+            overflow: 'hidden',
           }}
         >
+          {/* Subtle Ambient Background Gradients */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(ellipse at 50% 30%, rgba(138, 13, 13, 0.15) 0%, rgba(212, 175, 55, 0.05) 50%, transparent 80%)',
+              pointerEvents: 'none',
+            }}
+          />
+
           <div
             style={{
               maxWidth: '1280px',
@@ -277,252 +234,212 @@ export default function Home() {
               zIndex: 1,
             }}
           >
-            {/* Left text column — pure obsidian background, NO red-orange glow box */}
-            <div style={{ flex: '1 1 0%', maxWidth: '720px' }}>
+            {/* Left Column: Hero Content */}
+            <div style={{ flex: '1 1 60%', maxWidth: '720px' }}>
 
-              {/* Availability status badge */}
-              <div
-                className="dp-hero-badge"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '6px 16px 6px 12px',
-                  background: 'rgba(20, 17, 15, 0.9)',
-                  border: '1px solid var(--dp-border)',
-                  borderRadius: '4px',
-                  marginBottom: '24px',
-                  boxShadow: '0 4px 14px rgba(0,0,0,0.5)',
-                }}
-              >
-                <span style={{ position: 'relative', display: 'flex', width: '9px', height: '9px' }}>
-                  {about.isAvailable !== false && (
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: '#4ade80',
-                        borderRadius: '50%',
-                        animation: 'emberPing 1.6s cubic-bezier(0,0,0.2,1) infinite',
-                      }}
-                    />
-                  )}
+              {/* Status Badge */}
+              <div className="dp-hero-badge" style={{ marginBottom: '20px' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '6px 16px',
+                    background: 'rgba(20, 16, 13, 0.85)',
+                    border: '1px solid var(--dp-border)',
+                    borderRadius: '20px',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--dp-gold-bright)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                  }}
+                >
                   <span
                     style={{
-                      width: '9px', height: '9px',
-                      background: about.isAvailable !== false ? '#22c55e' : 'var(--dp-muted)',
+                      width: '7px',
+                      height: '7px',
                       borderRadius: '50%',
-                      position: 'relative',
+                      background: about?.isAvailable !== false ? '#4ade80' : 'var(--dp-ember)',
+                      boxShadow: about?.isAvailable !== false ? '0 0 10px #4ade80' : '0 0 10px var(--dp-ember)',
                     }}
                   />
-                </span>
-                <span style={{ fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--dp-gold-soft)' }}>
-                  Available for Opportunities
+                  {about?.availabilityStatus || 'Available for Opportunities'}
                 </span>
               </div>
 
-              {/* Tagline overline */}
+              {/* Tagline Subtitle */}
               <p
                 className="dp-hero-sub-text"
                 style={{
+                  fontFamily: 'var(--font-heading, Georgia, serif)',
                   fontSize: '0.82rem',
                   fontWeight: 800,
-                  letterSpacing: '0.22em',
+                  letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  color: 'var(--dp-gold-bright)',
-                  marginBottom: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
+                  color: 'var(--dp-gold-soft)',
+                  marginBottom: '12px',
                 }}
               >
-                <Sparkles size={15} className="text-[var(--dp-ember)]" />
                 IDEAS HATCH HERE. SYSTEMS TAKE FLIGHT.
               </p>
 
-              {/* Main Heading — HUGE bold text */}
+              {/* Main Heading */}
               <h1
                 className="dp-hero-title"
                 style={{
                   fontFamily: 'var(--font-heading, Georgia, serif)',
-                  fontSize: 'clamp(3.5rem, 6.5vw, 5.5rem)',
+                  fontSize: 'clamp(2.6rem, 5vw, 4.5rem)',
                   fontWeight: 900,
-                  lineHeight: 1.05,
+                  lineHeight: 1.08,
                   letterSpacing: '-0.02em',
                   color: '#ffffff',
                   marginBottom: '20px',
                 }}
               >
-                {"Hi, I'm"}{' '}
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #ffd700 35%, #ff5a13 70%, #e62e2e 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    display: 'inline-block',
-                  }}
-                >
-                  Shashika.
-                </span>
+                Hi, I’m{' '}
+                <span className="dp-gradient-text" style={{ textShadow: '0 0 35px rgba(255, 90, 19, 0.3)' }}>
+                  {about?.name || 'Shashika'}
+                </span>.
               </h1>
 
-              {/* Professional Subtitle */}
-              <p
+              {/* Title / Affiliation */}
+              <h2
                 className="dp-hero-sub-text"
                 style={{
                   fontSize: '1.25rem',
+                  fontWeight: 600,
                   color: 'var(--dp-smoke)',
-                  lineHeight: 1.7,
-                  marginBottom: '16px',
-                  fontWeight: 500,
+                  marginBottom: '20px',
+                  lineHeight: 1.4,
                 }}
               >
-                CSE Undergraduate @ University of Moratuwa
-              </p>
+                {about?.title || 'CSE Undergraduate @ University of Moratuwa'}
+              </h2>
 
-              {/* Dynamic Typewriter text */}
-              <p
-                className="dp-hero-sub-text"
-                style={{ fontSize: '1.25rem', color: 'var(--dp-text)', marginBottom: '44px', minHeight: '2.2em' }}
-              >
+              {/* Dynamic Typewriter */}
+              <div className="dp-hero-sub-text" style={{ minHeight: '38px', marginBottom: '32px' }}>
                 <TypewriterEffect />
-              </p>
+              </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px', alignItems: 'center' }}>
-                {about.resumeUrl ? (
+              <div
+                className="dp-hero-btn"
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: '16px',
+                }}
+              >
+                <Link href="#projects" className="dp-btn-primary">
+                  Explore The Pit 🐉
+                  <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+
+                <Link href="#contact" className="dp-btn-secondary">
+                  Send a Raven 🗡️
+                </Link>
+
+                {about?.resumeUrl && (
                   <a
                     href={about.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="dp-hero-btn dp-btn-primary"
-                    style={{ padding: '16px 36px', fontSize: '0.95rem', fontWeight: 700 }}
+                    className="dp-btn-secondary"
                   >
-                    Download CV 📜
+                    View Scroll (CV) 📜
                   </a>
-                ) : (
-                  <span className="dp-hero-btn dp-btn-disabled" title="CV Coming Soon" style={{ padding: '16px 36px', fontSize: '0.95rem', fontWeight: 700 }}>
-                    Download CV 📜
-                  </span>
                 )}
-                <a
-                  href="#contact"
-                  className="dp-hero-btn dp-btn-secondary"
-                  style={{ padding: '16px 36px', fontSize: '0.95rem', fontWeight: 700 }}
-                >
-                  Send a Raven 🗡️
-                  <ArrowRight size={16} aria-hidden="true" />
-                </a>
               </div>
             </div>
 
-            {/* Profile Avatar Frame — Right side fixed 340px width */}
+            {/* Right Column: Emblem / Sigil Medallion */}
             <div
               className="dp-hero-avatar"
-              style={{ position: 'relative', flexShrink: 0, width: '340px', height: '400px' }}
+              style={{
+                flex: '0 0 auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              {/* Image frame */}
               <div
                 style={{
                   position: 'relative',
-                  width: '340px',
-                  height: '400px',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  border: '1px solid rgba(212, 175, 55, 0.4)',
-                  background: '#120f0d',
-                  boxShadow: '0 15px 40px rgba(0,0,0,0.9), 0 0 25px rgba(212, 175, 55, 0.25)',
+                  width: '260px',
+                  height: '260px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <img
-                  src={about.avatarUrl || '/hero.jpg'}
-                  alt="Portrait of Shashika Dayarathna"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-
-                {/* Corner ornament marks */}
-                {[
-                  { top: '12px', left: '12px', borderTop: '3px solid var(--dp-gold-bright)', borderLeft: '3px solid var(--dp-gold-bright)' },
-                  { top: '12px', right: '12px', borderTop: '3px solid var(--dp-gold-bright)', borderRight: '3px solid var(--dp-gold-bright)' },
-                  { bottom: '12px', left: '12px', borderBottom: '3px solid var(--dp-red-bright)', borderLeft: '3px solid var(--dp-red-bright)' },
-                  { bottom: '12px', right: '12px', borderBottom: '3px solid var(--dp-red-bright)', borderRight: '3px solid var(--dp-red-bright)' },
-                ].map((s, i) => (
-                  <div
-                    key={i}
-                    aria-hidden="true"
-                    style={{ position: 'absolute', width: '16px', height: '16px', opacity: 0.9, ...s }}
-                  />
-                ))}
-
-                {/* CSE Label */}
+                {/* Glowing ring backdrop */}
                 <div
                   aria-hidden="true"
                   style={{
                     position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    background: 'linear-gradient(transparent, rgba(10,8,7,0.95))',
-                    padding: '36px 16px 14px',
-                    textAlign: 'center',
+                    inset: '-10px',
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(255, 90, 19, 0.25) 0%, rgba(212, 175, 55, 0.1) 60%, transparent 70%)',
+                    filter: 'blur(15px)',
+                  }}
+                />
+
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    border: '1px solid var(--dp-gold-bright)',
+                    background: 'linear-gradient(145deg, #181310 0%, #0a0807 100%)',
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.8), inset 0 2px 10px rgba(255,215,0,0.2)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '24px',
                   }}
                 >
-                  <span
+                  <img
+                    src="/dragonpit/my_icon.png"
+                    alt="Shashika Mora Emblem"
                     style={{
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      color: 'var(--dp-gold-bright)',
+                      width: '140px',
+                      height: '140px',
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 4px 12px rgba(255, 90, 19, 0.4))',
                     }}
-                  >
-                    MORATUWA CSE
-                  </span>
+                  />
+                  <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                    <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)' }}>
+                      The Dragonpit
+                    </span>
+                  </div>
                 </div>
-              </div>
-
-              {/* Dragonpit emblem badge */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-18px',
-                  right: '-18px',
-                  background: '#0a0807',
-                  border: '1px solid rgba(212, 175, 55, 0.4)',
-                  borderRadius: '6px',
-                  padding: '10px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.9)',
-                }}
-              >
-                <DragonSigil size={26} glowing />
-                <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)' }}>
-                  The Dragonpit
-                </span>
               </div>
             </div>
           </div>
 
-          {/* Scroll indicator */}
+          {/* Scroll Indicator */}
           <div
             aria-hidden="true"
             style={{
               position: 'absolute',
-              bottom: '28px',
+              bottom: '24px',
               left: '50%',
               transform: 'translateX(-50%)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '6px',
-              opacity: 0.45,
+              opacity: 0.5,
             }}
           >
             <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dp-gold-soft)' }}>Scroll</span>
-            <div style={{ width: '2px', height: '36px', background: 'linear-gradient(var(--dp-gold-bright), var(--dp-ember), transparent)', borderRadius: '1px' }} />
+            <div style={{ width: '2px', height: '32px', background: 'linear-gradient(var(--dp-gold-bright), var(--dp-ember), transparent)', borderRadius: '1px' }} />
           </div>
         </section>
 
@@ -530,22 +447,22 @@ export default function Home() {
             PAGE SECTIONS
             ════════════════════════════════════════ */}
 
-        {/* 1. Skills (Vermithor the Bronze Fury) */}
-        <SkillsSection skills={skills} about={about} loading={skillsLoading} />
+        {/* 1. Skills */}
+        <SkillsSection skills={skills} about={about} loading={loading} />
 
-        {/* 2. Featured Projects (Caraxes dragons of the pit) */}
-        <ProjectsSection projects={projects} loading={projectsLoading} />
+        {/* 2. Featured Projects */}
+        <ProjectsSection projects={projects} loading={loading} />
 
-        {/* 3. Competitions (Sunfyre the Golden) */}
-        <CompetitionsSection competitions={competitions} loading={competitionsLoading} />
+        {/* 3. Competitions */}
+        <CompetitionsSection competitions={competitions} loading={loading} />
 
-        {/* 4. Blog (Dreamfyre the Pale Blue) */}
-        <BlogSection blogs={blogs} loading={blogsLoading} />
+        {/* 4. Blog */}
+        <BlogSection blogs={blogs} loading={loading} />
 
         {/* 5. Thoughts */}
         <ThoughtsSection
           thoughts={thoughts}
-          loading={thoughtsLoading}
+          loading={loading}
           userVotes={votes}
           onVote={handleVote}
         />
@@ -576,7 +493,7 @@ export default function Home() {
             padding: 110px 16px 60px !important;
           }
           h1.dp-hero-title {
-            font-size: 2.8rem !important;
+            font-size: 2.5rem !important;
           }
         }
       `}</style>
