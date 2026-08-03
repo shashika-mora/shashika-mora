@@ -33,9 +33,11 @@ export default function AcademicsPage() {
   }, { scope: containerRef, dependencies: [academics, loading] });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+    <div ref={containerRef} style={{ width: '100%', position: 'relative', overflow: 'hidden' }}>
       <DragonBackgroundLayer imageSrc="/dragonpit/silverwing_1.jpg" opacity={0.14} position="top-left" />
       <DragonBackgroundLayer imageSrc="/dragonpit/vermithor_and_silverwing.jpg" opacity={0.14} position="bottom-right" />
+
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1 }}>
       {/* Back Link */}
       <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '28px', fontWeight: 600 }}>
         <ArrowLeft size={16} /> Back to Dragonpit
@@ -133,6 +135,7 @@ export default function AcademicsPage() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

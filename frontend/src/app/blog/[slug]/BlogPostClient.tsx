@@ -57,9 +57,11 @@ export default function BlogPostClient({ params }: { params?: any }) {
   }
 
   return (
-    <div style={{ maxWidth: '860px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+    <div style={{ width: '100%', position: 'relative', overflow: 'hidden' }}>
       <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="top-left" />
       <DragonBackgroundLayer imageSrc="/dragonpit/moon_dancer_1.jpg" opacity={0.14} position="bottom-right" />
+
+      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1 }}>
       {/* Back button */}
       <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '32px', fontWeight: 600 }}>
         <ArrowLeft size={16} /> Back to Written Archives
@@ -138,6 +140,7 @@ export default function BlogPostClient({ params }: { params?: any }) {
       <article className="dp-panel" style={{ padding: '40px 48px', marginBottom: '40px' }}>
         <MarkdownRenderer content={blog.content} />
       </article>
+      </div>
     </div>
   );
 }

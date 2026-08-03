@@ -40,9 +40,11 @@ export default function CompetitionsPage() {
   }, { scope: containerRef, dependencies: [filtered, loading] });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '1440px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+    <div ref={containerRef} style={{ width: '100%', position: 'relative', overflow: 'hidden' }}>
       <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_2.jpg" opacity={0.14} position="top-left" />
       <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_1.jpg" opacity={0.14} position="bottom-right" />
+
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1 }}>
       {/* Back Link */}
       <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '28px', fontWeight: 600 }}>
         <ArrowLeft size={16} /> Back to Dragonpit
@@ -168,6 +170,7 @@ export default function CompetitionsPage() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

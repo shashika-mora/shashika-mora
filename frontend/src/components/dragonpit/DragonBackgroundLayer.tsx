@@ -41,18 +41,18 @@ export default function DragonBackgroundLayer({
   const getPositionStyles = (): React.CSSProperties => {
     switch (position) {
       case 'top-left':
-        return { top: '40px', left: '-20px' };
+        return { top: '60px', left: '-40px' };
       case 'bottom-right':
-        return { bottom: '40px', right: '-20px' };
+        return { bottom: '60px', right: '-40px' };
       case 'bottom-left':
-        return { bottom: '40px', left: '-20px' };
+        return { bottom: '60px', left: '-40px' };
       case 'center-right':
-        return { top: '50%', right: '-20px', transform: 'translateY(-50%)' };
+        return { top: '50%', right: '-40px', transform: 'translateY(-50%)' };
       case 'center-left':
-        return { top: '50%', left: '-20px', transform: 'translateY(-50%)' };
+        return { top: '50%', left: '-40px', transform: 'translateY(-50%)' };
       case 'top-right':
       default:
-        return { top: '40px', right: '-20px' };
+        return { top: '60px', right: '-40px' };
     }
   };
 
