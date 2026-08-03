@@ -38,10 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${inter.variable} ${outfit.variable} h-full antialiased dark`}
     >
-      <body
-        style={{ minHeight: '100%', display: 'flex', flexDirection: 'column', overflowX: 'hidden' }}
-        className="bg-[#080706] text-[#eee7dd]"
-      >
+      <body className="min-h-screen flex flex-col overflow-x-hidden bg-[#080706] text-[#f5efea]">
         {/* Ember field background — aria-hidden canvas */}
         <InteractiveBackground />
 

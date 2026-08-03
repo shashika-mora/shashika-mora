@@ -29,42 +29,23 @@ if (typeof window !== 'undefined') {
 /* ═══════════════════════════════════════════════════════
    TYPEWRITER — HERO PHRASES
    ═══════════════════════════════════════════════════════ */
-const parsePhrases = (subtitle: string) => {
-  if (!subtitle) return [];
-  return subtitle.split(',').map(phrase => {
-    let cleaned = phrase.trim();
-    if (cleaned.toLowerCase().startsWith('and ')) cleaned = cleaned.substring(4).trim();
-    if (cleaned.endsWith('.')) cleaned = cleaned.substring(0, cleaned.length - 1).trim();
-    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-  });
-};
+const HERO_PHRASES = [
+  'Building software and hardware solutions',
+  'Solving real-world problems',
+  'Exploring intelligent systems',
+  'Learning through projects and experimentation',
+  'Turning ideas into practical systems',
+];
 
-function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: string; phrases?: any[] }) {
-  const phrases = useMemo(() => {
-    if (passedPhrases && passedPhrases.length > 0) {
-      return passedPhrases
-        .filter(p => p && (p.visible !== false && p.enabled !== false))
-        .map(p => typeof p === 'string' ? p : p.text);
-    }
-    if (subtitle) return parsePhrases(subtitle);
-    return [
-      'Building software and hardware solutions',
-      'Solving real-world problems',
-      'Exploring intelligent systems',
-      'Learning through projects and experimentation',
-      'Turning ideas into practical systems',
-    ];
-  }, [subtitle, passedPhrases]);
-
+function TypewriterEffect() {
   const [currentPhraseIdx, setCurrentPhraseIdx] = useState(0);
   const [currentText, setCurrentText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(80);
 
   useEffect(() => {
-    if (phrases.length === 0) return;
     let timer: NodeJS.Timeout;
-    const activePhrase = phrases[currentPhraseIdx] || '';
+    const activePhrase = HERO_PHRASES[currentPhraseIdx] || '';
 
     if (isDeleting) {
       timer = setTimeout(() => { setCurrentText(prev => prev.slice(0, -1)); setTypingSpeed(40); }, typingSpeed);
@@ -76,11 +57,11 @@ function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: str
     }
     if (isDeleting && currentText === '') {
       setIsDeleting(false);
-      setCurrentPhraseIdx(prev => (prev + 1) % phrases.length);
+      setCurrentPhraseIdx(prev => (prev + 1) % HERO_PHRASES.length);
       setTypingSpeed(150);
     }
     return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentPhraseIdx, phrases, typingSpeed]);
+  }, [currentText, isDeleting, currentPhraseIdx, typingSpeed]);
 
   return (
     <span style={{ color: 'var(--dp-gold-bright)', fontWeight: 700, fontSize: '1.25rem', textShadow: '0 0 14px rgba(255, 215, 0, 0.4)' }}>
@@ -166,9 +147,6 @@ export default function Home() {
         setAbout((prev: any) => ({
           ...DEFAULT_ABOUT,
           ...data,
-          name: data.name ? (data.name.includes('Shashika') ? 'Shashika' : data.name) : DEFAULT_ABOUT.name,
-          title: data.title || DEFAULT_ABOUT.title,
-          availabilityStatus: data.availabilityStatus || DEFAULT_ABOUT.availabilityStatus,
         }));
       }
       setAboutLoading(false);
@@ -301,7 +279,7 @@ export default function Home() {
       <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
 
         {/* ════════════════════════════════════════
-            HERO SECTION — EXACT MATCH TO DESIGN
+            HERO SECTION — PERMANENT ORIGINAL DESIGN
             ════════════════════════════════════════ */}
         <section
           style={{
@@ -368,7 +346,7 @@ export default function Home() {
                   />
                 </span>
                 <span style={{ fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--dp-gold-soft)' }}>
-                  {about.availabilityStatus || 'Available for Opportunities'}
+                  Available for Opportunities
                 </span>
               </div>
 
@@ -428,7 +406,7 @@ export default function Home() {
                   fontWeight: 500,
                 }}
               >
-                {about.title || 'CSE Undergraduate @ University of Moratuwa'}
+                CSE Undergraduate @ University of Moratuwa
               </p>
 
               {/* Dynamic Typewriter text */}
@@ -436,7 +414,7 @@ export default function Home() {
                 className="dp-hero-sub-text"
                 style={{ fontSize: '1.25rem', color: 'var(--dp-text)', marginBottom: '44px', minHeight: '2.2em' }}
               >
-                <TypewriterEffect subtitle={about.subtitle} phrases={about.heroPhrases} />
+                <TypewriterEffect />
               </p>
 
               {/* Action Buttons */}
@@ -487,7 +465,7 @@ export default function Home() {
               >
                 <img
                   src={about.avatarUrl || '/hero.jpg'}
-                  alt={about.name ? `Portrait of ${about.name}` : 'Profile picture'}
+                  alt="Portrait of Shashika Dayarathna"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
 
