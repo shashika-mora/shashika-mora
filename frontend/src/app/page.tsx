@@ -219,19 +219,24 @@ export default function Home() {
               backgroundImage: 'url(/dragonpit/hero_bg.jpg)',
               backgroundSize: 'cover',
               backgroundPosition: 'center 30%',
-              filter: 'blur(4px) brightness(0.65) contrast(1.1)',
-              transform: 'scale(1.05)',
+              filter: 'blur(3px) brightness(0.55) contrast(1.15)',
+              transform: 'scale(1.04)',
               zIndex: 0,
             }}
           />
 
-          {/* Dark Vignette Gradient Overlay for Crisp Text Contrast */}
+          {/* Dark Scorched Burning Vignette Gradient Overlay for Seamless Edge Blending & Crisp Contrast */}
           <div
             aria-hidden="true"
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'radial-gradient(ellipse at center, rgba(10, 8, 7, 0.45) 0%, rgba(10, 8, 7, 0.85) 75%, #0a0807 100%), linear-gradient(to bottom, rgba(10, 8, 7, 0.5) 0%, transparent 40%, rgba(10, 8, 7, 0.95) 100%)',
+              background: `
+                radial-gradient(ellipse at center, rgba(10, 8, 7, 0.35) 0%, rgba(10, 8, 7, 0.75) 65%, #0a0807 100%),
+                linear-gradient(to bottom, #0a0807 0%, transparent 18%, transparent 80%, #0a0807 100%),
+                linear-gradient(to right, #0a0807 0%, transparent 12%, transparent 88%, #0a0807 100%)
+              `,
+              boxShadow: 'inset 0 -30px 50px -10px rgba(255, 90, 19, 0.22), inset 0 0 90px #0a0807',
               zIndex: 1,
               pointerEvents: 'none',
             }}
@@ -274,9 +279,9 @@ export default function Home() {
                 className="dp-hero-title"
                 style={{
                   fontFamily: 'var(--font-heading, Georgia, serif)',
-                  fontSize: 'clamp(2.6rem, 5vw, 4.5rem)',
+                  fontSize: 'clamp(2.6rem, 5vw, 4.2rem)',
                   fontWeight: 900,
-                  lineHeight: 1.08,
+                  lineHeight: 1.1,
                   letterSpacing: '-0.02em',
                   color: '#ffffff',
                   marginBottom: '20px',
@@ -302,8 +307,19 @@ export default function Home() {
                 {about?.title || 'CSE Undergraduate @ University of Moratuwa'}
               </h2>
 
-              {/* Dynamic Typewriter */}
-              <div className="dp-hero-sub-text" style={{ minHeight: '38px', marginBottom: '36px' }}>
+              {/* Locked Height Dynamic Typewriter (Prevents layout shift or vertical shrinking) */}
+              <div
+                className="dp-hero-sub-text"
+                style={{
+                  height: '68px',
+                  minHeight: '68px',
+                  maxHeight: '68px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '36px',
+                  overflow: 'hidden',
+                }}
+              >
                 <TypewriterEffect />
               </div>
 
@@ -399,8 +415,8 @@ export default function Home() {
                     position: 'absolute',
                     inset: '-15px',
                     borderRadius: '24px',
-                    background: 'radial-gradient(ellipse at center, rgba(255, 90, 19, 0.35) 0%, rgba(212, 175, 55, 0.15) 50%, transparent 75%)',
-                    filter: 'blur(20px)',
+                    background: 'radial-gradient(ellipse at center, rgba(255, 90, 19, 0.45) 0%, rgba(212, 175, 55, 0.2) 50%, transparent 75%)',
+                    filter: 'blur(22px)',
                     pointerEvents: 'none',
                   }}
                 />
@@ -411,10 +427,10 @@ export default function Home() {
                     position: 'relative',
                     width: '100%',
                     height: '100%',
-                    borderRadius: '16px 28px 18px 24px',
-                    padding: '5px',
-                    background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.8) 0%, rgba(138, 13, 13, 0.9) 40%, rgba(30, 20, 12, 0.95) 70%, rgba(212, 175, 55, 0.6) 100%)',
-                    boxShadow: '0 15px 45px rgba(0,0,0,0.95), 0 0 25px rgba(255, 90, 19, 0.35), inset 0 0 15px rgba(0,0,0,0.8)',
+                    borderRadius: '16px 36px 18px 28px',
+                    padding: '6px',
+                    background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(138, 13, 13, 0.95) 40%, rgba(20, 14, 8, 0.98) 70%, rgba(255, 90, 19, 0.8) 100%)',
+                    boxShadow: '0 15px 50px rgba(0,0,0,0.95), 0 0 30px rgba(255, 90, 19, 0.4), inset 0 0 20px rgba(0,0,0,0.9)',
                     overflow: 'hidden',
                   }}
                 >
@@ -424,7 +440,7 @@ export default function Home() {
                       position: 'relative',
                       width: '100%',
                       height: '100%',
-                      borderRadius: '12px 24px 14px 20px',
+                      borderRadius: '12px 30px 14px 22px',
                       overflow: 'hidden',
                       background: '#0a0807',
                     }}
@@ -437,7 +453,7 @@ export default function Home() {
                         height: '100%',
                         objectFit: 'cover',
                         objectPosition: 'center top',
-                        filter: 'contrast(1.1) saturate(1.05) brightness(0.95)',
+                        filter: 'contrast(1.12) saturate(1.05) brightness(0.95)',
                       }}
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = about?.avatarUrl || '/hero.jpg';
@@ -451,11 +467,11 @@ export default function Home() {
                         position: 'absolute',
                         inset: 0,
                         background: `
-                          radial-gradient(ellipse at center, transparent 48%, rgba(25, 12, 6, 0.75) 78%, rgba(10, 8, 7, 0.98) 100%),
-                          linear-gradient(to right, rgba(15, 8, 4, 0.85) 0%, transparent 6%, transparent 94%, rgba(15, 8, 4, 0.85) 100%),
-                          linear-gradient(to bottom, rgba(15, 8, 4, 0.9) 0%, transparent 6%, transparent 94%, rgba(15, 8, 4, 0.95) 100%)
+                          radial-gradient(ellipse at center, transparent 42%, rgba(20, 10, 5, 0.8) 75%, rgba(6, 4, 3, 0.98) 100%),
+                          linear-gradient(to right, rgba(10, 5, 2, 0.9) 0%, transparent 8%, transparent 92%, rgba(10, 5, 2, 0.9) 100%),
+                          linear-gradient(to bottom, rgba(10, 5, 2, 0.9) 0%, transparent 8%, transparent 92%, rgba(10, 5, 2, 0.98) 100%)
                         `,
-                        boxShadow: 'inset 0 0 28px rgba(0, 0, 0, 0.95), inset 0 0 10px rgba(255, 90, 19, 0.4)',
+                        boxShadow: 'inset 0 0 32px rgba(0, 0, 0, 0.98), inset 0 0 14px rgba(255, 90, 19, 0.5)',
                         pointerEvents: 'none',
                       }}
                     />
