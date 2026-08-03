@@ -311,33 +311,17 @@ export default function Home() {
             overflow: 'hidden',
           }}
         >
-          {/* Dragon Silhouette Image Backdrop in Hero */}
+          {/* Seamless Transparent SVG Dragon Silhouette Backdrop */}
           <div
             aria-hidden="true"
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: "url('/dragonpit/hero-dragon-placeholder.png')",
-              backgroundPosition: 'right center',
-              backgroundSize: 'contain',
+              backgroundImage: "url('/dragonpit/hero-dragon-silhouette.svg')",
+              backgroundPosition: 'center 40%',
+              backgroundSize: '850px auto',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.22,
-              pointerEvents: 'none',
-              filter: 'drop-shadow(0 0 30px rgba(184, 20, 20, 0.4))',
-            }}
-          />
-
-          {/* Deep Ember Fire Glow behind text */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              top: '20%',
-              left: '10%',
-              width: '500px',
-              height: '500px',
-              background: 'radial-gradient(circle, rgba(184, 20, 20, 0.25) 0%, rgba(255, 90, 19, 0.12) 45%, transparent 75%)',
-              filter: 'blur(60px)',
+              opacity: 0.45,
               pointerEvents: 'none',
             }}
           />

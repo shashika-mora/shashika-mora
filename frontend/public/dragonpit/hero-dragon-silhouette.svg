@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" opacity="0.35">
+  <!-- Symmetrical / Majestic Dragon Silhouette with spread wings and flame breath -->
+  <g fill="url(#dragonGlowGrad)" stroke="rgba(255, 90, 19, 0.3)" stroke-width="1">
+    <!-- Main Dragon Body -->
+    <path d="M400,220 C420,180 460,150 490,130 C470,160 450,190 440,220 C470,200 510,180 540,170 C510,195 470,225 450,250 C500,240 550,230 600,230 C550,260 490,280 440,300 C480,310 520,330 550,360 C500,350 450,330 420,310 C430,350 440,400 450,460 C420,420 405,370 400,320 C395,370 380,420 350,460 C360,400 370,350 380,310 C350,330 300,350 250,360 C280,330 320,310 360,300 C310,280 250,260 200,230 C250,230 300,240 350,250 C330,225 290,195 260,170 C290,180 330,200 360,220 C350,190 330,160 310,130 C340,150 380,180 400,220 Z" />
+    
+    <!-- Left Wing Membrane Details -->
+    <path d="M400,250 Q280,140 180,120 Q260,200 350,280 Z" opacity="0.6" />
+    <path d="M380,270 Q240,180 140,190 Q240,240 340,300 Z" opacity="0.5" />
+    
+    <!-- Right Wing Membrane Details -->
+    <path d="M400,250 Q520,140 620,120 Q540,200 450,280 Z" opacity="0.6" />
+    <path d="M420,270 Q560,180 660,190 Q560,240 460,300 Z" opacity="0.5" />
+    
+    <!-- Tail Flame / Embers -->
+    <circle cx="400" cy="480" r="8" fill="#ff5a13" opacity="0.8" />
+    <circle cx="390" cy="510" r="5" fill="#f28b1d" opacity="0.6" />
+    <circle cx="415" cy="535" r="4" fill="#ffd700" opacity="0.7" />
+  </g>
+
+  <!-- Dragon Head Crown Accent -->
+  <path d="M400,160 L408,135 L400,145 L392,135 Z" fill="#ffd700" opacity="0.9" />
+
+  <defs>
+    <linearGradient id="dragonGlowGrad" x1="400" y1="100" x2="400" y2="550" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffd700" stop-opacity="0.8" />
+      <stop offset="30%" stop-color="#ff5a13" stop-opacity="0.6" />
+      <stop offset="70%" stop-color="#a31313" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+</svg>
