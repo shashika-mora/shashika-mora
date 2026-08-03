@@ -2,13 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 
-/** Dragonpit Ember Field — Clean Obsidian Background
- *  - Floating embers reaching top of screen
- *  - Pure black obsidian background without muddy yellow/red glow plates
- *  - Dynamic fire sparks and floating light particles
- *  - Multi-layer depth
- *  - Pauses when tab is hidden
- *  - Respects prefers-reduced-motion
+/** Dragonpit Burning Ember Field Background
+ *  - High performance canvas rendering rising fire ember particles
+ *  - Refined smaller particle sizes (0.8px - 2.2px) for an elegant atmospheric burning effect
+ *  - Pure dark obsidian background
  */
 export default function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,7 +23,7 @@ export default function InteractiveBackground() {
     let paused = false;
 
     const MOBILE = window.innerWidth < 768;
-    const EMBER_COUNT = MOBILE ? 30 : 70;
+    const EMBER_COUNT = MOBILE ? 40 : 90;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -61,24 +58,25 @@ export default function InteractiveBackground() {
     ];
 
     const createParticle = (isInitial = false): Particle => {
-      const maxLife = 140 + Math.random() * 220;
-      const size = 1.2 + Math.random() * 3.0;
+      const maxLife = 160 + Math.random() * 240;
+      // Refined slightly smaller particle size (0.8px - 2.2px)
+      const size = 0.8 + Math.random() * 1.5;
       const color = COLORS[Math.floor(Math.random() * COLORS.length)];
 
       return {
         x: Math.random() * canvas.width,
         y: isInitial ? Math.random() * canvas.height : canvas.height + 20 + Math.random() * 40,
-        vx: (Math.random() - 0.5) * 0.7,
-        vy: -(0.8 + Math.random() * 1.5),
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -(0.7 + Math.random() * 1.4),
         size,
         alpha: 0,
-        maxAlpha: 0.3 + Math.random() * 0.65,
+        maxAlpha: 0.35 + Math.random() * 0.6,
         color,
         life: isInitial ? Math.floor(Math.random() * maxLife) : 0,
         maxLife,
         sway: Math.random() * Math.PI * 2,
         swaySpeed: 0.01 + Math.random() * 0.03,
-        glowBlur: Math.random() > 0.4 ? 6 + Math.random() * 10 : 0,
+        glowBlur: Math.random() > 0.4 ? 4 + Math.random() * 8 : 0,
       };
     };
 
@@ -90,14 +88,13 @@ export default function InteractiveBackground() {
         return;
       }
 
-      // Clear canvas cleanly — NO colored background wash plates
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((p) => {
         p.life++;
         p.sway += p.swaySpeed;
 
-        p.x += p.vx + Math.sin(p.sway) * 0.45;
+        p.x += p.vx + Math.sin(p.sway) * 0.4;
         p.y += p.vy;
 
         const lifeRatio = p.life / p.maxLife;
@@ -122,7 +119,7 @@ export default function InteractiveBackground() {
         ctx.fillStyle = p.color;
         ctx.fill();
 
-        if (p.size > 2.2) {
+        if (p.size > 1.6) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
           ctx.fillStyle = '#fff5d6';
