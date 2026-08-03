@@ -83,9 +83,9 @@ function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: str
   }, [currentText, isDeleting, currentPhraseIdx, phrases, typingSpeed]);
 
   return (
-    <span style={{ color: 'var(--dp-gold-bright)', fontWeight: 600, textShadow: '0 0 12px rgba(255, 215, 0, 0.4)' }}>
+    <span style={{ color: 'var(--dp-gold-bright)', fontWeight: 600, textShadow: '0 0 14px rgba(255, 215, 0, 0.4)' }}>
       {currentText}
-      <span aria-hidden="true" style={{ borderRight: '2px solid var(--dp-gold-bright)', marginLeft: '3px', animation: 'pulse 1s step-end infinite' }} />
+      <span aria-hidden="true" style={{ borderRight: '2px solid var(--dp-gold-bright)', marginLeft: '4px', animation: 'pulse 1s step-end infinite' }} />
     </span>
   );
 }
@@ -141,21 +141,21 @@ const DEFAULT_COMPETITIONS = [
    HOME PAGE
    ═══════════════════════════════════════════════════════ */
 export default function Home() {
-  // Data state
-  const [about, setAbout]           = useState<any>(DEFAULT_ABOUT);
-  const [projects, setProjects]     = useState<any[]>([]);
-  const [blogs, setBlogs]           = useState<any[]>([]);
+  // Data state — initialized with DEFAULT_ABOUT to ensure stable layout
+  const [about, setAbout]               = useState<any>(DEFAULT_ABOUT);
+  const [projects, setProjects]         = useState<any[]>([]);
+  const [blogs, setBlogs]               = useState<any[]>([]);
   const [competitions, setCompetitions] = useState<any[]>(DEFAULT_COMPETITIONS);
-  const [thoughts, setThoughts]     = useState<any[]>([]);
-  const [skills, setSkills]         = useState<any[]>([]);
+  const [thoughts, setThoughts]         = useState<any[]>([]);
+  const [skills, setSkills]             = useState<any[]>([]);
 
   // Loading state
-  const [aboutLoading, setAboutLoading]           = useState(true);
-  const [projectsLoading, setProjectsLoading]     = useState(true);
-  const [blogsLoading, setBlogsLoading]           = useState(true);
+  const [aboutLoading, setAboutLoading]               = useState(true);
+  const [projectsLoading, setProjectsLoading]         = useState(true);
+  const [blogsLoading, setBlogsLoading]               = useState(true);
   const [competitionsLoading, setCompetitionsLoading] = useState(true);
-  const [thoughtsLoading, setThoughtsLoading]     = useState(true);
-  const [skillsLoading, setSkillsLoading]         = useState(true);
+  const [thoughtsLoading, setThoughtsLoading]         = useState(true);
+  const [skillsLoading, setSkillsLoading]             = useState(true);
 
   // Vote state
   const [votes, setVotes] = useState<Record<string, 'like' | 'dislike'>>({});
@@ -165,10 +165,19 @@ export default function Home() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Data fetching (Preserved exact Firestore calls)
+  // Data fetching (Preserved exact Firestore calls, safely merged with defaults)
   useEffect(() => {
     getAboutConfig().then(data => {
-      if (data) setAbout(data);
+      if (data) {
+        setAbout((prev: any) => ({
+          ...DEFAULT_ABOUT,
+          ...data,
+          // Guarantee core layout strings are never empty/undefined
+          name: data.name || DEFAULT_ABOUT.name,
+          title: data.title || DEFAULT_ABOUT.title,
+          availabilityStatus: data.availabilityStatus || DEFAULT_ABOUT.availabilityStatus,
+        }));
+      }
       setAboutLoading(false);
     }).catch(() => setAboutLoading(false));
 
@@ -216,16 +225,18 @@ export default function Home() {
     return () => clearTimeout(t);
   }, []);
 
+  // Hero entrance animation — runs once when loaderDone is true
   useGSAP(() => {
     if (!loaderDone) return;
     gsap.timeline()
-      .fromTo('.dp-hero-badge',  { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)', clearProps: 'all' })
-      .fromTo('.dp-hero-title',  { opacity: 0, y: 30 },       { opacity: 1, y: 0,     duration: 0.8, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
-      .fromTo('.dp-hero-sub',    { opacity: 0, y: 20 },       { opacity: 1, y: 0,     duration: 0.6, ease: 'power3.out', clearProps: 'all' }, '-=0.4')
-      .fromTo('.dp-hero-btn',    { opacity: 0, y: 15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)', clearProps: 'all' }, '-=0.3')
-      .fromTo('.dp-hero-avatar', { opacity: 0, scale: 0.9 },  { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out', clearProps: 'all' }, '-=0.6');
+      .fromTo('.dp-hero-badge',  { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' })
+      .fromTo('.dp-hero-title',  { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.dp-hero-sub-line', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' }, '-=0.4')
+      .fromTo('.dp-hero-btn',    { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
+      .fromTo('.dp-hero-avatar', { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.7, ease: 'power2.out', clearProps: 'all' }, '-=0.5');
   }, { scope: containerRef, dependencies: [loaderDone] });
 
+  // Scroll reveal animations for sections below hero
   useGSAP(() => {
     if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading && thoughtsLoading) return;
 
@@ -298,16 +309,17 @@ export default function Home() {
       <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
 
         {/* ════════════════════════════════════════
-            HERO SECTION — CARAXES BLOOD WYRM GUARDIAN
+            HERO SECTION — PERMANENT LARGE DESIGN
             ════════════════════════════════════════ */}
         <section
           style={{
-            minHeight: '94vh',
+            minHeight: 'calc(100vh - 80px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '130px 24px 80px',
+            padding: '120px 24px 80px',
             position: 'relative',
+            background: 'transparent',
           }}
         >
           <div
@@ -316,15 +328,15 @@ export default function Home() {
               width: '100%',
               margin: '0 auto',
               display: 'grid',
-              gridTemplateColumns: '1fr auto',
+              gridTemplateColumns: '1fr 340px',
               gap: '64px',
               alignItems: 'center',
               position: 'relative',
               zIndex: 1,
             }}
           >
-            {/* Text column */}
-            <div style={{ maxWidth: '680px' }}>
+            {/* Text column — Stable large typography */}
+            <div style={{ width: '100%', maxWidth: '720px' }}>
               {/* Availability badge */}
               <div
                 className="dp-hero-badge"
@@ -332,7 +344,7 @@ export default function Home() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '10px',
-                  padding: '6px 16px 6px 12px',
+                  padding: '7px 18px 7px 14px',
                   background: 'rgba(25, 21, 18, 0.85)',
                   border: '1px solid var(--dp-border)',
                   borderRadius: '4px',
@@ -363,90 +375,92 @@ export default function Home() {
                     }}
                   />
                 </span>
-                <span style={{ fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--dp-gold-soft)' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--dp-gold-soft)' }}>
                   {about.availabilityStatus || 'Available for Opportunities'}
                 </span>
               </div>
 
-              {/* Tagline overline */}
+              {/* Theme tagline overline */}
               <p
-                className="dp-hero-sub"
+                className="dp-hero-sub-line"
                 style={{
-                  fontSize: '0.75rem',
+                  fontSize: '0.8rem',
                   fontWeight: 800,
                   letterSpacing: '0.24em',
                   textTransform: 'uppercase',
                   color: 'var(--dp-gold-bright)',
-                  marginBottom: '12px',
+                  marginBottom: '14px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                 }}
               >
-                <Sparkles size={14} className="text-[var(--dp-ember)]" />
+                <Sparkles size={15} className="text-[var(--dp-ember)]" />
                 IDEAS HATCH HERE. SYSTEMS TAKE FLIGHT.
               </p>
 
-              {/* Main title */}
+              {/* Main title heading — Large permanent scale */}
               <h1
                 className="dp-hero-title"
                 style={{
                   fontFamily: 'var(--font-heading, Georgia, serif)',
-                  fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
+                  fontSize: 'clamp(3.2rem, 6.2vw, 5.2rem)',
                   fontWeight: 900,
-                  lineHeight: 1.1,
+                  lineHeight: 1.08,
                   letterSpacing: '-0.02em',
                   color: '#ffffff',
-                  marginBottom: '16px',
+                  marginBottom: '18px',
                 }}
               >
                 {"Hi, I'm"}{' '}
                 <span className="dp-title-gradient">
-                  {about.name}.
+                  {about.name || 'Shashika Dayarathna'}.
                 </span>
               </h1>
 
-              {/* Subtitle */}
+              {/* Professional subtitle */}
               <p
-                className="dp-hero-sub"
+                className="dp-hero-sub-line"
                 style={{
-                  fontSize: '1.08rem',
+                  fontSize: '1.2rem',
                   color: 'var(--dp-smoke)',
                   lineHeight: 1.7,
-                  marginBottom: '12px',
-                  fontWeight: 400,
+                  marginBottom: '14px',
+                  fontWeight: 500,
                 }}
               >
-                {about.title}
+                {about.title || 'CSE Undergraduate @ University of Moratuwa'}
               </p>
 
-              {/* Typewriter */}
+              {/* Dynamic Typewriter text */}
               <p
-                className="dp-hero-sub"
-                style={{ fontSize: '1rem', color: 'var(--dp-text)', marginBottom: '40px', minHeight: '1.6em' }}
+                className="dp-hero-sub-line"
+                style={{ fontSize: '1.18rem', color: 'var(--dp-text)', marginBottom: '44px', minHeight: '2.2em' }}
               >
                 <TypewriterEffect subtitle={about.subtitle} phrases={about.heroPhrases} />
               </p>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+              {/* Action Buttons — Prominent CTAs */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '18px' }}>
                 {about.resumeUrl ? (
                   <a
                     href={about.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="dp-hero-btn dp-btn-primary"
+                    style={{ padding: '16px 36px', fontSize: '0.95rem' }}
                   >
                     Download CV 📜
                   </a>
                 ) : (
-                  <span className="dp-hero-btn dp-btn-disabled" title="CV Coming Soon">
+                  <span className="dp-hero-btn dp-btn-disabled" title="CV Coming Soon" style={{ padding: '16px 36px', fontSize: '0.95rem' }}>
                     Download CV 📜
                   </span>
                 )}
                 <a
                   href="#contact"
                   className="dp-hero-btn dp-btn-secondary"
+                  style={{ padding: '16px 36px', fontSize: '0.95rem' }}
                 >
                   Send a Raven 🗡️
                   <ArrowRight size={16} aria-hidden="true" />
@@ -454,10 +468,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Profile Avatar Frame & Caraxes Blood Wyrm Artwork */}
+            {/* Profile Avatar Frame */}
             <div
               className="dp-hero-avatar"
-              style={{ position: 'relative', flexShrink: 0 }}
+              style={{ position: 'relative', flexShrink: 0, width: '340px', height: '400px' }}
             >
               {/* Gold & Blood Red Aura */}
               <div
@@ -476,8 +490,8 @@ export default function Home() {
               <div
                 style={{
                   position: 'relative',
-                  width: '320px',
-                  height: '380px',
+                  width: '340px',
+                  height: '400px',
                   borderRadius: '6px',
                   overflow: 'hidden',
                   border: '1px solid var(--dp-border)',
@@ -576,64 +590,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 🐉 CARAXES THE BLOOD WYRM FLIGHT BANNER 🐉 */}
-        <section
-          style={{
-            padding: '40px 24px',
-            maxWidth: '1280px',
-            margin: '0 auto 60px',
-            position: 'relative',
-          }}
-        >
-          <div
-            className="dp-ember-hover"
-            style={{
-              position: 'relative',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              border: '1px solid var(--dp-border)',
-              background: 'var(--dp-panel)',
-              height: '360px',
-              boxShadow: '0 16px 40px rgba(0,0,0,0.8)',
-            }}
-          >
-            <img
-              src="/dragonpit/caraxes-flight-banner.png"
-              alt="Caraxes the Blood Wyrm — Ideas Hatch Here. Systems Take Flight."
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-                filter: 'brightness(0.88) contrast(1.1)',
-              }}
-            />
-            {/* Banner overlay caption */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(90deg, rgba(8,7,6,0.95) 0%, rgba(8,7,6,0.5) 60%, transparent 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0 48px',
-              }}
-            >
-              <div style={{ maxWidth: '540px' }}>
-                <p style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)', marginBottom: '8px' }}>
-                  ⚔️ CARAXES · THE BLOOD WYRM ⚔️
-                </p>
-                <h3 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', marginBottom: '12px', lineHeight: 1.2 }}>
-                  Ideas Hatch Here.<br />Systems Take Flight.
-                </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--dp-smoke)', lineHeight: 1.6 }}>
-                  Welcome to my personal engineering portfolio — an obsidian pit of software architecture, intelligent systems, hardware experiments, and dragon lore.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ════════════════════════════════════════
             PAGE SECTIONS
             ════════════════════════════════════════ */}
@@ -673,7 +629,7 @@ export default function Home() {
           100% { opacity: 0; }
         }
         @media (max-width: 900px) {
-          section > div > div[style*="grid-template-columns: 1fr auto"] {
+          section > div[style*="grid-template-columns"] {
             grid-template-columns: 1fr !important;
           }
           .dp-hero-avatar { display: none !important; }
