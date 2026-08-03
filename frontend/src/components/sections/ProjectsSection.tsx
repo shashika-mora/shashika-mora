@@ -50,14 +50,7 @@ export default function ProjectsSection({ projects, loading }: ProjectsSectionPr
             <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No featured projects published yet.</p>
           </div>
         ) : (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))',
-              gap: '32px',
-              marginBottom: '48px',
-            }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
             {projects.map(project => (
               <ProjectCard key={project.id} project={project} />
             ))}
@@ -204,8 +197,8 @@ function ProjectCard({ project }: { project: any }) {
 
 function ProjectsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '32px', marginBottom: '48px' }}>
-      {[1, 2, 3].map(i => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+      {[1, 2, 3, 4].map(i => (
         <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '32px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
           <div style={{ height: '22px', background: '#1c1713', borderRadius: '3px', width: '60%', animation: 'pulse 1.5s ease-in-out infinite' }} />
           <div style={{ height: '14px', background: '#1c1713', borderRadius: '3px', width: '90%' }} />

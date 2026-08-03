@@ -39,7 +39,7 @@ export default function BlogPage() {
   }, { scope: containerRef, dependencies: [filteredBlogs, loading] });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+    <div ref={containerRef} style={{ maxWidth: '1440px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
       <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="top-left" />
       <DragonBackgroundLayer imageSrc="/dragonpit/moon_dancer_1.jpg" opacity={0.14} position="bottom-right" />
       {/* Back Link */}
@@ -95,7 +95,7 @@ export default function BlogPage() {
           <p style={{ fontSize: '0.9rem', color: 'var(--dp-muted)' }}>No articles match your search parameters or have been published to the archives.</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredBlogs.map((blog) => (
             <article
               key={blog.id}

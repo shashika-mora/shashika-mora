@@ -193,7 +193,7 @@ export default function Home() {
     <>
       <DragonpitLoader onComplete={() => setLoaderDone(true)} />
 
-      <div ref={containerRef} style={{ background: '#0a0807', color: '#f3e8d7', minHeight: '100vh', overflowX: 'hidden' }}>
+      <div ref={containerRef} style={{ background: 'transparent', color: '#f3e8d7', minHeight: '100vh', overflowX: 'hidden' }}>
 
         {/* ════════════════════════════════════════
             HERO SECTION

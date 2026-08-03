@@ -40,7 +40,7 @@ export default function CompetitionsPage() {
   }, { scope: containerRef, dependencies: [filtered, loading] });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '1280px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+    <div ref={containerRef} style={{ maxWidth: '1440px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
       <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_2.jpg" opacity={0.14} position="top-left" />
       <DragonBackgroundLayer imageSrc="/dragonpit/sunfyre_1.jpg" opacity={0.14} position="bottom-right" />
       {/* Back Link */}
@@ -96,7 +96,7 @@ export default function CompetitionsPage() {
           <p style={{ fontSize: '0.9rem', color: 'var(--dp-muted)' }}>No competition records match your search query.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '32px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((comp) => (
             <article key={comp.id} className="comp-card dp-panel dp-ember-hover" style={{ display: 'flex', flexDirection: 'column', padding: '32px 36px', gap: '18px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>

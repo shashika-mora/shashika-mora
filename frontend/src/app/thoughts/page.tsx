@@ -110,7 +110,7 @@ export default function ThoughtsPage() {
   }, { scope: containerRef, dependencies: [filtered, loading] });
 
   return (
-    <div ref={containerRef} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+    <div ref={containerRef} style={{ maxWidth: '1440px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
       <DragonBackgroundLayer imageSrc="/dragonpit/meleys_2.jpg" opacity={0.14} position="top-left" />
       <DragonBackgroundLayer imageSrc="/dragonpit/meleys_4.jpg" opacity={0.14} position="bottom-right" />
       {/* Back Link */}
@@ -189,7 +189,7 @@ export default function ThoughtsPage() {
           <p style={{ fontSize: '0.9rem', color: 'var(--dp-muted)' }}>No thoughts match your query or category selection.</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((thought) => {
             const userVote = votes[thought.id];
             return (

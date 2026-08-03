@@ -7,6 +7,8 @@ import { Calendar, Tag, ArrowLeft, Shield } from 'lucide-react';
 import Link from 'next/link';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
 
+import DragonBackgroundLayer from '../../../components/dragonpit/DragonBackgroundLayer';
+
 export default function BlogPostClient({ params }: { params?: any }) {
   const pathname = usePathname();
   const slug = pathname?.split('/').filter(Boolean).pop() || '';
@@ -55,7 +57,9 @@ export default function BlogPostClient({ params }: { params?: any }) {
   }
 
   return (
-    <div style={{ maxWidth: '860px', margin: '0 auto', padding: '120px 24px 80px' }}>
+    <div style={{ maxWidth: '860px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative' }}>
+      <DragonBackgroundLayer imageSrc="/dragonpit/dreamfyre.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/moon_dancer_1.jpg" opacity={0.14} position="bottom-right" />
       {/* Back button */}
       <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '32px', fontWeight: 600 }}>
         <ArrowLeft size={16} /> Back to Written Archives

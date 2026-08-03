@@ -53,8 +53,8 @@ export default function ThoughtsSection({ thoughts, loading, onVote, userVotes }
             <p style={{ fontSize: '0.95rem', fontWeight: 600 }}>No thoughts recorded yet.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px', marginBottom: '40px' }}>
-            {thoughts.slice(0, 3).map(thought => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
+            {thoughts.slice(0, 4).map(thought => (
               <article
                 key={thought.id}
                 className="thought-card dp-ember-hover"
@@ -156,8 +156,8 @@ export default function ThoughtsSection({ thoughts, loading, onVote, userVotes }
 
 function ThoughtsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px', marginBottom: '40px' }}>
-      {[1, 2, 3].map(i => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
+      {[1, 2, 3, 4].map(i => (
         <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div style={{ height: '18px', background: '#1c1713', borderRadius: '3px', width: '40%' }} />
           <div style={{ height: '48px', background: '#1c1713', borderRadius: '3px', width: '90%' }} />
