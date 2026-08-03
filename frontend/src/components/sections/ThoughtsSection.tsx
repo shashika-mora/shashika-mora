@@ -17,7 +17,7 @@ export default function ThoughtsSection({ thoughts, loading, onVote, userVotes }
     <section
       id="thoughts"
       style={{
-        padding: '100px 24px',
+        padding: '120px 24px',
         borderTop: '1px solid var(--dp-border)',
         background: 'rgba(10,8,7,0.7)',
         position: 'relative',

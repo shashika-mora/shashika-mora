@@ -15,7 +15,7 @@ export default function ProjectsSection({ projects, loading }: ProjectsSectionPr
     <section
       id="projects"
       style={{
-        padding: '100px 24px',
+        padding: '120px 24px',
         borderTop: '1px solid var(--dp-border)',
         position: 'relative',
         overflow: 'hidden',
