@@ -96,7 +96,7 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
         {loading ? (
           <SkillsSkeleton />
         ) : categories.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {categories.map((catGroup, i) => {
               const catKey = catGroup.category.toLowerCase().trim();
               const IconComp = CATEGORY_ICONS[catKey] || [Cpu, Layers, BookOpen][i % 3];
@@ -156,8 +156,8 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
 
 function SkillsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '28px' }}>
-      {[1, 2, 3].map(i => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {[1, 2, 3, 4].map(i => (
         <div key={i} style={{ background: '#14100d', border: '1px solid rgba(212, 175, 55, 0.35)', borderRadius: '8px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div style={{ height: '20px', background: '#1c1713', borderRadius: '3px', width: '50%' }} />
           <div style={{ height: '36px', background: '#1c1713', borderRadius: '3px', width: '90%' }} />

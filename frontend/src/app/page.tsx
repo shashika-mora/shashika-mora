@@ -191,7 +191,7 @@ export default function Home() {
 
   return (
     <>
-      <DragonpitLoader onComplete={() => setLoaderDone(true)} />
+      <DragonpitLoader isDataLoaded={!loading} onComplete={() => setLoaderDone(true)} />
 
       <div ref={containerRef} style={{ background: 'transparent', color: '#f3e8d7', minHeight: '100vh', overflowX: 'hidden' }}>
 
