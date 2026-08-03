@@ -232,6 +232,33 @@ body {
   transform: translateY(-2px);
 }
 
+/* Button — hero action (obsidian default, turns crimson blood red on hover) */
+.dp-btn-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: rgba(20, 17, 15, 0.9);
+  color: var(--dp-gold-soft);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--dp-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+.dp-btn-hero:hover {
+  background: linear-gradient(135deg, var(--dp-red) 0%, var(--dp-blood) 100%);
+  border-color: var(--dp-red-bright);
+  color: #ffffff;
+  box-shadow: 0 0 24px var(--dp-glow-red), 0 0 10px var(--dp-glow-ember);
+  transform: translateY(-2px);
+}
+
 /* Button — disabled ghost */
 .dp-btn-disabled {
   display: inline-flex;

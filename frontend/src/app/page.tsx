@@ -253,38 +253,6 @@ export default function Home() {
             {/* Left Column: Hero Content */}
             <div style={{ flex: '1 1 60%', maxWidth: '720px' }}>
 
-              {/* Status Badge */}
-              <div className="dp-hero-badge" style={{ marginBottom: '20px' }}>
-                <span
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '6px 16px',
-                    background: 'rgba(20, 16, 13, 0.85)',
-                    border: '1px solid var(--dp-border)',
-                    borderRadius: '20px',
-                    fontSize: '0.78rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: 'var(--dp-gold-bright)',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '50%',
-                      background: about?.isAvailable !== false ? '#4ade80' : 'var(--dp-ember)',
-                      boxShadow: about?.isAvailable !== false ? '0 0 10px #4ade80' : '0 0 10px var(--dp-ember)',
-                    }}
-                  />
-                  {about?.availabilityStatus || 'Available for Opportunities'}
-                </span>
-              </div>
-
               {/* Tagline Subtitle */}
               <p
                 className="dp-hero-sub-text"
@@ -335,27 +303,27 @@ export default function Home() {
               </h2>
 
               {/* Dynamic Typewriter */}
-              <div className="dp-hero-sub-text" style={{ minHeight: '38px', marginBottom: '32px' }}>
+              <div className="dp-hero-sub-text" style={{ minHeight: '38px', marginBottom: '36px' }}>
                 <TypewriterEffect />
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons with expanded spacing & unified hover effect */}
               <div
                 className="dp-hero-btn"
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
                   alignItems: 'center',
-                  gap: '16px',
+                  gap: '24px',
                 }}
               >
-                <Link href="#projects" className="dp-btn-primary">
-                  Explore The Pit 🐉
+                <Link href="#projects" className="dp-btn-hero">
+                  Explore The Pit
                   <ArrowRight size={16} aria-hidden="true" />
                 </Link>
 
-                <Link href="#contact" className="dp-btn-secondary">
-                  Send a Raven 🗡️
+                <Link href="#contact" className="dp-btn-hero">
+                  Send a Raven
                 </Link>
 
                 {about?.resumeUrl && (
@@ -363,24 +331,59 @@ export default function Home() {
                     href={about.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="dp-btn-secondary"
+                    className="dp-btn-hero"
                   >
-                    View Scroll (CV) 📜
+                    View Scroll (CV)
                   </a>
                 )}
               </div>
             </div>
 
-            {/* Right Column: Burnt Paper Portrait Frame */}
+            {/* Right Column: Status Badge & Burnt Paper Portrait Frame */}
             <div
               className="dp-hero-avatar"
               style={{
                 flex: '0 0 auto',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
+                gap: '20px',
               }}
             >
+              {/* Status Badge Positioned Ahead of Photo */}
+              <div className="dp-hero-badge">
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '7px 20px',
+                    background: 'rgba(20, 16, 13, 0.92)',
+                    border: '1px solid var(--dp-border)',
+                    borderRadius: '20px',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--dp-gold-bright)',
+                    boxShadow: '0 6px 24px rgba(0,0,0,0.7)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      background: about?.isAvailable !== false ? '#4ade80' : 'var(--dp-ember)',
+                      boxShadow: about?.isAvailable !== false ? '0 0 10px #4ade80' : '0 0 10px var(--dp-ember)',
+                    }}
+                  />
+                  {about?.availabilityStatus || 'Available for Opportunities'}
+                </span>
+              </div>
+
+              {/* Photo Frame */}
               <div
                 style={{
                   position: 'relative',
