@@ -6,14 +6,14 @@ import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import DragonSigil from './DragonSigil';
 
-const NAV_LINKS = [
-  { name: 'About',        path: '/#about' },
-  { name: 'Projects',     path: '/projects' },
-  { name: 'Academic',     path: '/academics' },
-  { name: 'Competitions', path: '/competitions' },
-  { name: 'Blog',         path: '/blog' },
-  { name: 'Thoughts',     path: '/thoughts' },
-  { name: 'Contact',      path: '/#contact' },
+const NAV_ITEMS = [
+  { name: 'About',        hash: '#about',        pagePath: '/#about' },
+  { name: 'Projects',     hash: '/projects',     pagePath: '/projects' },
+  { name: 'Academic',     hash: '/academics',    pagePath: '/academics' },
+  { name: 'Competitions', hash: '/competitions', pagePath: '/competitions' },
+  { name: 'Blog',         hash: '/blog',         pagePath: '/blog' },
+  { name: 'Thoughts',     hash: '/thoughts',     pagePath: '/thoughts' },
+  { name: 'Contact',      hash: '#contact',      pagePath: '/#contact' },
 ];
 
 export default function DragonpitNavbar() {
@@ -27,12 +27,19 @@ export default function DragonpitNavbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => { setIsOpen(false); }, [pathname]);
 
-  const isActive = (path: string) =>
-    pathname === path ||
-    (path !== '/' && !path.startsWith('/#') && pathname.startsWith(path));
+  const getHref = (item: typeof NAV_ITEMS[0]) => {
+    if (item.hash.startsWith('#')) {
+      return pathname === '/' ? item.hash : item.pagePath;
+    }
+    return item.pagePath;
+  };
+
+  const isActive = (item: typeof NAV_ITEMS[0]) => {
+    if (item.hash.startsWith('#')) return false;
+    return pathname === item.pagePath || (item.pagePath !== '/' && pathname.startsWith(item.pagePath));
+  };
 
   return (
     <nav
@@ -45,7 +52,7 @@ export default function DragonpitNavbar() {
         zIndex: 50,
         transition: 'background 0.3s, border-color 0.3s, padding 0.3s',
         background: scrolled
-          ? 'rgba(8, 7, 6, 0.92)'
+          ? 'rgba(8, 7, 6, 0.94)'
           : 'transparent',
         borderBottom: scrolled
           ? '1px solid var(--dp-border)'
@@ -57,20 +64,20 @@ export default function DragonpitNavbar() {
     >
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
-        {/* Wordmark */}
+        {/* Wordmark with my_icon.png Dragon Head Sigil */}
         <Link
           href="/"
           aria-label="The Dragonpit — home"
           style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
         >
-          <DragonSigil size={30} glowing={scrolled} />
+          <DragonSigil size={32} glowing={scrolled} />
           <span
             style={{
               fontFamily: 'var(--font-heading, Georgia, serif)',
               fontWeight: 900,
-              fontSize: '1rem',
+              fontSize: '1.05rem',
               letterSpacing: '0.08em',
-              color: 'var(--dp-gold)',
+              color: 'var(--dp-gold-bright)',
               textTransform: 'uppercase',
               lineHeight: 1,
             }}
@@ -81,26 +88,25 @@ export default function DragonpitNavbar() {
 
         {/* Desktop links */}
         <div className="hidden md:flex" style={{ alignItems: 'center', gap: '28px' }}>
-          {NAV_LINKS.map(link => (
+          {NAV_ITEMS.map(link => (
             <Link
               key={link.name}
-              href={link.path}
+              href={getHref(link)}
               style={{
-                fontSize: '0.8rem',
-                fontWeight: 600,
+                fontSize: '0.82rem',
+                fontWeight: 700,
                 letterSpacing: '0.06em',
                 textDecoration: 'none',
-                color: isActive(link.path) ? 'var(--dp-gold)' : 'var(--dp-muted)',
+                color: isActive(link) ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)',
                 transition: 'color 0.2s',
                 position: 'relative',
                 paddingBottom: '2px',
               }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--dp-text)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = isActive(link.path) ? 'var(--dp-gold)' : 'var(--dp-muted)')}
+              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = '#ffffff')}
+              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = isActive(link) ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)')}
             >
               {link.name}
-              {/* Ember active indicator */}
-              {isActive(link.path) && (
+              {isActive(link) && (
                 <span
                   aria-hidden="true"
                   style={{
@@ -108,8 +114,8 @@ export default function DragonpitNavbar() {
                     bottom: -4,
                     left: 0,
                     right: 0,
-                    height: '1px',
-                    background: 'linear-gradient(90deg, var(--dp-blood), var(--dp-ember), var(--dp-blood))',
+                    height: '2px',
+                    background: 'linear-gradient(90deg, var(--dp-blood), var(--dp-ember), var(--dp-gold-bright))',
                     borderRadius: '1px',
                     boxShadow: '0 0 6px var(--dp-ember)',
                   }}
@@ -128,14 +134,14 @@ export default function DragonpitNavbar() {
           style={{
             background: 'transparent',
             border: 'none',
-            color: 'var(--dp-muted)',
+            color: 'var(--dp-gold-bright)',
             cursor: 'pointer',
             padding: '4px',
             display: 'flex',
             alignItems: 'center',
           }}
         >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
@@ -161,17 +167,17 @@ export default function DragonpitNavbar() {
           pointerEvents: isOpen ? 'auto' : 'none',
         }}
       >
-        {NAV_LINKS.map(link => (
+        {NAV_ITEMS.map(link => (
           <Link
             key={link.name}
-            href={link.path}
+            href={getHref(link)}
             onClick={() => setIsOpen(false)}
             style={{
               fontSize: '1rem',
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: '0.08em',
               textDecoration: 'none',
-              color: isActive(link.path) ? 'var(--dp-gold)' : 'var(--dp-muted)',
+              color: isActive(link) ? 'var(--dp-gold-bright)' : 'var(--dp-smoke)',
               minHeight: '44px',
               display: 'flex',
               alignItems: 'center',

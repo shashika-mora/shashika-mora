@@ -205,11 +205,11 @@ export default function DragonpitLoader({ onComplete }: DragonpitLoaderProps) {
           }}
         >
           <img
-            src="/dragonpit/my_banner.png"
+            src="/dragonpit/my_icon.png"
             alt="The Dragonpit Emblem Banner"
             style={{
-              width: 190,
-              height: 190,
+              width: 170,
+              height: 170,
               objectFit: 'contain',
               animation: 'sigilGlow 1.8s ease forwards 0.2s',
               opacity: 0,
