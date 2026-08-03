@@ -371,7 +371,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Emblem / Sigil Medallion */}
+            {/* Right Column: Burnt Paper Portrait Frame */}
             <div
               className="dp-hero-avatar"
               style={{
@@ -384,55 +384,95 @@ export default function Home() {
               <div
                 style={{
                   position: 'relative',
-                  width: '260px',
-                  height: '260px',
+                  width: '280px',
+                  height: '350px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                {/* Glowing ring backdrop */}
+                {/* Ambient Ember Glow behind the Burnt Parchment */}
                 <div
                   aria-hidden="true"
                   style={{
                     position: 'absolute',
-                    inset: '-10px',
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(255, 90, 19, 0.25) 0%, rgba(212, 175, 55, 0.1) 60%, transparent 70%)',
-                    filter: 'blur(15px)',
+                    inset: '-15px',
+                    borderRadius: '24px',
+                    background: 'radial-gradient(ellipse at center, rgba(255, 90, 19, 0.35) 0%, rgba(212, 175, 55, 0.15) 50%, transparent 75%)',
+                    filter: 'blur(20px)',
+                    pointerEvents: 'none',
                   }}
                 />
 
+                {/* Burnt Paper / Scorched Parchment Frame Outer Container */}
                 <div
                   style={{
                     position: 'relative',
                     width: '100%',
                     height: '100%',
-                    borderRadius: '50%',
-                    border: '1px solid var(--dp-gold-bright)',
-                    background: 'linear-gradient(145deg, #181310 0%, #0a0807 100%)',
-                    boxShadow: '0 12px 40px rgba(0,0,0,0.8), inset 0 2px 10px rgba(255,215,0,0.2)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '24px',
+                    borderRadius: '16px 28px 18px 24px',
+                    padding: '5px',
+                    background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.8) 0%, rgba(138, 13, 13, 0.9) 40%, rgba(30, 20, 12, 0.95) 70%, rgba(212, 175, 55, 0.6) 100%)',
+                    boxShadow: '0 15px 45px rgba(0,0,0,0.95), 0 0 25px rgba(255, 90, 19, 0.35), inset 0 0 15px rgba(0,0,0,0.8)',
+                    overflow: 'hidden',
                   }}
                 >
-                  <img
-                    src="/dragonpit/my_icon.png"
-                    alt="Shashika Mora Emblem"
+                  {/* Photo Wrapper with Inner Scorched Vignette */}
+                  <div
                     style={{
-                      width: '140px',
-                      height: '140px',
-                      objectFit: 'contain',
-                      filter: 'drop-shadow(0 4px 12px rgba(255, 90, 19, 0.4))',
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '12px 24px 14px 20px',
+                      overflow: 'hidden',
+                      background: '#0a0807',
                     }}
-                  />
-                  <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                    <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)' }}>
-                      The Dragonpit
-                    </span>
+                  >
+                    <img
+                      src="/hero.jpg"
+                      alt={about?.name || 'Shashika Dayarathna'}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center top',
+                        filter: 'contrast(1.1) saturate(1.05) brightness(0.95)',
+                      }}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = about?.avatarUrl || '/hero.jpg';
+                      }}
+                    />
+
+                    {/* Charred / Burnt Paper Edges Vignette Overlay */}
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: `
+                          radial-gradient(ellipse at center, transparent 48%, rgba(25, 12, 6, 0.75) 78%, rgba(10, 8, 7, 0.98) 100%),
+                          linear-gradient(to right, rgba(15, 8, 4, 0.85) 0%, transparent 6%, transparent 94%, rgba(15, 8, 4, 0.85) 100%),
+                          linear-gradient(to bottom, rgba(15, 8, 4, 0.9) 0%, transparent 6%, transparent 94%, rgba(15, 8, 4, 0.95) 100%)
+                        `,
+                        boxShadow: 'inset 0 0 28px rgba(0, 0, 0, 0.95), inset 0 0 10px rgba(255, 90, 19, 0.4)',
+                        pointerEvents: 'none',
+                      }}
+                    />
+
+                    {/* Ember Glow Accent Line on Burnt Edge */}
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: 'absolute',
+                        bottom: '0',
+                        left: '0',
+                        right: '0',
+                        height: '3px',
+                        background: 'linear-gradient(90deg, transparent 0%, rgba(255, 90, 19, 0.95) 40%, rgba(212, 175, 55, 0.95) 70%, transparent 100%)',
+                        filter: 'blur(1px)',
+                        pointerEvents: 'none',
+                      }}
+                    />
                   </div>
                 </div>
               </div>
