@@ -2,11 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 
-/** Lightweight ember field background — canvas-based, performance-conscious.
- *  - Fewer particles on mobile
- *  - Pauses when document.hidden
+/** Enhanced Dragonpit Ember & Flame Field — Canvas-based
+ *  - Taller rising flames and floating embers reaching top of screen
+ *  - Dynamic fire sparks and pulsing heat glow
+ *  - Multi-layer parallax depth
+ *  - Pauses when tab is hidden
  *  - Respects prefers-reduced-motion
- *  - No external dependencies
  */
 export default function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,7 +18,6 @@ export default function InteractiveBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Reduced motion check
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
@@ -25,105 +25,176 @@ export default function InteractiveBackground() {
     let paused = false;
 
     const MOBILE = window.innerWidth < 768;
-    const COUNT  = MOBILE ? 18 : 40;
+    const EMBER_COUNT = MOBILE ? 35 : 85;
 
-    // Resize canvas
     const resize = () => {
-      canvas.width  = window.innerWidth;
+      canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // Ember particle type
-    type Ember = {
-      x: number; y: number;
-      vx: number; vy: number;
-      alpha: number; size: number;
-      color: string; life: number; maxLife: number;
+    type Particle = {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      alpha: number;
+      maxAlpha: number;
+      color: string;
+      life: number;
+      maxLife: number;
+      sway: number;
+      swaySpeed: number;
+      glowBlur: number;
     };
 
-    const COLORS = ['#6f0909', '#a31313', '#d32323', '#ff5a13', '#f28b1d', '#c79a45'];
+    const COLORS = [
+      '#8d1111', // Deep blood
+      '#a31313', // Red
+      '#d32323', // Bright red
+      '#ff4500', // Flame red-orange
+      '#ff5a13', // Ember orange
+      '#f28b1d', // Gold flame
+      '#ffc107', // Bright amber
+      '#ffe082', // Spark light
+    ];
 
-    const makeEmber = (): Ember => {
-      const maxLife = 80 + Math.random() * 120;
+    const createParticle = (isInitial = false): Particle => {
+      const maxLife = 120 + Math.random() * 220; // Long life so embers reach top of page
+      const size = 1.2 + Math.random() * 3.2;
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
       return {
-        x:      Math.random() * canvas.width,
-        y:      canvas.height + 10,
-        vx:     (Math.random() - 0.5) * 0.6,
-        vy:     -(0.3 + Math.random() * 0.7),
-        alpha:  0,
-        size:   1 + Math.random() * 2.5,
-        color:  COLORS[Math.floor(Math.random() * COLORS.length)],
-        life:   0,
+        x: Math.random() * canvas.width,
+        y: isInitial ? Math.random() * canvas.height : canvas.height + 20 + Math.random() * 40,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: -(0.8 + Math.random() * 1.6), // Faster upwards velocity to go high
+        size,
+        alpha: 0,
+        maxAlpha: 0.3 + Math.random() * 0.65,
+        color,
+        life: isInitial ? Math.floor(Math.random() * maxLife) : 0,
         maxLife,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.01 + Math.random() * 0.03,
+        glowBlur: Math.random() > 0.4 ? 8 + Math.random() * 12 : 0,
       };
     };
 
-    const embers: Ember[] = Array.from({ length: COUNT }, makeEmber);
+    const particles: Particle[] = Array.from({ length: EMBER_COUNT }, () => createParticle(true));
 
-    // Draw the deep-red radial glow background (static, drawn once per frame)
-    const drawBg = () => {
+    let time = 0;
+
+    const drawBackgroundLighting = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Deep base — already set via CSS, canvas is transparent
-      // Subtle red radial in the lower-centre
-      const grad = ctx.createRadialGradient(
-        canvas.width / 2, canvas.height * 0.75, 0,
-        canvas.width / 2, canvas.height * 0.75, canvas.height * 0.6,
+
+      // Deep atmospheric firelight gradient at bottom of screen
+      const bottomGlow = ctx.createRadialGradient(
+        canvas.width * 0.5,
+        canvas.height * 1.05,
+        50,
+        canvas.width * 0.5,
+        canvas.height * 1.05,
+        canvas.height * 0.75
       );
-      grad.addColorStop(0,   'rgba(111, 9, 9, 0.06)');
-      grad.addColorStop(0.5, 'rgba(111, 9, 9, 0.02)');
-      grad.addColorStop(1,   'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = grad;
+      bottomGlow.addColorStop(0, 'rgba(163, 19, 19, 0.15)');
+      bottomGlow.addColorStop(0.3, 'rgba(111, 9, 9, 0.08)');
+      bottomGlow.addColorStop(0.7, 'rgba(17, 16, 15, 0.02)');
+      bottomGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.fillStyle = bottomGlow;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Subtle warm highlight near hero area (top left-center)
+      const heroGlow = ctx.createRadialGradient(
+        canvas.width * 0.3,
+        canvas.height * 0.3,
+        0,
+        canvas.width * 0.3,
+        canvas.height * 0.3,
+        canvas.width * 0.45
+      );
+      heroGlow.addColorStop(0, 'rgba(255, 90, 19, 0.04)');
+      heroGlow.addColorStop(0.5, 'rgba(163, 19, 19, 0.02)');
+      heroGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.fillStyle = heroGlow;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
-    const tick = () => {
-      if (paused) { animId = requestAnimationFrame(tick); return; }
+    const render = () => {
+      if (paused) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
 
-      drawBg();
+      time += 0.016;
+      drawBackgroundLighting();
 
-      embers.forEach(e => {
-        e.life++;
-        e.x  += e.vx;
-        e.y  += e.vy;
-        // Fade in then out
-        const progress = e.life / e.maxLife;
-        e.alpha = progress < 0.2
-          ? progress / 0.2 * 0.7
-          : progress > 0.7
-            ? (1 - progress) / 0.3 * 0.7
-            : 0.7;
+      particles.forEach((p) => {
+        p.life++;
+        p.sway += p.swaySpeed;
 
+        // Gentle horizontal serpentine swaying like natural smoke/embers
+        p.x += p.vx + Math.sin(p.sway) * 0.45;
+        p.y += p.vy;
+
+        // Fade in gradually, maintain brightness, then fade out near end or top
+        const lifeRatio = p.life / p.maxLife;
+        if (lifeRatio < 0.15) {
+          p.alpha = (lifeRatio / 0.15) * p.maxAlpha;
+        } else if (lifeRatio > 0.8) {
+          p.alpha = ((1 - lifeRatio) / 0.2) * p.maxAlpha;
+        } else {
+          p.alpha = p.maxAlpha;
+        }
+
+        // Draw ember particle
         ctx.save();
-        ctx.globalAlpha = e.alpha * 0.55;
+        ctx.globalAlpha = p.alpha;
+
+        if (p.glowBlur > 0) {
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = p.glowBlur;
+        }
+
         ctx.beginPath();
-        ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
-        ctx.fillStyle = e.color;
-        ctx.shadowColor = e.color;
-        ctx.shadowBlur  = 6;
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
         ctx.fill();
+
+        // Extra spark center for larger embers
+        if (p.size > 2.2) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff5d6';
+          ctx.fill();
+        }
+
         ctx.restore();
 
-        // Respawn
-        if (e.life >= e.maxLife || e.y < -20) {
-          Object.assign(e, makeEmber());
+        // Respawn when particle dies or floats above screen
+        if (p.life >= p.maxLife || p.y < -30) {
+          Object.assign(p, createParticle(false));
         }
       });
 
-      animId = requestAnimationFrame(tick);
+      animId = requestAnimationFrame(render);
     };
 
-    animId = requestAnimationFrame(tick);
+    animId = requestAnimationFrame(render);
 
-    // Pause when tab hidden to save CPU
-    const onVisibility = () => { paused = document.hidden; };
-    document.addEventListener('visibilitychange', onVisibility);
+    const onVisibilityChange = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
-      document.removeEventListener('visibilitychange', onVisibility);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 

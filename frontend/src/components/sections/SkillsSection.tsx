@@ -33,7 +33,7 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
       style={{
         padding: '100px 24px',
         borderTop: '1px solid var(--dp-border)',
-        background: 'rgba(8,7,6,0.6)',
+        background: 'rgba(10,8,7,0.7)',
         position: 'relative',
       }}
     >
@@ -44,7 +44,7 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
           position: 'absolute', inset: 0,
           backgroundImage: "url('/dragonpit/scale-pattern.svg')",
           backgroundSize: '80px 80px',
-          opacity: 0.03,
+          opacity: 0.04,
           pointerEvents: 'none',
         }}
       />
@@ -52,8 +52,8 @@ export default function SkillsSection({ skills, about, loading }: SkillsSectionP
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Skills"
-          themed="THE ARSENAL"
-          description="Tools and technologies forged through projects, experimentation, and continuous learning."
+          themed="THE ARSENAL OF VALYRIA"
+          description="Technologies, systems, and engineering capabilities forged through code and experimentation."
         />
 
         {loading ? (
@@ -78,7 +78,7 @@ function GroupedSkills({ skills }: { skills: any[] }) {
   });
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '22px' }}>
       {Object.entries(groups).map(([category, items], idx) => {
         const Icon = CATEGORY_ICONS[idx % CATEGORY_ICONS.length];
         return (
@@ -88,37 +88,38 @@ function GroupedSkills({ skills }: { skills: any[] }) {
             style={{
               background: 'var(--dp-panel)',
               border: '1px solid var(--dp-border)',
-              borderRadius: '4px',
-              padding: '24px',
+              borderRadius: '6px',
+              padding: '26px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
             }}
           >
             <h3
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
+                gap: '10px',
+                fontSize: '0.8rem',
+                fontWeight: 800,
+                letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: 'var(--dp-gold)',
+                color: 'var(--dp-gold-bright)',
                 borderBottom: '1px solid var(--dp-border)',
-                paddingBottom: '12px',
-                marginBottom: '16px',
+                paddingBottom: '14px',
+                marginBottom: '18px',
               }}
             >
-              <Icon size={14} aria-hidden="true" />
+              <Icon size={16} aria-hidden="true" className="text-[var(--dp-ember)]" />
               {category}
             </h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
               {items.map((skill, i) => (
                 <span key={i} className="dp-skill-chip skill-chip">
                   {skill.iconUrl && (
                     <img
                       src={skill.iconUrl}
                       alt=""
-                      width={14}
-                      height={14}
+                      width={16}
+                      height={16}
                       style={{ objectFit: 'contain', flexShrink: 0 }}
                     />
                   )}
@@ -139,11 +140,11 @@ function FlatSkills({ skills }: { skills: any[] }) {
       style={{
         background: 'var(--dp-panel)',
         border: '1px solid var(--dp-border)',
-        borderRadius: '4px',
-        padding: '32px',
+        borderRadius: '6px',
+        padding: '36px',
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '10px',
+        gap: '12px',
         justifyContent: 'center',
       }}
     >
@@ -152,7 +153,7 @@ function FlatSkills({ skills }: { skills: any[] }) {
         return (
           <span key={i} className="dp-skill-chip skill-chip">
             {iconUrl && (
-              <img src={iconUrl} alt="" width={14} height={14} style={{ objectFit: 'contain' }} />
+              <img src={iconUrl} alt="" width={16} height={16} style={{ objectFit: 'contain' }} />
             )}
             {name}
           </span>
@@ -164,16 +165,16 @@ function FlatSkills({ skills }: { skills: any[] }) {
 
 function SkillsSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '22px' }}>
       {[1, 2, 3].map(i => (
         <div
           key={i}
-          style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '4px', padding: '24px', animation: 'pulse 1.5s ease-in-out infinite' }}
+          style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '6px', padding: '26px', animation: 'pulse 1.5s ease-in-out infinite' }}
         >
-          <div style={{ height: '16px', background: 'var(--dp-charcoal)', borderRadius: '2px', width: '40%', marginBottom: '16px' }} />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <div style={{ height: '18px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '45%', marginBottom: '18px' }} />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {[1, 2, 3, 4, 5].map(j => (
-              <div key={j} style={{ height: '28px', background: 'var(--dp-charcoal)', borderRadius: '2px', width: `${50 + j * 12}px` }} />
+              <div key={j} style={{ height: '32px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: `${60 + j * 14}px` }} />
             ))}
           </div>
         </div>

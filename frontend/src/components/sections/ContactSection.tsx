@@ -33,17 +33,17 @@ export default function ContactSection({ about }: ContactSectionProps) {
       setStatus({ loading: false, success: true, error: null });
       setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 5000);
     } catch {
-      setStatus({ loading: false, success: false, error: 'Failed to send message. Please try again.' });
+      setStatus({ loading: false, success: false, error: 'Failed to send raven. Please try again.' });
     }
   };
 
   const socialItems = [
-    { label: 'Email (Work)',     icon: Mail,      href: `mailto:${about?.email || about?.contactEmail}`,           text: about?.email || about?.contactEmail },
-    { label: 'Email (Personal)', icon: Mail,      href: `mailto:${about?.emailPersonal || 'shashikatheekshana67@gmail.com'}`, text: about?.emailPersonal || 'shashikatheekshana67@gmail.com' },
-    { label: 'LinkedIn',         icon: Linkedin,  href: about?.linkedinUrl,  text: 'shashika-dayarathna', external: true },
-    { label: 'GitHub',           icon: Github,    href: about?.githubUrl,    text: 'shashika-mora', external: true },
-    { label: 'Facebook',         icon: Facebook,  href: about?.facebookUrl || 'https://web.facebook.com/shashika.dayarathna.2025/', text: 'shashika.dayarathna.2025', external: true },
-    { label: 'Instagram',        icon: Instagram, href: about?.instaUrl || 'https://www.instagram.com/shashika_daya/', text: 'shashika_daya', external: true },
+    { label: 'Raven (Work Email)', icon: Mail, href: `mailto:${about?.email || about?.contactEmail}`, text: about?.email || about?.contactEmail },
+    { label: 'Raven (Personal Email)', icon: Mail, href: `mailto:${about?.emailPersonal || 'shashikatheekshana67@gmail.com'}`, text: about?.emailPersonal || 'shashikatheekshana67@gmail.com' },
+    { label: 'LinkedIn Realm', icon: Linkedin, href: about?.linkedinUrl, text: 'shashika-dayarathna', external: true },
+    { label: 'GitHub Forge', icon: Github, href: about?.githubUrl, text: 'shashika-mora', external: true },
+    { label: 'Facebook', icon: Facebook, href: about?.facebookUrl || 'https://web.facebook.com/shashika.dayarathna.2025/', text: 'shashika.dayarathna.2025', external: true },
+    { label: 'Instagram', icon: Instagram, href: about?.instaUrl || 'https://www.instagram.com/shashika_daya/', text: 'shashika_daya', external: true },
   ].filter(s => s.href);
 
   return (
@@ -52,26 +52,27 @@ export default function ContactSection({ about }: ContactSectionProps) {
       style={{
         padding: '100px 24px',
         borderTop: '1px solid var(--dp-border)',
-        background: 'rgba(8,7,6,0.5)',
+        background: 'rgba(10,8,7,0.7)',
+        position: 'relative',
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Contact"
-          themed="SEND YOUR RAVEN"
-          description="Want to collaborate, discuss systems, or just say hello? Send a message."
+          themed="SEND A RAVEN"
+          description="Whether for engineering inquiries, software projects, research, or dragon lore — send a raven across the realm."
         />
 
         <div
           className="contact-card"
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 2fr',
-            gap: '32px',
+            gridTemplateColumns: '1fr 1.8fr',
+            gap: '36px',
           }}
         >
           {/* Social info column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {socialItems.map(({ label, icon: Icon, href, text, external }) => (
               <a
                 key={label}
@@ -81,22 +82,22 @@ export default function ContactSection({ about }: ContactSectionProps) {
                 className="dp-ember-hover"
                 style={{
                   display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  padding: '14px 16px',
+                  alignItems: 'center',
+                  gap: '14px',
+                  padding: '16px 20px',
                   background: 'var(--dp-panel)',
                   border: '1px solid var(--dp-border)',
-                  borderRadius: '3px',
+                  borderRadius: '4px',
                   textDecoration: 'none',
-                  transition: 'border-color 0.25s, box-shadow 0.25s',
+                  transition: 'all 0.25s ease',
                 }}
               >
-                <Icon size={16} aria-hidden="true" style={{ color: 'var(--dp-red)', flexShrink: 0, marginTop: '2px' }} />
+                <Icon size={18} aria-hidden="true" style={{ color: 'var(--dp-gold-bright)', flexShrink: 0 }} />
                 <div style={{ minWidth: 0 }}>
-                  <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--dp-muted)', marginBottom: '2px' }}>
+                  <p style={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--dp-gold-soft)', marginBottom: '2px' }}>
                     {label}
                   </p>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--dp-smoke)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: '0.82rem', color: '#ffffff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
                     {text}
                   </p>
                 </div>
@@ -111,14 +112,15 @@ export default function ContactSection({ about }: ContactSectionProps) {
             style={{
               background: 'var(--dp-panel)',
               border: '1px solid var(--dp-border)',
-              borderRadius: '4px',
-              padding: '32px 36px',
+              borderRadius: '6px',
+              padding: '36px 40px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '18px',
+              gap: '20px',
+              boxShadow: '0 12px 36px rgba(0,0,0,0.6)',
             }}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
               <div>
                 <label htmlFor="name" className="dp-label">Name *</label>
                 <input
@@ -129,7 +131,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
                   value={formData.name}
                   onChange={handleChange}
                   className="dp-input"
-                  placeholder="Ser Firstname"
+                  placeholder="Lord / Ser / Lady..."
                 />
               </div>
               <div>
@@ -142,7 +144,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
                   value={formData.email}
                   onChange={handleChange}
                   className="dp-input"
-                  placeholder="raven@domain.com"
+                  placeholder="raven@castle.com"
                 />
               </div>
             </div>
@@ -156,7 +158,7 @@ export default function ContactSection({ about }: ContactSectionProps) {
                 value={formData.subject}
                 onChange={handleChange}
                 className="dp-input"
-                placeholder="Regarding…"
+                placeholder="Regarding engineering / project / research..."
               />
             </div>
 
@@ -170,20 +172,20 @@ export default function ContactSection({ about }: ContactSectionProps) {
                 value={formData.message}
                 onChange={handleChange}
                 className="dp-input"
-                placeholder="Write your message here…"
+                placeholder="Inscribe your parchment..."
                 style={{ resize: 'vertical' }}
               />
             </div>
 
             {/* Status messages */}
             {status.error && (
-              <div role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--dp-ember)' }}>
-                <AlertTriangle size={14} aria-hidden="true" /> {status.error}
+              <div role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-red-bright)', fontWeight: 600 }}>
+                <AlertTriangle size={16} aria-hidden="true" /> {status.error}
               </div>
             )}
             {status.success && (
-              <div role="status" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#4ade80' }}>
-                <CheckCircle size={14} aria-hidden="true" /> Message sent! I'll get back to you soon.
+              <div role="status" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#4ade80', fontWeight: 600 }}>
+                <CheckCircle size={16} aria-hidden="true" /> Raven dispatched successfully! I will answer your call shortly.
               </div>
             )}
 
@@ -191,16 +193,15 @@ export default function ContactSection({ about }: ContactSectionProps) {
               type="submit"
               disabled={status.loading}
               className="dp-btn-primary"
-              style={{ width: '100%' }}
+              style={{ width: '100%', fontSize: '0.95rem' }}
             >
-              {status.loading ? 'Sending…' : 'Send Raven'}
-              <Send size={14} aria-hidden="true" />
+              {status.loading ? 'Dispatching Raven…' : 'Send Raven 🗡️'}
+              <Send size={16} aria-hidden="true" />
             </button>
           </form>
         </div>
       </div>
 
-      {/* Responsive: stack on mobile */}
       <style>{`
         @media (max-width: 768px) {
           #contact .contact-card { grid-template-columns: 1fr !important; }

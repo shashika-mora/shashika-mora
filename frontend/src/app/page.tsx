@@ -6,7 +6,7 @@ import {
   getAboutConfig, getProjects, getBlogs, getCompetitions,
   addMessage, getThoughts, updateThoughtVote, getSkills
 } from '../lib/firestore-service';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -83,15 +83,15 @@ function TypewriterEffect({ subtitle, phrases: passedPhrases }: { subtitle?: str
   }, [currentText, isDeleting, currentPhraseIdx, phrases, typingSpeed]);
 
   return (
-    <span style={{ color: 'var(--dp-ember)', fontWeight: 400 }}>
+    <span style={{ color: 'var(--dp-gold-bright)', fontWeight: 600, textShadow: '0 0 12px rgba(255, 215, 0, 0.4)' }}>
       {currentText}
-      <span aria-hidden="true" style={{ borderRight: '2px solid var(--dp-ember)', marginLeft: '2px', animation: 'pulse 1s step-end infinite' }} />
+      <span aria-hidden="true" style={{ borderRight: '2px solid var(--dp-gold-bright)', marginLeft: '3px', animation: 'pulse 1s step-end infinite' }} />
     </span>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   DEFAULTS (same values as before — shown until Firestore loads)
+   DEFAULTS (shown until Firestore loads)
    ═══════════════════════════════════════════════════════ */
 const DEFAULT_ABOUT = {
   name: 'Shashika Dayarathna',
@@ -138,10 +138,10 @@ const DEFAULT_COMPETITIONS = [
 ];
 
 /* ═══════════════════════════════════════════════════════
-   PAGE
+   HOME PAGE
    ═══════════════════════════════════════════════════════ */
 export default function Home() {
-  // ── Data state ──
+  // Data state
   const [about, setAbout]           = useState<any>(DEFAULT_ABOUT);
   const [projects, setProjects]     = useState<any[]>([]);
   const [blogs, setBlogs]           = useState<any[]>([]);
@@ -149,7 +149,7 @@ export default function Home() {
   const [thoughts, setThoughts]     = useState<any[]>([]);
   const [skills, setSkills]         = useState<any[]>([]);
 
-  // ── Loading state ──
+  // Loading state
   const [aboutLoading, setAboutLoading]           = useState(true);
   const [projectsLoading, setProjectsLoading]     = useState(true);
   const [blogsLoading, setBlogsLoading]           = useState(true);
@@ -157,23 +157,21 @@ export default function Home() {
   const [thoughtsLoading, setThoughtsLoading]     = useState(true);
   const [skillsLoading, setSkillsLoading]         = useState(true);
 
-  // ── Vote state ──
+  // Vote state
   const [votes, setVotes] = useState<Record<string, 'like' | 'dislike'>>({});
 
-  // ── Loader visibility ──
+  // Loader state
   const [loaderDone, setLoaderDone] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ── Data fetching (ALL PRESERVED from original) ──
+  // Data fetching (Preserved exact Firestore calls)
   useEffect(() => {
-    // 1. Profile
     getAboutConfig().then(data => {
       if (data) setAbout(data);
       setAboutLoading(false);
     }).catch(() => setAboutLoading(false));
 
-    // 2. Featured projects (fallback: first 4 published)
     getProjects('featured').then(async data => {
       if (data && data.length > 0) {
         setProjects(data);
@@ -184,31 +182,26 @@ export default function Home() {
       setProjectsLoading(false);
     }).catch(() => setProjectsLoading(false));
 
-    // 3. Blogs (latest 3 published)
     getBlogs(true).then(data => {
       if (data) setBlogs(data.slice(0, 3));
       setBlogsLoading(false);
     }).catch(() => setBlogsLoading(false));
 
-    // 4. Competitions
     getCompetitions().then(data => {
       if (data && data.length > 0) setCompetitions(data);
       setCompetitionsLoading(false);
     }).catch(() => setCompetitionsLoading(false));
 
-    // 5. Thoughts
     getThoughts().then(data => {
       if (data) setThoughts(data);
       setThoughtsLoading(false);
     }).catch(() => setThoughtsLoading(false));
 
-    // 6. Skills
     getSkills().then(data => {
       if (data && data.length > 0) setSkills(data);
       setSkillsLoading(false);
     }).catch(() => setSkillsLoading(false));
 
-    // 7. Vote persistence
     if (typeof window !== 'undefined') {
       try {
         const stored = localStorage.getItem('thoughts_votes');
@@ -217,25 +210,22 @@ export default function Home() {
     }
   }, []);
 
-  // ── ScrollTrigger refresh ──
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const t = setTimeout(() => ScrollTrigger.refresh(), 800);
     return () => clearTimeout(t);
   }, []);
 
-  // ── Hero animation ──
   useGSAP(() => {
     if (!loaderDone) return;
     gsap.timeline()
-      .fromTo('.dp-hero-badge',  { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1,  duration: 0.5, ease: 'back.out(1.7)', clearProps: 'all' })
+      .fromTo('.dp-hero-badge',  { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)', clearProps: 'all' })
       .fromTo('.dp-hero-title',  { opacity: 0, y: 30 },       { opacity: 1, y: 0,     duration: 0.8, ease: 'power3.out', clearProps: 'all' }, '-=0.3')
       .fromTo('.dp-hero-sub',    { opacity: 0, y: 20 },       { opacity: 1, y: 0,     duration: 0.6, ease: 'power3.out', clearProps: 'all' }, '-=0.4')
       .fromTo('.dp-hero-btn',    { opacity: 0, y: 15, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.5)', clearProps: 'all' }, '-=0.3')
       .fromTo('.dp-hero-avatar', { opacity: 0, scale: 0.9 },  { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out', clearProps: 'all' }, '-=0.6');
   }, { scope: containerRef, dependencies: [loaderDone] });
 
-  // ── Scroll reveal animations ──
   useGSAP(() => {
     if (aboutLoading && projectsLoading && blogsLoading && competitionsLoading && thoughtsLoading) return;
 
@@ -260,7 +250,7 @@ export default function Home() {
     if (!thoughtsLoading)      revealStagger('.thought-card');
   }, { scope: containerRef, dependencies: [aboutLoading, projectsLoading, blogsLoading, competitionsLoading, thoughtsLoading, skillsLoading] });
 
-  // ── Vote handler (PRESERVED from original) ──
+  // Vote handler
   const handleVote = async (id: string, type: 'like' | 'dislike') => {
     const currentVote = votes[id];
     let updates: Record<string, number> = {};
@@ -276,7 +266,6 @@ export default function Home() {
       updates = { [type === 'like' ? 'likes' : 'dislikes']: 1 };
     }
 
-    // Optimistic update
     setThoughts(prev => prev.map(t => {
       if (t.id !== id) return t;
       return { ...t, likes: (t.likes || 0) + (updates.likes || 0), dislikes: (t.dislikes || 0) + (updates.dislikes || 0) };
@@ -291,7 +280,6 @@ export default function Home() {
     try {
       await updateThoughtVote(id, updates);
     } catch {
-      // Revert
       setThoughts(prev => prev.map(t => {
         if (t.id !== id) return t;
         return { ...t, likes: (t.likes || 0) - (updates.likes || 0), dislikes: (t.dislikes || 0) - (updates.dislikes || 0) };
@@ -305,7 +293,6 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Loading screen ── */}
       <DragonpitLoader onComplete={() => setLoaderDone(true)} />
 
       <div ref={containerRef} style={{ opacity: loaderDone ? 1 : 0, transition: 'opacity 0.4s ease' }}>
@@ -315,21 +302,42 @@ export default function Home() {
             ════════════════════════════════════════ */}
         <section
           style={{
-            minHeight: '92vh',
+            minHeight: '94vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '120px 24px 80px',
+            padding: '130px 24px 80px',
             position: 'relative',
+            overflow: 'hidden',
           }}
         >
-          {/* Radial ember glow behind hero */}
+          {/* Dragon Silhouette Image Backdrop in Hero */}
           <div
             aria-hidden="true"
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'radial-gradient(ellipse 60% 55% at 50% 60%, rgba(111,9,9,0.12) 0%, transparent 70%)',
+              backgroundImage: "url('/dragonpit/hero-dragon-placeholder.png')",
+              backgroundPosition: 'right center',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              opacity: 0.22,
+              pointerEvents: 'none',
+              filter: 'drop-shadow(0 0 30px rgba(184, 20, 20, 0.4))',
+            }}
+          />
+
+          {/* Deep Ember Fire Glow behind text */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: '20%',
+              left: '10%',
+              width: '500px',
+              height: '500px',
+              background: 'radial-gradient(circle, rgba(184, 20, 20, 0.25) 0%, rgba(255, 90, 19, 0.12) 45%, transparent 75%)',
+              filter: 'blur(60px)',
               pointerEvents: 'none',
             }}
           />
@@ -347,23 +355,25 @@ export default function Home() {
               zIndex: 1,
             }}
           >
-            {/* Text */}
-            <div style={{ maxWidth: '680px' }}>
+            {/* Text column */}
+            <div style={{ maxWidth: '700px' }}>
               {/* Availability badge */}
               <div
                 className="dp-hero-badge"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '5px 14px 5px 10px',
-                  background: 'var(--dp-panel)',
+                  gap: '10px',
+                  padding: '6px 16px 6px 12px',
+                  background: 'rgba(25, 21, 18, 0.85)',
                   border: '1px solid var(--dp-border)',
-                  borderRadius: '2px',
-                  marginBottom: '24px',
+                  borderRadius: '4px',
+                  marginBottom: '28px',
+                  boxShadow: '0 0 15px rgba(0,0,0,0.5)',
+                  backdropFilter: 'blur(8px)',
                 }}
               >
-                <span style={{ position: 'relative', display: 'flex', width: '8px', height: '8px' }}>
+                <span style={{ position: 'relative', display: 'flex', width: '9px', height: '9px' }}>
                   {about.isAvailable !== false && (
                     <span
                       aria-hidden="true"
@@ -372,59 +382,71 @@ export default function Home() {
                         inset: 0,
                         background: '#4ade80',
                         borderRadius: '50%',
-                        animation: 'emberPing 1.5s cubic-bezier(0,0,0.2,1) infinite',
+                        animation: 'emberPing 1.6s cubic-bezier(0,0,0.2,1) infinite',
                       }}
                     />
                   )}
                   <span
                     style={{
-                      width: '8px', height: '8px',
+                      width: '9px', height: '9px',
                       background: about.isAvailable !== false ? '#22c55e' : 'var(--dp-muted)',
                       borderRadius: '50%',
                       position: 'relative',
                     }}
                   />
                 </span>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--dp-muted)' }}>
+                <span style={{ fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--dp-gold-soft)' }}>
                   {about.availabilityStatus || 'Available for Opportunities'}
                 </span>
               </div>
 
-              {/* Main heading */}
+              {/* Tagline overline */}
+              <p
+                className="dp-hero-sub"
+                style={{
+                  fontSize: '0.75rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.24em',
+                  textTransform: 'uppercase',
+                  color: 'var(--dp-gold-bright)',
+                  marginBottom: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Sparkles size={14} className="text-[var(--dp-ember)]" />
+                IDEAS HATCH HERE. SYSTEMS TAKE FLIGHT.
+              </p>
+
+              {/* Main title */}
               <h1
                 className="dp-hero-title"
                 style={{
                   fontFamily: 'var(--font-heading, Georgia, serif)',
-                  fontSize: 'clamp(2.2rem, 5vw, 4rem)',
+                  fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
                   fontWeight: 900,
                   lineHeight: 1.1,
                   letterSpacing: '-0.02em',
-                  color: 'var(--dp-text)',
-                  marginBottom: '14px',
+                  color: '#ffffff',
+                  marginBottom: '16px',
                 }}
               >
                 {"Hi, I'm"}{' '}
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, var(--dp-gold) 0%, var(--dp-ember) 40%, var(--dp-red-bright) 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
+                <span className="dp-title-gradient">
                   {about.name}.
                 </span>
               </h1>
 
-              {/* Role/subtitle */}
+              {/* Subtitle */}
               <p
                 className="dp-hero-sub"
                 style={{
-                  fontSize: '1rem',
-                  color: 'var(--dp-muted)',
+                  fontSize: '1.08rem',
+                  color: 'var(--dp-smoke)',
                   lineHeight: 1.7,
-                  marginBottom: '10px',
-                  fontWeight: 300,
+                  marginBottom: '12px',
+                  fontWeight: 400,
                 }}
               >
                 {about.title}
@@ -433,13 +455,13 @@ export default function Home() {
               {/* Typewriter */}
               <p
                 className="dp-hero-sub"
-                style={{ fontSize: '0.95rem', color: 'var(--dp-muted)', marginBottom: '36px', minHeight: '1.5em' }}
+                style={{ fontSize: '1rem', color: 'var(--dp-text)', marginBottom: '40px', minHeight: '1.6em' }}
               >
                 <TypewriterEffect subtitle={about.subtitle} phrases={about.heroPhrases} />
               </p>
 
-              {/* CTA buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px' }}>
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
                 {about.resumeUrl ? (
                   <a
                     href={about.resumeUrl}
@@ -447,37 +469,38 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="dp-hero-btn dp-btn-primary"
                   >
-                    Download CV
+                    Download CV 📜
                   </a>
                 ) : (
-                  <span className="dp-hero-btn dp-btn-disabled" title="CV not yet available">
-                    Download CV
+                  <span className="dp-hero-btn dp-btn-disabled" title="CV Coming Soon">
+                    Download CV 📜
                   </span>
                 )}
                 <a
                   href="#contact"
                   className="dp-hero-btn dp-btn-secondary"
                 >
-                  Contact Me <ArrowRight size={14} aria-hidden="true" />
+                  Send a Raven 🗡️
+                  <ArrowRight size={16} aria-hidden="true" />
                 </a>
               </div>
             </div>
 
-            {/* Avatar */}
+            {/* Profile Avatar Frame */}
             <div
               className="dp-hero-avatar"
               style={{ position: 'relative', flexShrink: 0 }}
             >
-              {/* Outer glow ring */}
+              {/* Gold & Blood Red Aura */}
               <div
                 aria-hidden="true"
                 style={{
                   position: 'absolute',
-                  inset: '-8px',
-                  background: 'linear-gradient(135deg, var(--dp-blood), transparent, var(--dp-gold))',
+                  inset: '-10px',
+                  background: 'linear-gradient(135deg, var(--dp-blood), var(--dp-ember), var(--dp-gold-bright))',
                   borderRadius: '8px',
-                  opacity: 0.4,
-                  filter: 'blur(6px)',
+                  opacity: 0.45,
+                  filter: 'blur(12px)',
                 }}
               />
 
@@ -485,12 +508,13 @@ export default function Home() {
               <div
                 style={{
                   position: 'relative',
-                  width: '300px',
-                  height: '360px',
+                  width: '320px',
+                  height: '380px',
                   borderRadius: '6px',
                   overflow: 'hidden',
                   border: '1px solid var(--dp-border)',
                   background: 'var(--dp-charcoal)',
+                  boxShadow: '0 15px 40px rgba(0,0,0,0.8)',
                 }}
               >
                 <img
@@ -499,65 +523,65 @@ export default function Home() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
 
-                {/* Corner accent marks */}
+                {/* Corner ornament marks */}
                 {[
-                  { top: '12px',  left: '12px',  borderTop: '2px solid var(--dp-gold)', borderLeft: '2px solid var(--dp-gold)' },
-                  { top: '12px',  right: '12px', borderTop: '2px solid var(--dp-gold)', borderRight: '2px solid var(--dp-gold)' },
-                  { bottom: '12px', left: '12px',  borderBottom: '2px solid var(--dp-red)', borderLeft: '2px solid var(--dp-red)' },
-                  { bottom: '12px', right: '12px', borderBottom: '2px solid var(--dp-red)', borderRight: '2px solid var(--dp-red)' },
+                  { top: '12px', left: '12px', borderTop: '3px solid var(--dp-gold-bright)', borderLeft: '3px solid var(--dp-gold-bright)' },
+                  { top: '12px', right: '12px', borderTop: '3px solid var(--dp-gold-bright)', borderRight: '3px solid var(--dp-gold-bright)' },
+                  { bottom: '12px', left: '12px', borderBottom: '3px solid var(--dp-red-bright)', borderLeft: '3px solid var(--dp-red-bright)' },
+                  { bottom: '12px', right: '12px', borderBottom: '3px solid var(--dp-red-bright)', borderRight: '3px solid var(--dp-red-bright)' },
                 ].map((s, i) => (
                   <div
                     key={i}
                     aria-hidden="true"
-                    style={{ position: 'absolute', width: '14px', height: '14px', opacity: 0.8, ...s }}
+                    style={{ position: 'absolute', width: '16px', height: '16px', opacity: 0.9, ...s }}
                   />
                 ))}
 
-                {/* University tag */}
+                {/* CSE Label */}
                 <div
                   aria-hidden="true"
                   style={{
                     position: 'absolute',
-                    bottom: '-1px',
+                    bottom: 0,
                     left: 0,
                     right: 0,
-                    background: 'linear-gradient(transparent, rgba(6,4,3,0.92))',
-                    padding: '32px 16px 12px',
+                    background: 'linear-gradient(transparent, rgba(10,8,7,0.95))',
+                    padding: '36px 16px 14px',
                     textAlign: 'center',
                   }}
                 >
                   <span
                     style={{
-                      fontSize: '0.6rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.16em',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.18em',
                       textTransform: 'uppercase',
-                      color: 'var(--dp-gold)',
-                      opacity: 0.85,
+                      color: 'var(--dp-gold-bright)',
                     }}
                   >
-                    Moratuwa CSE
+                    MORATUWA CSE
                   </span>
                 </div>
               </div>
 
-              {/* Dragonpit sigil badge */}
+              {/* Dragonpit emblem badge */}
               <div
                 style={{
                   position: 'absolute',
-                  bottom: '-18px',
-                  right: '-18px',
+                  bottom: '-20px',
+                  right: '-20px',
                   background: 'var(--dp-obsidian)',
                   border: '1px solid var(--dp-border)',
-                  borderRadius: '4px',
-                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  padding: '10px 14px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
+                  gap: '8px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.8)',
                 }}
               >
-                <DragonSigil size={22} glowing />
-                <span style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--dp-gold)' }}>
+                <DragonSigil size={26} glowing />
+                <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)' }}>
                   The Dragonpit
                 </span>
               </div>
@@ -569,23 +593,23 @@ export default function Home() {
             aria-hidden="true"
             style={{
               position: 'absolute',
-              bottom: '32px',
+              bottom: '28px',
               left: '50%',
               transform: 'translateX(-50%)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '6px',
-              opacity: 0.35,
+              opacity: 0.45,
             }}
           >
-            <span style={{ fontSize: '0.55rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--dp-muted)' }}>Scroll</span>
-            <div style={{ width: '1px', height: '32px', background: 'linear-gradient(var(--dp-gold), transparent)' }} />
+            <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dp-gold-soft)' }}>Scroll</span>
+            <div style={{ width: '2px', height: '36px', background: 'linear-gradient(var(--dp-gold-bright), var(--dp-ember), transparent)', borderRadius: '1px' }} />
           </div>
         </section>
 
         {/* ════════════════════════════════════════
-            PAGE SECTIONS (order matters)
+            PAGE SECTIONS
             ════════════════════════════════════════ */}
 
         {/* 1. Skills */}
@@ -616,10 +640,9 @@ export default function Home() {
 
       </div>
 
-      {/* ── Responsive overrides ── */}
       <style>{`
         @keyframes emberPing {
-          0%   { transform: scale(1); opacity: 0.75; }
+          0%   { transform: scale(1); opacity: 0.85; }
           75%  { transform: scale(2.2); opacity: 0; }
           100% { opacity: 0; }
         }
@@ -631,7 +654,7 @@ export default function Home() {
         }
         @media (max-width: 640px) {
           section:first-of-type {
-            padding: 100px 16px 60px !important;
+            padding: 110px 16px 60px !important;
           }
         }
       `}</style>

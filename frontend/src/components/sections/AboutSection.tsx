@@ -15,9 +15,22 @@ export default function AboutSection({ about }: AboutSectionProps) {
         padding: '100px 24px',
         borderTop: '1px solid var(--dp-border)',
         position: 'relative',
+        background: 'rgba(10,8,7,0.6)',
       }}
     >
-      <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+      {/* Background scale texture */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: "url('/dragonpit/scale-pattern.svg')",
+          backgroundSize: '80px 80px',
+          opacity: 0.04,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div style={{ maxWidth: '900px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="About"
           themed="THE RIDER'S CHRONICLE"
@@ -29,40 +42,39 @@ export default function AboutSection({ about }: AboutSectionProps) {
           style={{
             background: 'var(--dp-panel)',
             border: '1px solid var(--dp-border)',
-            borderRadius: '4px',
-            padding: '40px 48px',
+            borderRadius: '6px',
+            padding: '44px 52px',
             position: 'relative',
             overflow: 'hidden',
+            boxShadow: '0 12px 36px rgba(0,0,0,0.6)',
           }}
         >
-          {/* Decorative large initial letter */}
-          <span
+          {/* Dragon watermark image silhouette on right side */}
+          <div
             aria-hidden="true"
             style={{
               position: 'absolute',
-              top: '-10px',
-              right: '32px',
-              fontFamily: 'Georgia, serif',
-              fontSize: '10rem',
-              fontWeight: 900,
-              color: 'var(--dp-blood)',
-              opacity: 0.04,
-              lineHeight: 1,
-              userSelect: 'none',
+              top: '5%',
+              right: '-5%',
+              width: '320px',
+              height: '320px',
+              backgroundImage: "url('/dragonpit/sigil-three-headed-red.svg')",
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              opacity: 0.06,
               pointerEvents: 'none',
+              filter: 'drop-shadow(0 0 20px rgba(184,20,20,0.6))',
             }}
-          >
-            D
-          </span>
+          />
 
           {/* Gold engraved top accent */}
           <div
             aria-hidden="true"
             style={{
-              height: '1px',
-              background: 'linear-gradient(90deg, var(--dp-gold), transparent)',
+              height: '2px',
+              background: 'linear-gradient(90deg, var(--dp-gold-bright), var(--dp-ember), transparent)',
               marginBottom: '32px',
-              opacity: 0.3,
+              boxShadow: '0 0 8px var(--dp-glow-gold)',
             }}
           />
 
@@ -74,10 +86,10 @@ export default function AboutSection({ about }: AboutSectionProps) {
           <div
             aria-hidden="true"
             style={{
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, var(--dp-gold))',
+              height: '2px',
+              background: 'linear-gradient(90deg, transparent, var(--dp-ember), var(--dp-gold-bright))',
               marginTop: '32px',
-              opacity: 0.3,
+              boxShadow: '0 0 8px var(--dp-glow-gold)',
             }}
           />
         </div>

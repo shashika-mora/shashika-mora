@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import DragonpitSectionHeader from '../dragonpit/DragonpitSectionHeader';
 
 interface BlogSectionProps {
@@ -21,28 +21,29 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <DragonpitSectionHeader
           label="Blog"
-          themed="INSCRIBED IN FLAME"
-          description="Technical write-ups, learning notes, and explorations from the forge."
+          themed="THE WRITTEN ARCHIVES"
+          description="Technical write-ups, learning notes, and architectural breakdowns from the forge."
         />
 
         {loading ? (
           <BlogSkeleton />
         ) : blogs.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '48px', border: '1px solid var(--dp-border)', borderRadius: '4px', color: 'var(--dp-muted)' }}>
-            No blog posts found.
+          <div style={{ textAlign: 'center', padding: '48px', border: '1px solid var(--dp-border)', borderRadius: '6px', color: 'var(--dp-muted)', background: 'var(--dp-panel)' }}>
+            <BookOpen size={36} className="mx-auto mb-3 text-[var(--dp-gold)] opacity-70" />
+            <p>No chronicles written yet.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px', marginBottom: '40px' }}>
             {blogs.map(blog => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
           </div>
         )}
 
-        <div style={{ textAlign: 'center', marginTop: '8px' }}>
+        <div style={{ textAlign: 'center', marginTop: '16px' }}>
           <Link href="/blog" className="dp-btn-secondary" style={{ display: 'inline-flex' }}>
-            Browse All Posts
-            <ArrowRight size={14} aria-hidden="true" />
+            Browse All Chronicles 📜
+            <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -56,6 +57,9 @@ function BlogCard({ blog }: { blog: any }) {
     ? new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     : '';
 
+  // Use blog image or dragon project placeholder fallback
+  const displayImage = blog.imageUrl || '/dragonpit/project-placeholder.png';
+
   return (
     <Link
       href={`/blog/${blog.slug}`}
@@ -65,32 +69,27 @@ function BlogCard({ blog }: { blog: any }) {
         flexDirection: 'column',
         background: 'var(--dp-panel)',
         border: '1px solid var(--dp-border)',
-        borderRadius: '4px',
+        borderRadius: '6px',
         overflow: 'hidden',
         textDecoration: 'none',
-        transition: 'transform 0.3s ease',
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)'; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'; }}
     >
       {/* Cover image */}
-      {blog.imageUrl && (
-        <div style={{ height: '180px', overflow: 'hidden', borderBottom: '1px solid var(--dp-border)', flexShrink: 0 }}>
-          <img
-            src={blog.imageUrl}
-            alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-            onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.05)'; }}
-            onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
-          />
-        </div>
-      )}
+      <div style={{ height: '190px', overflow: 'hidden', borderBottom: '1px solid var(--dp-border)', flexShrink: 0, position: 'relative' }}>
+        <img
+          src={displayImage}
+          alt={blog.title || 'Blog cover image'}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+          onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.06)'; }}
+          onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)'; }}
+        />
+      </div>
 
-      <div style={{ padding: '20px 22px', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ padding: '22px 24px', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {/* Date */}
         <time
           dateTime={publishDate}
-          style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--dp-gold)', opacity: 0.7 }}
+          style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dp-gold-bright)' }}
         >
           {formattedDate}
         </time>
@@ -99,31 +98,30 @@ function BlogCard({ blog }: { blog: any }) {
         <h3
           style={{
             fontFamily: 'var(--font-heading, Georgia, serif)',
-            fontSize: '1rem',
-            fontWeight: 700,
-            color: 'var(--dp-text)',
+            fontSize: '1.05rem',
+            fontWeight: 800,
+            color: '#ffffff',
             lineHeight: 1.5,
-            transition: 'color 0.2s',
           }}
         >
           {blog.title}
         </h3>
 
         {/* Summary */}
-        <p style={{ fontSize: '0.85rem', color: 'var(--dp-muted)', lineHeight: 1.7, flexGrow: 1 }}>
+        <p style={{ fontSize: '0.86rem', color: 'var(--dp-smoke)', lineHeight: 1.7, flexGrow: 1 }}>
           {blog.summary}
         </p>
 
         {/* Read link */}
         <span
           style={{
-            display: 'inline-flex', alignItems: 'center', gap: '4px',
-            fontSize: '0.75rem', fontWeight: 600,
-            color: 'var(--dp-gold)',
-            marginTop: '8px',
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            fontSize: '0.78rem', fontWeight: 700,
+            color: 'var(--dp-gold-bright)',
+            marginTop: '10px',
           }}
         >
-          Read Post <ArrowRight size={12} aria-hidden="true" />
+          Read Chronicle <ArrowRight size={14} aria-hidden="true" />
         </span>
       </div>
     </Link>
@@ -132,15 +130,13 @@ function BlogCard({ blog }: { blog: any }) {
 
 function BlogSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px', marginBottom: '40px' }}>
       {[1, 2, 3].map(i => (
-        <div key={i} style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '4px', overflow: 'hidden' }}>
-          <div style={{ height: '180px', background: 'var(--dp-charcoal)', animation: 'pulse 1.5s ease-in-out infinite' }} />
-          <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ height: '12px', background: 'var(--dp-charcoal)', borderRadius: '2px', width: '30%' }} />
-            <div style={{ height: '18px', background: 'var(--dp-charcoal)', borderRadius: '2px', width: '85%' }} />
-            <div style={{ height: '14px', background: 'var(--dp-charcoal)', borderRadius: '2px', width: '100%' }} />
-            <div style={{ height: '14px', background: 'var(--dp-charcoal)', borderRadius: '2px', width: '70%' }} />
+        <div key={i} style={{ background: 'var(--dp-panel)', border: '1px solid var(--dp-border)', borderRadius: '6px', overflow: 'hidden' }}>
+          <div style={{ height: '190px', background: 'var(--dp-charcoal)', animation: 'pulse 1.5s ease-in-out infinite' }} />
+          <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ height: '12px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '35%' }} />
+            <div style={{ height: '18px', background: 'var(--dp-charcoal)', borderRadius: '3px', width: '85%' }} />
           </div>
         </div>
       ))}
