@@ -400,7 +400,7 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Photo — clean portrait with soft ember glow ring */}
+              {/* Photo — Burned Paper Edge Effect */}
               <div
                 style={{
                   position: 'relative',
@@ -411,59 +411,127 @@ export default function Home() {
                   justifyContent: 'center',
                 }}
               >
-                {/* Soft ember ambient glow */}
+                {/* Outer ember fire ambient glow */}
                 <div
                   aria-hidden="true"
                   style={{
                     position: 'absolute',
-                    inset: '-20px',
-                    borderRadius: '50%',
-                    background: 'radial-gradient(ellipse at center, rgba(255, 90, 19, 0.3) 0%, rgba(212, 175, 55, 0.12) 50%, transparent 72%)',
-                    filter: 'blur(28px)',
+                    inset: '-16px',
+                    background: 'radial-gradient(ellipse at center, rgba(255,90,19,0.45) 0%, rgba(180,60,0,0.2) 45%, transparent 72%)',
+                    filter: 'blur(22px)',
                     pointerEvents: 'none',
                   }}
                 />
 
-                {/* Clean photo container — no frame, just rounded with soft edge fade */}
+                {/* Burned paper frame — irregular clip-path simulates jagged charred torn edges */}
                 <div
                   style={{
                     position: 'relative',
                     width: '100%',
                     height: '100%',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.9)',
+                    clipPath: `polygon(
+                      0% 3%, 2% 0%, 5% 1.5%, 8% 0%,
+                      12% 1%, 16% 0%, 20% 1.5%, 24% 0%,
+                      28% 1%, 33% 0%, 38% 1.5%, 43% 0%,
+                      48% 1%, 53% 0%, 58% 1.5%, 63% 0%,
+                      68% 1%, 73% 0%, 78% 1.5%, 83% 0%,
+                      88% 1%, 92% 0%, 95% 1.5%, 98% 0%,
+                      100% 3%, 99% 7%, 100% 11%, 99% 15%,
+                      100% 20%, 99% 25%, 100% 30%, 99% 35%,
+                      100% 40%, 99% 45%, 100% 50%, 99% 55%,
+                      100% 60%, 99% 65%, 100% 70%, 99% 75%,
+                      100% 80%, 99% 85%, 100% 90%, 99% 94%,
+                      100% 97%, 98% 100%, 94% 98.5%, 90% 100%,
+                      86% 98.5%, 82% 100%, 77% 98.5%, 72% 100%,
+                      67% 98.5%, 62% 100%, 57% 98.5%, 52% 100%,
+                      47% 98.5%, 42% 100%, 37% 98.5%, 32% 100%,
+                      27% 98.5%, 22% 100%, 17% 98.5%, 12% 100%,
+                      8% 98.5%, 4% 100%, 2% 98%,
+                      0% 97%, 1% 92%, 0% 87%, 1% 82%,
+                      0% 77%, 1% 72%, 0% 67%, 1% 62%,
+                      0% 57%, 1% 52%, 0% 47%, 1% 42%,
+                      0% 37%, 1% 32%, 0% 27%, 1% 22%,
+                      0% 17%, 1% 12%, 0% 7%
+                    )`,
                   }}
                 >
+                  {/* Charred dark paper background visible at jagged torn edges */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'radial-gradient(ellipse at center, #1c0900 0%, #0b0300 55%, #020100 100%)',
+                      zIndex: 0,
+                    }}
+                  />
+
+                  {/* Photo */}
                   <img
                     src="/hero.jpg"
                     alt={about?.name || 'Shashika Dayarathna'}
                     style={{
+                      position: 'relative',
+                      zIndex: 1,
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
                       objectPosition: 'center top',
-                      filter: 'contrast(1.08) saturate(1.0) brightness(0.98)',
+                      filter: 'contrast(1.1) saturate(1.02) brightness(0.96)',
                     }}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = about?.avatarUrl || '/hero.jpg';
                     }}
                   />
 
-                  {/* Subtle edge fade — blends photo into dark background */}
+                  {/* Charred edge vignette — dark smoky inward burn + ember inner rim glow */}
                   <div
                     aria-hidden="true"
                     style={{
                       position: 'absolute',
                       inset: 0,
+                      zIndex: 2,
                       background: `
-                        linear-gradient(to right, rgba(10,8,7,0.55) 0%, transparent 15%, transparent 85%, rgba(10,8,7,0.55) 100%),
-                        linear-gradient(to bottom, rgba(10,8,7,0.3) 0%, transparent 12%, transparent 88%, rgba(10,8,7,0.75) 100%)
+                        radial-gradient(ellipse at center, transparent 52%, rgba(8,2,0,0.78) 75%, rgba(2,1,0,0.97) 100%),
+                        linear-gradient(to right, rgba(4,1,0,0.9) 0%, transparent 9%, transparent 91%, rgba(4,1,0,0.9) 100%),
+                        linear-gradient(to bottom, rgba(4,1,0,0.9) 0%, transparent 7%, transparent 92%, rgba(4,1,0,0.96) 100%)
+                      `,
+                      boxShadow: `
+                        inset 0 0 50px rgba(0,0,0,0.99),
+                        inset 0 0 22px rgba(18,6,0,0.95),
+                        inset 0 0 10px rgba(255,65,0,0.18)
+                      `,
+                      pointerEvents: 'none',
+                    }}
+                  />
+
+                  {/* Burning ember rim — the glowing fire edge */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      inset: '5px',
+                      zIndex: 3,
+                      boxShadow: `
+                        inset 0 0 0 1.5px rgba(255,80,0,0.55),
+                        inset 0 0 9px rgba(255,110,0,0.32),
+                        inset 0 0 18px rgba(200,55,0,0.15)
                       `,
                       pointerEvents: 'none',
                     }}
                   />
                 </div>
+
+                {/* Deep scorched drop shadow beneath the frame */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    boxShadow: '0 22px 65px rgba(0,0,0,0.97), 0 0 28px rgba(170,55,0,0.28)',
+                    pointerEvents: 'none',
+                  }}
+                />
               </div>
             </div>
           </div>
