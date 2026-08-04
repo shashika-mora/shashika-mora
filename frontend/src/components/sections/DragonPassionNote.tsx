@@ -30,13 +30,49 @@ export default function DragonPassionNote() {
           className="dp-panel dp-ember-hover"
           style={{
             position: 'relative',
-            padding: '40px 48px',
+            padding: '36px 40px',
             borderRadius: '12px',
             border: '1px solid rgba(212, 175, 55, 0.4)',
             background: 'linear-gradient(135deg, rgba(22, 18, 15, 0.95) 0%, rgba(13, 10, 8, 0.98) 100%)',
             boxShadow: '0 12px 40px rgba(0,0,0,0.85), inset 0 0 20px rgba(255, 90, 19, 0.1)',
           }}
         >
+          {/* Dragon Banner Graphic */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxHeight: '280px',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              marginBottom: '28px',
+              border: '1px solid var(--dp-border)',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255, 90, 19, 0.2)',
+            }}
+          >
+            <img
+              src="/dragonpit/my_banner.png"
+              alt="Valyrian Decree Banner — House Targaryen & Dragons"
+              style={{
+                width: '100%',
+                height: '100%',
+                maxHeight: '280px',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                display: 'block',
+              }}
+            />
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to bottom, transparent 60%, rgba(13, 10, 8, 0.9) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
           {/* Top Decorative Emblem Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
             <span style={{ fontSize: '1.8rem' }}>🐉</span>

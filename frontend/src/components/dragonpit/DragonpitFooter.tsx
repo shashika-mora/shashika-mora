@@ -13,19 +13,19 @@ export default function DragonpitFooter() {
     getAboutConfig().then(data => { if (data) setAbout(data); });
   }, []);
 
-  const name     = about?.name     || 'Shashika Dayarathna';
-  const github   = about?.githubUrl;
+  const name = about?.name || 'Shashika Dayarathna';
+  const github = about?.githubUrl;
   const linkedin = about?.linkedinUrl;
-  const email    = about?.email    || about?.contactEmail;
+  const email = about?.email || about?.contactEmail;
   const facebook = about?.facebookUrl;
-  const insta    = about?.instaUrl;
+  const insta = about?.instaUrl;
 
   const socialLinks = [
-    github   && { href: github,   label: 'GitHub',    icon: Github },
-    linkedin && { href: linkedin, label: 'LinkedIn',   icon: Linkedin },
-    email    && { href: `mailto:${email}`, label: 'Email', icon: Mail },
-    facebook && { href: facebook, label: 'Facebook',  icon: Facebook },
-    insta    && { href: insta,    label: 'Instagram', icon: Instagram },
+    github && { href: github, label: 'GitHub', icon: Github },
+    linkedin && { href: linkedin, label: 'LinkedIn', icon: Linkedin },
+    email && { href: `mailto:${email}`, label: 'Email', icon: Mail },
+    facebook && { href: facebook, label: 'Facebook', icon: Facebook },
+    insta && { href: insta, label: 'Instagram', icon: Instagram },
   ].filter(Boolean) as { href: string; label: string; icon: any }[];
 
   return (
@@ -130,7 +130,7 @@ export default function DragonpitFooter() {
           </div>
 
           <p style={{ fontSize: '0.74rem', color: 'var(--dp-muted)', opacity: 0.8 }}>
-            © {currentYear} {name}. All rights reserved.
+            © {currentYear} {name} Dayarathna. All rights reserved.
           </p>
         </div>
       </div>
@@ -186,7 +186,7 @@ export default function DragonpitFooter() {
             ))}
           </div>
           <p style={{ fontSize: '0.72rem', color: 'var(--dp-muted)', opacity: 0.8 }}>
-            © {currentYear} {name}. All rights reserved.
+            © {currentYear} {name} Dayarathna. All rights reserved.
           </p>
         </div>
       </div>
