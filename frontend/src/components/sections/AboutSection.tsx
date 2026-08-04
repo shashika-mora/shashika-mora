@@ -30,7 +30,7 @@ export default function AboutSection({ about }: AboutSectionProps) {
       <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="About"
-          themed="SYRAX THE GOLDEN QUEEN · THE RIDER'S CHRONICLE"
+          themed="SYRAX · THE RIDER'S CHRONICLE"
           align="center"
         />
 

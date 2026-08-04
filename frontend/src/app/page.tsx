@@ -83,7 +83,7 @@ const DEFAULT_ABOUT = {
   bio: "I'm a Computer Science and Engineering undergraduate who enjoys building practical solutions, exploring intelligent systems, and learning how software and hardware work beneath the surface.",
   secondaryBio: '',
   githubUrl: 'https://github.com/shashika-mora',
-  linkedinUrl: 'https://linkedin.com/in/shashika-dayarathna',
+  linkedinUrl: 'https://www.linkedin.com/in/shashika-dayarathna-420875359',
   email: 'dayarathnaamst.24@uom.lk',
   emailPersonal: 'shashikatheekshana67@gmail.com',
   contactEmail: 'dayarathnaamst.24@uom.lk',
@@ -270,6 +270,7 @@ export default function Home() {
                   textTransform: 'uppercase',
                   color: 'var(--dp-gold-soft)',
                   marginBottom: '12px',
+                  opacity: loaderDone ? undefined : 0,
                 }}
               >
                 IDEAS HATCH HERE. SYSTEMS TAKE FLIGHT.
@@ -286,6 +287,7 @@ export default function Home() {
                   letterSpacing: '-0.02em',
                   color: '#ffffff',
                   marginBottom: '20px',
+                  opacity: loaderDone ? undefined : 0,
                 }}
               >
                 Hi, I’m{' '}
@@ -303,6 +305,7 @@ export default function Home() {
                   color: 'var(--dp-smoke)',
                   marginBottom: '20px',
                   lineHeight: 1.4,
+                  opacity: loaderDone ? undefined : 0,
                 }}
               >
                 {about?.title || 'CSE Undergraduate @ University of Moratuwa'}
@@ -319,6 +322,7 @@ export default function Home() {
                   alignItems: 'center',
                   marginBottom: '36px',
                   overflow: 'hidden',
+                  opacity: loaderDone ? undefined : 0,
                 }}
               >
                 <TypewriterEffect />
@@ -332,6 +336,7 @@ export default function Home() {
                   flexWrap: 'wrap',
                   alignItems: 'center',
                   gap: '20px 24px',
+                  opacity: loaderDone ? undefined : 0,
                 }}
               >
                 <Link href="#projects" className="dp-btn-hero">
@@ -364,6 +369,7 @@ export default function Home() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '20px',
+                opacity: loaderDone ? undefined : 0,
               }}
             >
               {/* Status Badge Positioned Ahead of Photo */}

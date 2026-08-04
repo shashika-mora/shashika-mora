@@ -28,7 +28,7 @@ export default function BlogSection({ blogs, loading }: BlogSectionProps) {
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <DragonpitSectionHeader
           label="Blog"
-          themed="DREAMFYRE THE BLUE QUEEN · ARCHIVES & RESEARCH"
+          themed="DREAMFYRE · ARCHIVES & RESEARCH"
           description="Technical write-ups, learning notes, AI explorations, and architectural breakdowns."
         />
 
