@@ -2,241 +2,164 @@
 
 import { useEffect, useRef } from 'react';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  alpha: number;
-  color: string;
-}
-
-interface GlowBlob {
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
-  radius: number;
-  vx: number;
-  vy: number;
-  color: string;
-  intensity: number;
-}
-
+/** Dragonpit Burning Ember Field Background
+ *  - High performance canvas rendering rising fire ember particles
+ *  - Refined smaller particle sizes (0.8px - 2.2px) for an elegant atmospheric burning effect
+ *  - Pure dark obsidian background
+ */
 export default function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0, active: false });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationFrameId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
 
-    // Initialize particles (drifting dust motes)
-    const particles: Particle[] = [];
-    const particleCount = Math.min(60, Math.floor((width * height) / 25000));
-    const colors = ['rgba(99, 102, 241, ', 'rgba(236, 72, 153, ', 'rgba(168, 85, 247, '];
+    let animId: number;
+    let paused = false;
 
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: -0.2 - Math.random() * 0.4, // Floating upwards
-        radius: Math.random() * 2 + 1,
-        alpha: Math.random() * 0.3 + 0.1,
-        color: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
+    const MOBILE = window.innerWidth < 768;
+    const EMBER_COUNT = MOBILE ? 40 : 90;
 
-    // Initialize glowing background blobs
-    const blobs: GlowBlob[] = [
-      {
-        x: width * 0.2,
-        y: height * 0.2,
-        targetX: width * 0.2,
-        targetY: height * 0.2,
-        radius: Math.min(width, height) * 0.45,
-        vx: 0.3,
-        vy: 0.2,
-        color: '99, 102, 241', // Indigo
-        intensity: 0.08,
-      },
-      {
-        x: width * 0.8,
-        y: height * 0.8,
-        targetX: width * 0.8,
-        targetY: height * 0.8,
-        radius: Math.min(width, height) * 0.45,
-        vx: -0.25,
-        vy: -0.3,
-        color: '236, 72, 153', // Pink
-        intensity: 0.08,
-      },
-      {
-        x: width * 0.5,
-        y: height * 0.5,
-        targetX: width * 0.5,
-        targetY: height * 0.5,
-        radius: Math.min(width, height) * 0.5,
-        vx: 0.15,
-        vy: -0.2,
-        color: '168, 85, 247', // Purple
-        intensity: 0.08,
-      },
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    type Particle = {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      alpha: number;
+      maxAlpha: number;
+      color: string;
+      life: number;
+      maxLife: number;
+      sway: number;
+      swaySpeed: number;
+      glowBlur: number;
+    };
+
+    const COLORS = [
+      '#8a0d0d', // Deep blood
+      '#b81414', // Red
+      '#e62e2e', // Bright red
+      '#ff5a13', // Ember orange
+      '#ff7b00', // Gold flame
+      '#ffd700', // Bright amber
     ];
 
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      // Adjust blob sizes on resize
-      blobs.forEach((blob) => {
-        blob.radius = Math.min(width, height) * 0.45;
-      });
+    const createParticle = (isInitial = false): Particle => {
+      const maxLife = 160 + Math.random() * 240;
+      // Refined slightly smaller particle size (0.8px - 2.2px)
+      const size = 0.8 + Math.random() * 1.5;
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+      return {
+        x: Math.random() * canvas.width,
+        y: isInitial ? Math.random() * canvas.height : canvas.height + 20 + Math.random() * 40,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -(0.7 + Math.random() * 1.4),
+        size,
+        alpha: 0,
+        maxAlpha: 0.35 + Math.random() * 0.6,
+        color,
+        life: isInitial ? Math.floor(Math.random() * maxLife) : 0,
+        maxLife,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.01 + Math.random() * 0.03,
+        glowBlur: Math.random() > 0.4 ? 4 + Math.random() * 8 : 0,
+      };
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.targetX = e.clientX;
-      mouseRef.current.targetY = e.clientY;
-      mouseRef.current.active = true;
-    };
+    const particles: Particle[] = Array.from({ length: EMBER_COUNT }, () => createParticle(true));
 
-    const handleMouseLeave = () => {
-      mouseRef.current.active = false;
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
-
-    // Animation Loop
     const render = () => {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = '#020617'; // Base dark deep color slate-950
-      ctx.fillRect(0, 0, width, height);
-
-      // Interpolate mouse coordinates (smooth lag/inertia)
-      const mouse = mouseRef.current;
-      mouse.x += (mouse.targetX - mouse.x) * 0.08;
-      mouse.y += (mouse.targetY - mouse.y) * 0.08;
-
-      // Draw Glowing Blobs (Mesh gradient look)
-      blobs.forEach((blob, idx) => {
-        // Natural floating motion
-        blob.x += blob.vx;
-        blob.y += blob.vy;
-
-        // Bounce off walls
-        if (blob.x - blob.radius < 0 || blob.x + blob.radius > width) blob.vx *= -1;
-        if (blob.y - blob.radius < 0 || blob.y + blob.radius > height) blob.vy *= -1;
-
-        // Mouse attraction for the primary blob
-        if (idx === 0 && mouse.active) {
-          blob.x += (mouse.x - blob.x) * 0.015;
-          blob.y += (mouse.y - blob.y) * 0.015;
-        }
-
-        const gradient = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.radius);
-        gradient.addColorStop(0, `rgba(${blob.color}, ${blob.intensity})`);
-        gradient.addColorStop(0.5, `rgba(${blob.color}, ${blob.intensity * 0.4})`);
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Draw Interactive Cursor Highlight Blob (Torchlight effect)
-      if (mouse.active) {
-        const mouseGlow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 250);
-        mouseGlow.addColorStop(0, 'rgba(99, 102, 241, 0.05)'); // subtle indigo
-        mouseGlow.addColorStop(0.6, 'rgba(168, 85, 247, 0.01)');
-        mouseGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = mouseGlow;
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 250, 0, Math.PI * 2);
-        ctx.fill();
+      if (paused) {
+        animId = requestAnimationFrame(render);
+        return;
       }
 
-      // Draw and Update Particles
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       particles.forEach((p) => {
-        // Drift movement
-        p.x += p.vx;
+        p.life++;
+        p.sway += p.swaySpeed;
+
+        p.x += p.vx + Math.sin(p.sway) * 0.4;
         p.y += p.vy;
 
-        // Wrap around screen boundaries
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) {
-          p.y = height;
-          p.x = Math.random() * width;
+        const lifeRatio = p.life / p.maxLife;
+        if (lifeRatio < 0.15) {
+          p.alpha = (lifeRatio / 0.15) * p.maxAlpha;
+        } else if (lifeRatio > 0.8) {
+          p.alpha = ((1 - lifeRatio) / 0.2) * p.maxAlpha;
+        } else {
+          p.alpha = p.maxAlpha;
         }
 
-        // Mouse interaction (repulsion field)
-        if (mouse.active) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const forceRadius = 150;
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
 
-          if (dist < forceRadius) {
-            const force = (forceRadius - dist) / forceRadius;
-            const angle = Math.atan2(dy, dx);
-            // Push particle away gently
-            p.x += Math.cos(angle) * force * 1.5;
-            p.y += Math.sin(angle) * force * 1.5;
-          }
+        if (p.glowBlur > 0) {
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = p.glowBlur;
         }
 
-        // Draw particle
-        ctx.fillStyle = `${p.color}${p.alpha})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
         ctx.fill();
+
+        if (p.size > 1.6) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff5d6';
+          ctx.fill();
+        }
+
+        ctx.restore();
+
+        if (p.life >= p.maxLife || p.y < -30) {
+          Object.assign(p, createParticle(false));
+        }
       });
 
-      // Connect near particles with faint links for a digital mesh network vibe (under 100px)
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const pi = particles[i];
-          const pj = particles[j];
-          const dx = pi.x - pj.x;
-          const dy = pi.y - pj.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < 90) {
-            const alpha = (1 - dist / 90) * 0.08;
-            ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(pi.x, pi.y);
-            ctx.lineTo(pj.x, pj.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(render);
+      animId = requestAnimationFrame(render);
     };
 
-    render();
+    animId = requestAnimationFrame(render);
+
+    const onVisibilityChange = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 z-[-1] pointer-events-none" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 0,
+        pointerEvents: 'none',
+      }}
+    />
+  );
 }

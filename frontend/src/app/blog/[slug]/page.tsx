@@ -1,29 +1,28 @@
 import BlogPostClient from './BlogPostClient';
-import { getBlogs } from '../../../lib/firestore-service';
+import { getPublishedBlogs } from '../../../lib/firestore-service';
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   try {
-    const blogs = await getBlogs(true);
+    const timeout = new Promise<[]>((resolve) => setTimeout(() => resolve([]), 5000));
+    const blogs = await Promise.race([
+      getPublishedBlogs(),
+      timeout,
+    ]);
     if (!blogs || blogs.length === 0) {
-      return [
-        { slug: 'magic-of-vibe-coding' },
-        { slug: 'my-journey-into-os-kernel-customization' },
-        { slug: 'philosophy-of-vibe-coding' }
-      ];
+      return [];
     }
-    return blogs.map(blog => ({
+    return (blogs as Array<{slug: string}>).map(blog => ({
       slug: blog.slug
     }));
   } catch (error) {
-    console.error('Error generating static params:', error);
-    return [
-      { slug: 'magic-of-vibe-coding' },
-      { slug: 'my-journey-into-os-kernel-customization' },
-      { slug: 'philosophy-of-vibe-coding' }
-    ];
+    console.error('Error generating static params for blogs:', error);
+    return [];
   }
 }
 
-export default function Page({ params }) {
-  return <BlogPostClient params={params} />;
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  return <BlogPostClient params={resolvedParams} />;
 }

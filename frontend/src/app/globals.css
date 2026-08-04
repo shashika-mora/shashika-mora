@@ -1,53 +1,405 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════
+   DRAGONPIT DESIGN SYSTEM
+   ═══════════════════════════════════════════════════════ */
+
 @theme {
-  --font-heading: var(--font-heading), sans-serif;
+  --font-heading: var(--font-heading), 'Georgia', serif;
   --font-sans: var(--font-sans), sans-serif;
 }
 
+/* ── Dragonpit Colour Tokens ── */
+:root {
+  --dp-black:       #030202;
+  --dp-obsidian:    #0a0807;
+  --dp-charcoal:    #120f0d;
+  --dp-panel:       #120f0d;
+  --dp-panel-soft:  #181411;
+  --dp-panel-hover: #1e1915;
+
+  --dp-blood:       #8a0d0d;
+  --dp-red:         #b81414;
+  --dp-red-bright:  #e62e2e;
+  --dp-crimson:     #9e1313;
+
+  --dp-ember:       #ff5a13;
+  --dp-flame:       #ff7b00;
+  --dp-gold:        #d4af37;
+  --dp-gold-bright: #ffd700;
+  --dp-gold-soft:   #e6c875;
+
+  --dp-smoke:       #d1cac0;
+  --dp-text:        #ffffff;
+  --dp-muted:       #bfa382;
+  --dp-border:      rgba(212, 175, 55, 0.32);
+  --dp-border-red:  rgba(230, 46, 46, 0.55);
+
+  /* Glow */
+  --dp-glow-red:    rgba(184, 20, 20, 0.45);
+  --dp-glow-ember:  rgba(255, 90, 19, 0.35);
+  --dp-glow-gold:   rgba(255, 215, 0, 0.3);
+}
+
+/* ── Base ── */
 html {
   font-size: 17.5px;
+  scroll-behavior: smooth;
 }
 
-/* Glassmorphism card utility */
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+body {
+  background-color: var(--dp-obsidian);
+  color: var(--dp-text);
+  font-family: var(--font-sans);
 }
 
-/* Custom transitions and scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* ── Selection ── */
+::selection {
+  background: var(--dp-blood);
+  color: #ffffff;
 }
 
-::-webkit-scrollbar-track {
-  background: #020617; /* Slate 950 */
-}
-
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--dp-obsidian); }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b; /* Slate 800 */
+  background: linear-gradient(180deg, var(--dp-blood), var(--dp-ember));
   border-radius: 4px;
 }
+::-webkit-scrollbar-thumb:hover { background: var(--dp-red-bright); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #334155; /* Slate 700 */
+/* ══════════════════════════════════════════════
+   DRAGONPIT UTILITY CLASSES — CARDS & PANELS
+   ══════════════════════════════════════════════ */
+
+/* Panel — sleek dark obsidian panel with crisp gold border */
+.dp-panel {
+  background: linear-gradient(180deg, rgba(22, 18, 15, 0.95) 0%, rgba(13, 11, 9, 0.98) 100%);
+  border: 1px solid var(--dp-border);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(12px);
 }
 
-/* Animation helpers */
+.dp-panel-soft {
+  background: linear-gradient(180deg, rgba(28, 23, 19, 0.9) 0%, rgba(18, 15, 12, 0.95) 100%);
+  border: 1px solid var(--dp-border);
+  border-radius: 8px;
+}
+
+/* Ember glow on hover */
+.dp-ember-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dp-ember-hover:hover {
+  border-color: var(--dp-gold-bright);
+  box-shadow: 0 12px 36px rgba(184, 20, 20, 0.35), 0 0 20px rgba(255, 215, 0, 0.25), inset 0 1px 0 rgba(255, 215, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+/* Radiant Gold-Ember Text Gradients */
+.dp-title-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, var(--dp-gold-bright) 40%, var(--dp-ember) 80%, var(--dp-red-bright) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dp-gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, var(--dp-gold-bright) 50%, var(--dp-ember) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dp-hero-title {
+  font-family: var(--font-heading, Georgia, serif);
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.dp-gold-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, var(--dp-gold-bright) 50%, var(--dp-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dp-flame-gradient {
+  background: linear-gradient(135deg, #ffd700 0%, var(--dp-flame) 50%, var(--dp-red-bright) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Text helpers */
+.dp-text-gold { color: var(--dp-gold-bright); }
+.dp-text-ember { color: var(--dp-ember); }
+.dp-text-muted { color: var(--dp-muted); }
+.dp-text-smoke { color: var(--dp-smoke); }
+
+/* Gold engraved divider */
+.dp-divider {
+  width: 72px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--dp-gold-bright), var(--dp-ember), transparent);
+  margin: 0 auto;
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--dp-glow-gold);
+}
+
+.dp-divider-left {
+  width: 72px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--dp-gold-bright), var(--dp-ember), transparent);
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--dp-glow-gold);
+}
+
+/* Section themed subtitle */
+.dp-section-subtitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dp-gold-soft);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+/* Ember skill chip */
+.dp-skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(22, 18, 15, 0.9);
+  border: 1px solid var(--dp-border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+.dp-skill-chip:hover {
+  border-color: var(--dp-gold-bright);
+  color: #ffffff;
+  background: rgba(138, 13, 13, 0.4);
+  box-shadow: 0 0 14px var(--dp-glow-red), 0 0 6px var(--dp-glow-gold);
+  transform: translateY(-2px);
+}
+
+/* Button — primary (ember dragon flame) */
+.dp-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--dp-red) 0%, var(--dp-blood) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--dp-red-bright);
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(184, 20, 20, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.dp-btn-primary:hover {
+  background: linear-gradient(135deg, var(--dp-red-bright) 0%, var(--dp-red) 100%);
+  box-shadow: 0 0 28px var(--dp-glow-red), 0 0 12px var(--dp-glow-ember);
+  transform: translateY(-2px);
+}
+.dp-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Button — secondary (obsidian with gold border) */
+.dp-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 32px;
+  background: rgba(20, 17, 15, 0.9);
+  color: var(--dp-gold-soft);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--dp-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+.dp-btn-secondary:hover {
+  border-color: var(--dp-gold-bright);
+  color: #ffffff;
+  background: rgba(138, 13, 13, 0.35);
+  box-shadow: 0 0 20px var(--dp-glow-gold);
+  transform: translateY(-2px);
+}
+
+/* Button — hero action (obsidian default, turns crimson blood red on hover) */
+.dp-btn-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: rgba(20, 17, 15, 0.9);
+  color: var(--dp-gold-soft);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--dp-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+.dp-btn-hero:hover {
+  background: linear-gradient(135deg, var(--dp-red) 0%, var(--dp-blood) 100%);
+  border-color: var(--dp-red-bright);
+  color: #ffffff;
+  box-shadow: 0 0 24px var(--dp-glow-red), 0 0 10px var(--dp-glow-ember);
+  transform: translateY(-2px);
+}
+
+/* Button — disabled ghost */
+.dp-btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 32px;
+  background: var(--dp-charcoal);
+  color: var(--dp-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--dp-border-red);
+  border-radius: 4px;
+  cursor: not-allowed;
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+/* Form inputs */
+.dp-input {
+  width: 100%;
+  background: rgba(18, 15, 12, 0.95);
+  border: 1px solid var(--dp-border);
+  border-radius: 4px;
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.dp-input:focus {
+  border-color: var(--dp-gold-bright);
+  box-shadow: 0 0 14px var(--dp-glow-gold), 0 0 0 2px rgba(212, 175, 55, 0.25);
+}
+.dp-input::placeholder {
+  color: var(--dp-muted);
+  opacity: 0.7;
+}
+
+/* Form label */
+.dp-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dp-gold-bright);
+  margin-bottom: 8px;
+}
+
+/* Tech stack badge */
+.dp-tech-badge {
+  font-size: 0.72rem;
+  padding: 4px 12px;
+  background: rgba(138, 13, 13, 0.35);
+  color: var(--dp-gold-bright);
+  border: 1px solid var(--dp-border);
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+/* Vote button */
+.dp-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(22, 18, 15, 0.9);
+  border: 1px solid var(--dp-border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--dp-gold-soft);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dp-vote-btn:hover {
+  color: #ffffff;
+  border-color: var(--dp-gold-bright);
+  background: rgba(138, 13, 13, 0.3);
+}
+.dp-vote-btn.active-like {
+  background: rgba(184, 20, 20, 0.45);
+  border-color: var(--dp-gold-bright);
+  color: #ffffff;
+  box-shadow: 0 0 14px var(--dp-glow-red);
+}
+.dp-vote-btn.active-dislike {
+  background: rgba(30, 24, 20, 0.9);
+  border-color: var(--dp-border);
+  color: var(--dp-smoke);
+}
+
+/* Dragon-scale background pattern overlay */
+.dp-scale-bg {
+  background-image: url('/dragonpit/scale-pattern.svg');
+  background-size: 80px 80px;
+  background-repeat: repeat;
+}
+
+/* ══════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════ */
+
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in-up {
   animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 12px var(--dp-glow-red); }
+  50%       { box-shadow: 0 0 28px var(--dp-glow-red), 0 0 15px var(--dp-glow-gold); }
+}
+
+@keyframes emberPing {
+  0%   { transform: scale(1); opacity: 0.85; }
+  75%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ── Reduced motion overrides ── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up { animation: none !important; }
+  * { transition-duration: 0.01ms !important; }
 }
