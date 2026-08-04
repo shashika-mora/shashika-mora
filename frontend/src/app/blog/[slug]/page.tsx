@@ -1,13 +1,19 @@
 import BlogPostClient from './BlogPostClient';
 import { getPublishedBlogs } from '../../../lib/firestore-service';
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   try {
-    const blogs = await getPublishedBlogs();
+    const timeout = new Promise<[]>((resolve) => setTimeout(() => resolve([]), 5000));
+    const blogs = await Promise.race([
+      getPublishedBlogs(),
+      timeout,
+    ]);
     if (!blogs || blogs.length === 0) {
       return [];
     }
-    return blogs.map(blog => ({
+    return (blogs as Array<{slug: string}>).map(blog => ({
       slug: blog.slug
     }));
   } catch (error) {
