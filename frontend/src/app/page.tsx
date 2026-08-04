@@ -328,7 +328,7 @@ export default function Home() {
                 <TypewriterEffect />
               </div>
 
-              {/* Action Buttons with clean spacing & ASOIAF thematic emojis */}
+              {/* Action Buttons — Send a Raven & View Scroll */}
               <div
                 className="dp-hero-btn"
                 style={{
@@ -339,11 +339,6 @@ export default function Home() {
                   opacity: loaderDone ? undefined : 0,
                 }}
               >
-                <Link href="#projects" className="dp-btn-hero">
-                  Explore The Pit 🐉
-                  <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-
                 <Link href="#contact" className="dp-btn-hero">
                   Send a Raven 🐦‍⬛
                   <ArrowRight size={16} aria-hidden="true" />
@@ -405,7 +400,7 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Photo Frame */}
+              {/* Photo — clean portrait with soft ember glow ring */}
               <div
                 style={{
                   position: 'relative',
@@ -416,112 +411,107 @@ export default function Home() {
                   justifyContent: 'center',
                 }}
               >
-                {/* Ambient Ember Glow behind the Burnt Parchment */}
+                {/* Soft ember ambient glow */}
                 <div
                   aria-hidden="true"
                   style={{
                     position: 'absolute',
-                    inset: '-15px',
-                    borderRadius: '24px',
-                    background: 'radial-gradient(ellipse at center, rgba(255, 90, 19, 0.45) 0%, rgba(212, 175, 55, 0.2) 50%, transparent 75%)',
-                    filter: 'blur(22px)',
+                    inset: '-20px',
+                    borderRadius: '50%',
+                    background: 'radial-gradient(ellipse at center, rgba(255, 90, 19, 0.3) 0%, rgba(212, 175, 55, 0.12) 50%, transparent 72%)',
+                    filter: 'blur(28px)',
                     pointerEvents: 'none',
                   }}
                 />
 
-                {/* Burnt Paper / Scorched Parchment Frame Outer Container */}
+                {/* Clean photo container — no frame, just rounded with soft edge fade */}
                 <div
                   style={{
                     position: 'relative',
                     width: '100%',
                     height: '100%',
-                    borderRadius: '16px 36px 18px 28px',
-                    padding: '6px',
-                    background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(138, 13, 13, 0.95) 40%, rgba(20, 14, 8, 0.98) 70%, rgba(255, 90, 19, 0.8) 100%)',
-                    boxShadow: '0 15px 50px rgba(0,0,0,0.95), 0 0 30px rgba(255, 90, 19, 0.4), inset 0 0 20px rgba(0,0,0,0.9)',
+                    borderRadius: '16px',
                     overflow: 'hidden',
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.9)',
                   }}
                 >
-                  {/* Photo Wrapper with Inner Scorched Vignette */}
-                  <div
+                  <img
+                    src="/hero.jpg"
+                    alt={about?.name || 'Shashika Dayarathna'}
                     style={{
-                      position: 'relative',
                       width: '100%',
                       height: '100%',
-                      borderRadius: '12px 30px 14px 22px',
-                      overflow: 'hidden',
-                      background: '#0a0807',
+                      objectFit: 'cover',
+                      objectPosition: 'center top',
+                      filter: 'contrast(1.08) saturate(1.0) brightness(0.98)',
                     }}
-                  >
-                    <img
-                      src="/hero.jpg"
-                      alt={about?.name || 'Shashika Dayarathna'}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center top',
-                        filter: 'contrast(1.12) saturate(1.05) brightness(0.95)',
-                      }}
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = about?.avatarUrl || '/hero.jpg';
-                      }}
-                    />
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = about?.avatarUrl || '/hero.jpg';
+                    }}
+                  />
 
-                    {/* Charred / Burnt Paper Edges Vignette Overlay */}
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: `
-                          radial-gradient(ellipse at center, transparent 42%, rgba(20, 10, 5, 0.8) 75%, rgba(6, 4, 3, 0.98) 100%),
-                          linear-gradient(to right, rgba(10, 5, 2, 0.9) 0%, transparent 8%, transparent 92%, rgba(10, 5, 2, 0.9) 100%),
-                          linear-gradient(to bottom, rgba(10, 5, 2, 0.9) 0%, transparent 8%, transparent 92%, rgba(10, 5, 2, 0.98) 100%)
-                        `,
-                        boxShadow: 'inset 0 0 32px rgba(0, 0, 0, 0.98), inset 0 0 14px rgba(255, 90, 19, 0.5)',
-                        pointerEvents: 'none',
-                      }}
-                    />
-
-                    {/* Ember Glow Accent Line on Burnt Edge */}
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        bottom: '0',
-                        left: '0',
-                        right: '0',
-                        height: '3px',
-                        background: 'linear-gradient(90deg, transparent 0%, rgba(255, 90, 19, 0.95) 40%, rgba(212, 175, 55, 0.95) 70%, transparent 100%)',
-                        filter: 'blur(1px)',
-                        pointerEvents: 'none',
-                      }}
-                    />
-                  </div>
+                  {/* Subtle edge fade — blends photo into dark background */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: `
+                        linear-gradient(to right, rgba(10,8,7,0.55) 0%, transparent 15%, transparent 85%, rgba(10,8,7,0.55) 100%),
+                        linear-gradient(to bottom, rgba(10,8,7,0.3) 0%, transparent 12%, transparent 88%, rgba(10,8,7,0.75) 100%)
+                      `,
+                      pointerEvents: 'none',
+                    }}
+                  />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Scroll Indicator */}
-          <div
-            aria-hidden="true"
+          {/* Ember Spark Particles floating up from bottom of hero */}
+          {[...Array(18)].map((_, i) => (
+            <div
+              key={i}
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                bottom: `${8 + (i % 5) * 6}%`,
+                left: `${10 + (i * 17 + i * i * 3) % 80}%`,
+                width: `${2 + (i % 3)}px`,
+                height: `${2 + (i % 3)}px`,
+                borderRadius: '50%',
+                background: i % 3 === 0 ? 'var(--dp-gold-bright)' : i % 3 === 1 ? 'var(--dp-ember)' : '#ff9a44',
+                boxShadow: i % 3 === 0
+                  ? '0 0 6px 2px rgba(255,215,0,0.7)'
+                  : '0 0 6px 2px rgba(255,90,19,0.7)',
+                animation: `heroEmberRise ${2.5 + (i % 4) * 0.8}s ease-out ${(i * 0.35) % 2.5}s infinite`,
+                pointerEvents: 'none',
+                zIndex: 2,
+              }}
+            />
+          ))}
+
+          {/* "Explore the Pit" CTA — bottom center of hero */}
+          <Link
+            href="#projects"
+            className="dp-btn-hero"
             style={{
               position: 'absolute',
-              bottom: '24px',
+              bottom: '32px',
               left: '50%',
               transform: 'translateX(-50%)',
-              display: 'flex',
-              flexDirection: 'column',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '6px',
-              opacity: 0.5,
+              gap: '10px',
+              zIndex: 3,
+              opacity: loaderDone ? 1 : 0,
+              transition: 'opacity 0.5s ease',
+              whiteSpace: 'nowrap',
             }}
           >
-            <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dp-gold-soft)' }}>Scroll</span>
-            <div style={{ width: '2px', height: '32px', background: 'linear-gradient(var(--dp-gold-bright), var(--dp-ember), transparent)', borderRadius: '1px' }} />
-          </div>
+            Explore the Pit 🐉
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
         </section>
 
         {/* ════════════════════════════════════════
@@ -564,6 +554,12 @@ export default function Home() {
           0%   { transform: scale(1); opacity: 0.85; }
           75%  { transform: scale(2.2); opacity: 0; }
           100% { opacity: 0; }
+        }
+        @keyframes heroEmberRise {
+          0%   { opacity: 0; transform: translateY(0) scale(1); }
+          15%  { opacity: 0.95; }
+          85%  { opacity: 0.6; }
+          100% { opacity: 0; transform: translateY(-90px) scale(0.4) translateX(12px); }
         }
         @media (max-width: 960px) {
           section:first-of-type > div {
