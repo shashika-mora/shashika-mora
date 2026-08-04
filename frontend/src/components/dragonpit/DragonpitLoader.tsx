@@ -21,14 +21,7 @@ interface DragonpitLoaderProps {
 }
 
 export default function DragonpitLoader({ isDataLoaded = false, onComplete }: DragonpitLoaderProps) {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    try {
-      return sessionStorage.getItem(SESSION_KEY) !== '1';
-    } catch (_) {
-      return true;
-    }
-  });
+  const [visible, setVisible] = useState(true);
 
   const [minTimeReached, setMinTimeReached] = useState(false);
   const [phase, setPhase] = useState<'intro' | 'exit'>('intro');
@@ -45,6 +38,16 @@ export default function DragonpitLoader({ isDataLoaded = false, onComplete }: Dr
       onComplete();
     }
   }, [onComplete]);
+
+  // Check if intro was already seen in this session on client mount
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        setVisible(false);
+        safeComplete();
+      }
+    } catch (_) {}
+  }, [safeComplete]);
 
   const handleExit = useCallback(() => {
     if (exitingRef.current) return;
