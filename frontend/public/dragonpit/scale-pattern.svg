@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none" opacity="0.06">
+  <!-- Repeating dragon-scale / fish-scale pattern tile -->
+  <!-- Row 1 -->
+  <ellipse cx="20" cy="16" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+  <ellipse cx="60" cy="16" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+  <!-- Row 2 (offset) -->
+  <ellipse cx="0" cy="40" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+  <ellipse cx="40" cy="40" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+  <ellipse cx="80" cy="40" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+  <!-- Row 3 -->
+  <ellipse cx="20" cy="64" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+  <ellipse cx="60" cy="64" rx="18" ry="14" fill="none" stroke="#c79a45" stroke-width="0.8"/>
+</svg>
