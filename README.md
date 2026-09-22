@@ -1,12 +1,12 @@
 <h1 align="center">Hi, I'm Shashika 👋</h1>
 
-<h3 align="center">
-  Computer Science undergraduate at the University of Moratuwa · Systems architect and designer
-</h3>
+<p align="center">
+  Computer Science undergraduate at the University of Moratuwa
+</p>
 
 <p align="center">
-  I enjoy shaping software systems, architecture, and user experiences. I work across web and
-  mobile when needed, but I am most interested in how products are structured and designed.
+  I like designing systems, planning how products fit together, and turning ideas into useful software.
+  I do full-stack and mobile development too, but architecture and design are what interest me most.
 </p>
 
 <p align="center">
@@ -17,53 +17,24 @@
 
 ---
 
-### What I focus on
+### What I enjoy
 
-- **System architecture and software design** — structuring reliable products and the systems behind them
-- **UI/UX and design systems** — exploring interfaces with Figma, Google AI Studio, and Google Stitch
-- **Cloud-backed applications** — using Firebase services, Neon PostgreSQL, and relational databases
-- **Windows and systems exploration** — Windows customization, WSL, Linux, hardware-software boundaries, and VHDL
+- System architecture and software design
+- UI/UX, design systems, and exploring ideas in Figma, Google AI Studio, and Google Stitch
+- Firebase applications, Neon PostgreSQL, and relational databases
+- Windows customization, WSL, and learning more about systems and hardware
 
-### Tools and technologies
+### Tools I use
 
-**Languages and hardware description**
+- **Languages:** C, C++, Python, Java, TypeScript, VHDL
+- **Web and mobile:** Next.js, Node.js, Android, Tailwind CSS
+- **Data and cloud:** Firebase, Firestore, Neon PostgreSQL, MySQL
+- **Development:** Git, GitHub, Docker, Windows, Ubuntu on WSL
+- **AI tools:** Antigravity (Google Gemini), ChatGPT Codex, GitHub Copilot
 
-![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black)
-![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![VHDL](https://img.shields.io/badge/VHDL-543978?style=for-the-badge&logoColor=white)
+### A little more
 
-**Web, mobile, and design**
-
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
-![Google AI Studio](https://img.shields.io/badge/Google_AI_Studio-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![Google Stitch](https://img.shields.io/badge/Google_Stitch-34A853?style=for-the-badge&logo=google&logoColor=white)
-
-**Data, cloud, and development tools**
-
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Firestore](https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Neon PostgreSQL](https://img.shields.io/badge/Neon_PostgreSQL-00E599?style=for-the-badge&logo=postgresql&logoColor=black)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)
-![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![ChatGPT Codex](https://img.shields.io/badge/ChatGPT_Codex-412991?style=for-the-badge&logo=openai&logoColor=white)
-![GitHub Copilot](https://img.shields.io/badge/GitHub_Copilot-000000?style=for-the-badge&logo=githubcopilot&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![Ubuntu on WSL](https://img.shields.io/badge/Ubuntu_on_WSL-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
-
-### Outside engineering
-
-I enjoy novels, documentaries, and philosophy.
+I enjoy novels, documentaries, and philosophy outside engineering.
 
 ### Connect
 
