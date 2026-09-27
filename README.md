@@ -41,8 +41,6 @@
 
 <p>
   <img src="https://skillicons.dev/icons?i=nextjs,nodejs,android,tailwind,figma" alt="Next.js, Node.js, Android, Tailwind CSS, and Figma" />
-  <img src="https://img.shields.io/badge/Google_AI_Studio-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google AI Studio" />
-  <img src="https://img.shields.io/badge/Google_Stitch-34A853?style=for-the-badge&logo=google&logoColor=white" alt="Google Stitch" />
 </p>
 
 **Cloud, data, and development**
