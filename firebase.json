@@ -20,7 +20,7 @@
     "trailingSlash": false,
     "headers": [
       {
-        "source": "**/*.@(js|css|webp|svg|json|ico)",
+        "source": "**/*.@(js|css|webp|svg|json|ico|pdf)",
         "headers": [
           { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
         ]
