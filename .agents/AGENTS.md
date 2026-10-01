@@ -1,5 +1,7 @@
 # Project Rules & Guidelines
 
-## UI/UX Preferences
-- **Frontend Website**: Aesthetics and themes are **paramount**. The frontend must feature high-quality modern design, premium typography, smooth GSAP micro-animations/transitions, and a polished, professional look. Avoid simple or basic templates.
-- **Admin Panel**: Visual styling, themes, and complex UI elements do **not** matter. Focus entirely on functional CRUD operations and administrative abilities. Keep the interface simple and utilitarian.
+## UI/UX & Architecture
+- **Architecture**: Clean, dependency-free static website (HTML5, CSS3, vanilla JavaScript). No npm dependencies or heavy build steps required.
+- **Frontend Aesthetics**: Modern dark celestial theme, high-quality typography, smooth canvas particle animations (starfield and constellation morphing), and responsive design.
+- **Deployment**: Dual deployment architecture supporting GitHub Pages (automated via GitHub Actions workflow) and Firebase Hosting.
+- **Database**: Remote Firestore database is preserved as-is.

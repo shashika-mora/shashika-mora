@@ -5,77 +5,37 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "hosting": [
-    {
-      "target": "frontend",
-      "public": "frontend/out",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "cleanUrls": true,
-      "trailingSlash": false,
-      "rewrites": [
-        {
-          "source": "/blog/**",
-          "destination": "/blog.html"
-        },
-        {
-          "source": "/projects/**",
-          "destination": "/projects.html"
-        }
-      ],
-      "headers": [
-        {
-          "source": "**/*.@(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2)",
-          "headers": [
-            { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-          ]
-        },
-        {
-          "source": "**",
-          "headers": [
-            { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-            { "key": "X-Content-Type-Options", "value": "nosniff" },
-            { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-            { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
-          ]
-        }
-      ]
-    },
-    {
-      "target": "admin",
-      "public": "admin_panel/out",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "cleanUrls": true,
-      "trailingSlash": false,
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ],
-      "headers": [
-        {
-          "source": "**",
-          "headers": [
-            { "key": "X-Frame-Options", "value": "DENY" },
-            { "key": "X-Content-Type-Options", "value": "nosniff" },
-            { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-            { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
-          ]
-        }
-      ]
-    }
-  ],
-  "auth": {
-    "providers": {
-      "emailPassword": true
-    }
+  "hosting": {
+    "site": "shashika-dev",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.*",
+      "README.md",
+      ".firebaserc",
+      ".git*",
+      ".github/**",
+      ".agents/**",
+      ".gemini/**",
+      "doc/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "headers": [
+      {
+        "source": "**/*.@(js|css|webp|svg|json|ico)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        ]
+      }
+    ]
   }
 }

@@ -1,12 +1,3 @@
-# Dependency directories
-node_modules/
-frontend/node_modules/
-
-# Next.js build output
-frontend/.next/
-frontend/out/
-frontend/build/
-
 # Firebase Cache & Logs
 .firebase/
 firebase-debug.log*
@@ -14,17 +5,13 @@ firestore-debug.log*
 ui-debug.log*
 *.log
 
-# Environment variables (secrets)
+# Environment files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-frontend/.env
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
+.env*.local
+
+# Node & package artifacts (if any tools are run)
+node_modules/
+package-lock.json
 
 # Operating System files
 .DS_Store
@@ -40,5 +27,5 @@ ehthumbs.db
 *.sln
 *.swp
 
-
+# Task notes
 task.md
