@@ -46,6 +46,24 @@
                 <p>Real problems. Different scales.<br>A little more understanding with every build.</p>
             </div>
             <div class="project-grid" id="project-grid">
+                <button class="project small reveal" data-project="enigma">
+                    <div class="project-art enigma-art" aria-hidden="true">
+                        <img src="public/enigma-2026.png" alt="Enigma 2026 Mathematics &amp; Cryptanalysis Competition" class="project-img" loading="lazy">
+                    </div>
+                    <div class="project-copy">
+                        <div class="project-kicker"><span>01 — EVENT PLATFORM &amp; UI/UX</span><span class="status">LIVE</span></div>
+                        <h3>Enigma 2026</h3>
+                        <p>Official website, UI/UX design, and registration portal for Enigma 2026, the premier cryptanalysis &amp; mathematics competition by Mora MathSoc.</p>
+                        <div class="project-tags">
+                            <span>UI/UX Design</span>
+                            <span>React / Next.js</span>
+                            <span>Tailwind CSS</span>
+                            <span>Firebase Hosting</span>
+                            <span>Cryptanalysis</span>
+                        </div>
+                        <span class="project-link">Explore the platform <span>+</span></span>
+                    </div>
+                </button>
                 <button class="project small reveal" data-project="dtt">
                     <div class="project-art dtt-art" aria-hidden="true">
                         <div class="dtt-logo-wrap">
@@ -53,7 +71,7 @@
                         </div>
                     </div>
                     <div class="project-copy">
-                        <div class="project-kicker"><span>01 — ORGANIZATIONAL PLATFORM</span><span class="status">IN PROGRESS</span></div>
+                        <div class="project-kicker"><span>02 — ORGANIZATIONAL PLATFORM</span><span class="status">IN PROGRESS</span></div>
                         <h3>Sasnaka DTT</h3>
                         <p>Centralized platform for Sasnaka Sansada, streamlining operations, district networks, and member management across nationwide educational initiatives.</p>
                         <div class="project-tags">
@@ -71,7 +89,7 @@
                         <img src="public/buslk_poster.jpg" alt="BusLK Transit Application" class="project-img" loading="lazy">
                     </div>
                     <div class="project-copy">
-                        <div class="project-kicker"><span>02 — MOBILE &amp; IOT PLATFORM</span><span class="status">COMPLETED</span></div>
+                        <div class="project-kicker"><span>03 — MOBILE &amp; IOT PLATFORM</span><span class="status">COMPLETED</span></div>
                         <h3>BusLK</h3>
                         <p>Real-time public transit Android application designed to modernize commuter journeys with live tracking, route schedules, and driver telemetry.</p>
                         <div class="project-tags">
@@ -89,7 +107,7 @@
                         <img src="public/nano_processor.jpg" alt="Nano Processor Architecture" class="project-img" loading="lazy">
                     </div>
                     <div class="project-copy">
-                        <div class="project-kicker"><span>03 — HARDWARE &amp; ARCHITECTURE</span><span class="status">COMPLETED</span></div>
+                        <div class="project-kicker"><span>04 — HARDWARE &amp; ARCHITECTURE</span><span class="status">COMPLETED</span></div>
                         <h3>Nano Processor</h3>
                         <p>Custom 4-bit/8-bit microprocessor microarchitecture designed and simulated in VHDL on Vivado, featuring an ALU, register bank, and instruction decoder.</p>
                         <div class="project-tags">
@@ -107,7 +125,7 @@
                         <img src="public/portfolio_img.png" alt="Shashika Portfolio Preview" class="project-img" loading="lazy">
                     </div>
                     <div class="project-copy">
-                        <div class="project-kicker"><span>04 — INTERACTIVE WEB</span><span class="status">LIVE</span></div>
+                        <div class="project-kicker"><span>05 — INTERACTIVE WEB</span><span class="status">LIVE</span></div>
                         <h3>Celestial Portfolio</h3>
                         <p>Dependency-free personal space built with modern HTML5, CSS3, and an interactive celestial canvas particle engine with dual cloud deployment.</p>
                         <div class="project-tags">
@@ -121,8 +139,16 @@
                     </div>
                 </button>
             </div>
-            <div class="projects-more"><button id="more-projects" class="button more-projects"
-                    aria-controls="project-grid" aria-expanded="false" hidden>More</button></div>
+            <div class="projects-carousel-bar">
+                <button id="project-prev" class="carousel-arrow" aria-label="Previous project slide">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <div class="carousel-dots" id="project-dots" aria-label="Project slide navigation"></div>
+                <span id="project-counter" class="carousel-counter" aria-live="polite">01 / 05</span>
+                <button id="project-next" class="carousel-arrow" aria-label="Next project slide">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
         </section>
         <section id="about" class="about section">
             <div class="about-left reveal">
