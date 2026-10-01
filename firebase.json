@@ -10,13 +10,10 @@
     "public": ".",
     "ignore": [
       "firebase.json",
+      "**/.*",
+      "**/.*/**",
       "firestore.*",
       "README.md",
-      ".firebaserc",
-      ".git*",
-      ".github/**",
-      ".agents/**",
-      ".gemini/**",
       "doc/**"
     ],
     "cleanUrls": true,
