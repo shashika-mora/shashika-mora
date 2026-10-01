@@ -2,23 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { getProjectById } from '../../../lib/firestore-service';
-import { Calendar, Tag, ArrowLeft, ExternalLink, Github, Info } from 'lucide-react';
+import { getProjectById, Project } from '../../../lib/firestore-service';
+import { Calendar, Tag, ArrowLeft, ExternalLink, Github, Info, Shield } from 'lucide-react';
 import Link from 'next/link';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
 
-export default function ProjectDetailClient({ params }: { params: any }) {
+import DragonBackgroundLayer from '../../../components/dragonpit/DragonBackgroundLayer';
+
+export default function ProjectDetailClient({ params }: { params?: any }) {
   const pathname = usePathname();
-  // Read id from the live URL — works for pre-built AND newly-added projects
   const id = pathname?.split('/').filter(Boolean).pop() || '';
 
-  const [project, setProject] = useState<any>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!id) return;
     async function loadProject() {
-      const data = await getProjectById(id);
+      // publicOnly = true: refuses to render unpublished/hidden records
+      const data = await getProjectById(id, true);
       if (data) {
         setProject(data);
       }
@@ -29,73 +31,102 @@ export default function ProjectDetailClient({ params }: { params: any }) {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-6 py-24 text-center">
-        <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500 border-r-2 mb-4"></div>
-        <p className="text-slate-400">Loading project details...</p>
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '120px 24px', textAlign: 'center' }}>
+        <p style={{ color: 'var(--dp-muted)' }}>Loading record from the forge...</p>
       </div>
     );
   }
 
   if (!project) {
     return (
-      <div className="max-w-4xl mx-auto px-6 py-24 text-center">
-        <h2 className="font-heading text-3xl font-extrabold text-white mb-4">Project Not Found</h2>
-        <p className="text-slate-400 mb-8">The project you are looking for does not exist or has been removed.</p>
-        <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
-          <ArrowLeft size={14} /> Back to Projects
-        </Link>
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '120px 24px', textAlign: 'center' }}>
+        <div className="dp-panel" style={{ padding: '60px 32px' }}>
+          <Shield size={40} className="mx-auto mb-3 text-[var(--dp-gold-bright)] opacity-80" />
+          <h2 style={{ fontFamily: 'var(--font-heading, Georgia, serif)', fontSize: '2rem', fontWeight: 900, color: '#ffffff', marginBottom: '12px' }}>
+            Record Not Found
+          </h2>
+          <p style={{ color: 'var(--dp-smoke)', marginBottom: '28px' }}>
+            The requested project record does not exist or has been unpublished.
+          </p>
+          <Link href="/projects" className="dp-btn-secondary" style={{ display: 'inline-flex' }}>
+            <ArrowLeft size={16} /> Back to Projects Directory
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 md:py-20 animate-fade-in-up">
+    <div style={{ width: '100%', position: 'relative', overflow: 'hidden' }}>
+      <DragonBackgroundLayer imageSrc="/dragonpit/caraxes_1.jpg" opacity={0.14} position="top-left" />
+      <DragonBackgroundLayer imageSrc="/dragonpit/caraxes_3.jpg" opacity={0.14} position="bottom-right" />
+
+      <div style={{ maxWidth: '960px', margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1 }}>
       {/* Back button */}
-      <Link href="/projects" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-8 group">
-        <ArrowLeft size={16} className="transform group-hover:-translate-x-1 transition-transform" />
-        Back to Projects
+      <Link href="/projects" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--dp-gold-soft)', textDecoration: 'none', marginBottom: '32px', fontWeight: 600 }}>
+        <ArrowLeft size={16} /> Back to Projects Directory
       </Link>
 
-      {/* Meta Info */}
-      <div className="flex items-center flex-wrap gap-4 text-xs text-slate-400 mb-6">
+      {/* Meta Bar */}
+      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '14px', fontSize: '0.78rem', color: 'var(--dp-smoke)', marginBottom: '16px', fontFamily: 'monospace' }}>
         {project.createdAt && (
-          <span className="flex items-center gap-1.5">
-            <Calendar size={12} className="text-slate-500" />
-            Created: {new Date(project.createdAt).toLocaleDateString(undefined, {
-              year: 'numeric',
-              month: 'long'
-            })}
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Calendar size={13} className="text-[var(--dp-gold-bright)]" />
+            Created: {new Date(project.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long' })}
           </span>
         )}
         {project.techStack && project.techStack.length > 0 && (
-          <span className="flex items-center gap-1">
-            <Tag size={10} className="text-slate-500" />
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Tag size={12} className="text-[var(--dp-ember)]" />
             {project.techStack.join(', ')}
           </span>
         )}
       </div>
 
       {/* Title */}
-      <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+      <h1
+        style={{
+          fontFamily: 'var(--font-heading, Georgia, serif)',
+          fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+          fontWeight: 900,
+          color: '#ffffff',
+          marginBottom: '20px',
+          lineHeight: 1.15,
+        }}
+      >
         {project.title}
       </h1>
 
-      {/* Short Description teaser */}
-      <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed border-l-4 border-indigo-500/50 pl-4 py-1 mb-10 italic">
+      {/* Teaser Description */}
+      <p
+        style={{
+          color: 'var(--dp-smoke)',
+          fontSize: '1.1rem',
+          lineHeight: 1.75,
+          borderLeft: '4px solid var(--dp-red-bright)',
+          paddingLeft: '20px',
+          marginBottom: '36px',
+          fontStyle: 'italic',
+          background: 'rgba(22, 18, 15, 0.6)',
+          paddingTop: '12px',
+          paddingBottom: '12px',
+          borderRadius: '0 6px 6px 0',
+        }}
+      >
         {project.description}
       </p>
 
       {/* External Action Links */}
-      <div className="flex flex-wrap gap-4 mb-10 pb-6 border-b border-slate-900">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '40px', paddingBottom: '28px', borderBottom: '1px solid var(--dp-border)' }}>
         {project.githubUrl && (
           <a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-350 hover:text-white transition-all"
+            className="dp-btn-primary"
+            style={{ padding: '12px 28px', fontSize: '0.88rem' }}
           >
-            <Github size={16} />
-            GitHub Repository
+            <Github size={16} /> Source Code
           </a>
         )}
         {project.liveUrl && (
@@ -103,35 +134,38 @@ export default function ProjectDetailClient({ params }: { params: any }) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-indigo-600 hover:bg-indigo-550 text-xs font-bold text-white shadow-lg shadow-indigo-600/10 transition-all hover:scale-[1.01]"
+            className="dp-btn-secondary"
+            style={{ padding: '12px 28px', fontSize: '0.88rem' }}
           >
-            <ExternalLink size={16} />
-            Live Application Demo
+            <ExternalLink size={16} /> Live Demo
           </a>
         )}
       </div>
 
-      {/* Cover Image if available */}
+      {/* Cover Image */}
       {project.imageUrl && (
-        <div className="w-full h-80 md:h-[480px] rounded-3xl overflow-hidden mb-12 border border-slate-900 shadow-2xl">
-          <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
+        <div style={{ width: '100%', height: '420px', borderRadius: '8px', overflow: 'hidden', marginBottom: '44px', border: '1px solid rgba(212, 175, 55, 0.35)', boxShadow: '0 15px 40px rgba(0,0,0,0.8)' }}>
+          <img src={project.imageUrl} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       )}
 
-      {/* Case Study Detailed Content */}
-      <article className="pt-4 mb-16">
+      {/* Detailed Case Study */}
+      <article className="dp-panel" style={{ padding: '40px 48px' }}>
         {project.longDescription ? (
           <MarkdownRenderer content={project.longDescription} />
         ) : (
-          <div className="flex items-start gap-3 p-6 rounded-2xl bg-slate-900/30 border border-slate-900/80 text-slate-400">
-            <Info className="shrink-0 text-indigo-400" size={20} />
-            <div className="space-y-1">
-              <h4 className="font-semibold text-slate-200 text-sm">Detailed Case Study Pending</h4>
-              <p className="text-xs text-slate-500">There is no detailed case study write-up loaded for this project yet. Please check back later, or explore the codebase/demo using the links above.</p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', color: 'var(--dp-smoke)' }}>
+            <Info size={22} className="text-[var(--dp-gold-bright)] shrink-0 mt-0.5" />
+            <div>
+              <h4 style={{ fontWeight: 700, color: '#ffffff', fontSize: '0.95rem', marginBottom: '4px' }}>Detailed Case Study Pending</h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--dp-muted)', lineHeight: 1.6 }}>
+                The full architectural breakdown for this project has not been published yet. Please explore the source code or live demo above.
+              </p>
             </div>
           </div>
         )}
       </article>
+      </div>
     </div>
   );
 }
