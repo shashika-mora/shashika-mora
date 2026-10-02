@@ -1,96 +1,107 @@
-# Project Architecture & Tech Stack
+# Project Architecture & System Design
 
-This document describes the high-level system architecture, directories, frontend components, administrative interface, and the deployment structure of the portfolio project.
+This document describes the production architecture, directory structure, canvas particle physics engine, and dual deployment infrastructure of Shashika's personal engineering space.
 
 ---
 
-## 1. Directory Structure
+## 1. Architectural Philosophy
 
-The project is structured as a monorepo containing two distinct Next.js applications and global Firebase configuration files at the root level:
+The website is engineered under strict architectural constraints:
+* **Dependency-Free Static Delivery**: Built exclusively with semantic HTML5, pure CSS3, and modern vanilla JavaScript (ES6+). Zero npm dependencies, zero build steps, and zero client-side framework overhead.
+* **Instant First Contentful Paint (FCP)**: The root files are delivered directly from CDN edge caches with sub-second initial render times.
+* **Celestial Aesthetics & Hardware-Accelerated Physics**: Dark space theme with fluid typography, responsive layout grids, and interactive 60fps canvas particle constellations.
+* **Dual Deployment Pipeline**: Redundant automated deployment supporting GitHub Pages (via GitHub Actions workflow) and Firebase Hosting with edge caching.
+* **Preserved Remote Firestore**: Cloud Firestore rules and indexes are maintained at root to preserve the remote database configuration.
+
+---
+
+## 2. Directory Structure
 
 ```text
 shashika-mora/
-├── admin_panel/            # Next.js app for profile & content management
-│   ├── src/
-│   │   ├── app/            # App Router files (profile, projects, blogs, etc.)
-│   │   └── lib/            # Firebase client setup & Firestore service
-│   ├── public/
-│   └── package.json
+├── index.html                # Semantic HTML5 single-page application & content layout
+├── style.css                 # Pure CSS3 styling (variables, typography, carousel, responsive grid)
+├── script.js                 # Vanilla JS engine (canvas starfield, modal system, carousel pagination)
+├── particle-shapes.json      # Coordinate matrices for morphing canvas constellations (brain, person, tools, plane)
 │
-├── frontend/               # Next.js app for the public portfolio website
-│   ├── src/
-│   │   ├── app/            # Public pages (projects, blogs, timeline, contact)
-│   │   ├── components/     # UI elements (Navbar, Footer, background grid, etc.)
-│   │   └── lib/            # Read-only Firestore client operations
-│   ├── public/             # Static assets (including hero.jpg profile photo)
-│   └── package.json
+├── public/                   # Static media and branding assets
+│   ├── favicon.svg           # Official brand logo (lime badge with dark 'sd' monogram)
+│   ├── cosmos.webp           # Optimized cosmic space background texture
+│   ├── enigma-2026.png       # Enigma 2026 platform preview interface
+│   ├── logo_and_name_transperant_bg.png  # Sasnaka Sansada DTT organization badge
+│   ├── buslk_poster.jpg      # BusLK public transit application interface
+│   ├── nano_processor.jpg    # Nano Processor VHDL microarchitecture schematic
+│   ├── portfolio_img.png     # Celestial portfolio preview asset
+│   └── Shashika_CV.pdf       # Printable engineering curriculum vitae
 │
-├── doc/                    # Architectural & project documentation (this folder)
-├── firestore.rules         # Security rules governing database read/write access
-├── firestore.indexes.json  # Multi-field database query indexes
-├── firebase.json           # Firebase Hosting and Firestore configuration
-└── .firebaserc             # Firebase projects and multi-site target mapping
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml  # GitHub Actions automated deployment workflow to GitHub Pages
+│
+├── firebase.json             # Firebase Hosting distribution and cache headers configuration
+├── .firebaserc               # Firebase project mapping ('shashika-dev')
+├── firestore.rules           # Firestore security rules governing remote database access
+├── firestore.indexes.json    # Firestore composite query index definitions
+│
+├── doc/                      # Technical documentation & architectural records
+│   ├── architecture.md       # Production architecture & tech stack (this document)
+│   ├── completed_enhancements.md # Historical log of system enhancements
+│   ├── database_schema.md    # Remote Firestore schema documentation
+│   └── future_enhancements.md   # Roadmap for upcoming technical explorations
+│
+├── .workspace/               # Local workspace reference documents (excluded from git)
+│   ├── profile.md            # Comprehensive personal background, education & roadmap
+│   ├── projects.md           # Deep-dive architecture & tech stacks of featured projects
+│   ├── skills-and-toolkit.md # Complete inventory of tools, languages & platforms
+│   ├── process-and-architecture.md # Development history, changelog & system decisions
+│   ├── cheatsheet-and-commands.md  # CLI command quick reference
+│   └── README.md             # Workspace overview & navigation
+│
+└── README.md                 # Public GitHub profile readme & connect portal
 ```
 
 ---
 
-## 2. Technical Stack
+## 3. Core System Components
 
-Both applications are built on a modern, unified technology stack:
+### 3.1 HTML5 Canvas Particle Engine
+* **File**: `script.js` & `particle-shapes.json`
+* **Mechanics**:
+  * An ambient background starfield runs continuously across the viewport, adjusting density based on screen dimensions and device pixel ratio.
+  * Morphing constellations (`brain`, `person`, `tools`, `plane`) are bound to `.particle-anchor` containers across page sections.
+  * Particle positions interpolate smoothly from cosmic scatter into defined coordinate shapes as sections scroll into view.
+  * Fully accessible with `prefers-reduced-motion` compliance.
 
-*   **Framework**: Next.js (version `16.2.10`) using the App Router.
-*   **Static Site Generation (SSG)**: Configured with `output: 'export'` in both `next.config.mjs` files to generate lightweight, high-performance static HTML/JS/CSS assets that can be served directly from CDN nodes.
-*   **Styling**: Vanilla CSS alongside Tailwind CSS (version `4.x`) for styling and layout utilities.
-*   **Animations**: GreenSock Animation Platform (GSAP version `3.15.0`) coupled with `@gsap/react` for rich micro-interactions, floating elements, and scroll-reveal triggers.
-*   **Database**: Google Cloud Firestore (NoSQL Document Database).
-*   **Hosting**: Firebase Hosting (Multi-site distribution).
+### 3.2 Discrete 4-Card Page Carousel
+* **Capacity Constraint**: Exactly 4 projects display on screen at a time in a clean 2x2 grid.
+* **Pagination Calculation**: `totalPages = Math.ceil(totalProjects / 4)`.
+* **State Management**:
+  * Page 1 (Cards 1–4): Enigma 2026, Sasnaka DTT, BusLK, Nano Processor.
+  * Page 2 (Card 5+): Celestial Portfolio, scalable for future project additions.
+* **Strict User Intent**: Auto-sliding is disabled. Cards advance strictly on explicit arrow button or dot indicator clicks.
+* **Direct Actions**: Each card provides direct `Repo` and `Live Web` links alongside the expanded `Details +` modal trigger.
+
+### 3.3 Modal Dialog System
+* **Element**: Native HTML5 `<dialog id="detail">`.
+* **Features**: Accessible modal trap, backdrop blur filter, scroll lock on `document.body`, outside-click dismiss, and keyboard `Escape` closing.
+
+### 3.4 Contact & Email Integration
+* **Primary Email**: `shashikatheekshana67@gmail.com`.
+* **Say hello**: Direct `mailto:shashikatheekshana67@gmail.com` link.
+* **Copy email**: Clipboard API integration (`navigator.clipboard.writeText`) with dynamic status feedback.
 
 ---
 
-## 3. Communication & Data Flow
-
-Communication between the user-facing frontend, the admin panel, and the database is direct and decoupled:
+## 4. Dual Deployment Pipeline
 
 ```mermaid
-graph TD
-    A[Admin Panel Client] -- Writes / Updates --> B(Cloud Firestore)
-    C[Public Frontend Client] -- Reads Only --> B
-    A -- Authenticates --> D(Firebase Auth)
-    C -- Submits Contact Form --> B
+flowchart LR
+    Dev["Local Repository (main)"] --> Push["git push origin main"]
+    Push --> GA["GitHub Actions Workflow<br>(.github/workflows/deploy-pages.yml)"]
+    GA --> GHP["GitHub Pages CDN<br>(Automated Deployment)"]
+    Dev -. Manual CLI .-> FB["Firebase CLI<br>(firebase-tools)"]
+    FB --> FBH["Firebase Hosting CDN<br>(shashika-dev.web.app)"]
 ```
 
-### Administrative Operations (Write / Read)
-*   The **Admin Panel** uses the client-side Firebase Web SDK to perform CRUD operations on Firestore collections.
-*   It requires authentication (Firebase Auth). Operations are restricted to authenticated administrators using security rules (`firestore.rules`).
-
-### Public Operations (Read Only / Restricted Write)
-*   The **Frontend** queries the same Firestore instance directly on client mount.
-*   It reads profile settings, project lists, timeline items, and blog posts.
-*   It has write access *only* to the `messages` collection to submit contact form messages, governed strictly by security rules to prevent modification of existing documents.
-
----
-
-## 4. Multi-Site Hosting Architecture
-
-The system uses Firebase Hosting's multi-site capabilities to host the two applications separately under the same project (`shashika-dev`):
-
-1.  **Frontend Website**: Deployed to `shashika-dev.web.app` (or custom mapped domains).
-2.  **Admin Panel**: Deployed to `shashika-dev-admin.web.app`.
-
-### Target Mapping (`.firebaserc`)
-Hosting targets are defined to route the correct output directories to the correct sites:
-```json
-"targets": {
-  "shashika-dev": {
-    "hosting": {
-      "frontend": ["shashika-dev"],
-      "admin": ["shashika-dev-admin"]
-    }
-  }
-}
-```
-
-### Build Directories (`firebase.json`)
-The static outputs generated by Next.js are routed to Hosting:
-*   `frontend/out` is deployed to the `frontend` target.
-*   `admin_panel/out` is deployed to the `admin` target.
+1. **GitHub Pages (Automated CI/CD)**: Triggered automatically on every push to `main` via official GitHub Pages actions (`actions/upload-pages-artifact@v3` and `actions/deploy-pages@v4`).
+2. **Firebase Hosting**: Deployed to `shashika-dev.web.app` using `firebase.json` with edge-caching rules and cache-busting version query parameters (`?v=2.x`).

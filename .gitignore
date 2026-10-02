@@ -29,3 +29,7 @@ ehthumbs.db
 
 # Task notes
 task.md
+
+# Local Documentation & IDE
+.workspace/
+.gemini/
