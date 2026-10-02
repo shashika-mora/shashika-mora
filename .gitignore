@@ -33,3 +33,7 @@ task.md
 # Local Documentation & IDE
 .workspace/
 .gemini/
+AGENTS.md
+GEMINI.md
+.github/copilot-instructions.md
+*.zip
