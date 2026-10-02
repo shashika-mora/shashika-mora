@@ -355,3 +355,36 @@ main > section.section{border-top:0;border-bottom:0}
   flex-shrink: 0;
 }
 
+/* Official brand logo */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+.brand:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+.brand-logo {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  box-shadow: 0 0 14px rgba(199, 244, 74, 0.22);
+  transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  vertical-align: middle;
+}
+.brand:hover .brand-logo {
+  box-shadow: 0 0 24px rgba(199, 244, 74, 0.45);
+}
+@media (max-width: 650px) {
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+}
+
+
