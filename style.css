@@ -110,7 +110,8 @@ main > section.section{border-top:0;border-bottom:0}
 }
 
 .nano-art,
-.wifi-art {
+.wifi-art,
+.power-art {
   background: radial-gradient(ellipse at 50% 50%, #17243a, #080d16);
 }
 

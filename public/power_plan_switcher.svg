@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#142136" />
+      <stop offset="60%" stop-color="#0a101d" />
+      <stop offset="100%" stop-color="#050811" />
+    </radialGradient>
+    <linearGradient id="termHeader" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#182338" />
+      <stop offset="100%" stop-color="#101826" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="800" height="500" fill="url(#bgGlow)" />
+
+  <!-- Subtle Celestial Grid Lines -->
+  <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+    <line x1="0" y1="100" x2="800" y2="100" />
+    <line x1="0" y1="200" x2="800" y2="200" />
+    <line x1="0" y1="300" x2="800" y2="300" />
+    <line x1="0" y1="400" x2="800" y2="400" />
+    <line x1="160" y1="0" x2="160" y2="500" />
+    <line x1="320" y1="0" x2="320" y2="500" />
+    <line x1="480" y1="0" x2="480" y2="500" />
+    <line x1="640" y1="0" x2="640" y2="500" />
+  </g>
+
+  <!-- Ambient Energy / Battery Wave in Background -->
+  <g fill="none" stroke="rgba(199,244,74,0.06)" stroke-width="1.5">
+    <circle cx="400" cy="120" r="140" />
+    <circle cx="400" cy="120" r="220" />
+    <circle cx="400" cy="120" r="300" />
+  </g>
+
+  <!-- Terminal Window Container -->
+  <g filter="url(#shadow)" transform="translate(60, 45)">
+    <!-- Terminal Body -->
+    <rect width="680" height="410" rx="12" fill="#090d16" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+
+    <!-- Terminal Header Bar -->
+    <path d="M0,12 Q0,0 12,0 L668,0 Q680,0 680,12 L680,38 L0,38 Z" fill="url(#termHeader)" />
+    <line x1="0" y1="38" x2="680" y2="38" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+
+    <!-- Window Control Buttons -->
+    <circle cx="24" cy="19" r="6" fill="#ff5f56" />
+    <circle cx="44" cy="19" r="6" fill="#ffbd2e" />
+    <circle cx="64" cy="19" r="6" fill="#27c93f" />
+
+    <!-- Window Title -->
+    <text x="340" y="24" text-anchor="middle" font-family="'Consolas', 'Courier New', monospace" font-size="12" fill="#9da9bf" letter-spacing="0.5">
+      Command Prompt — power_switch.bat
+    </text>
+
+    <!-- Terminal Content Area -->
+    <g transform="translate(28, 64)" font-family="'Consolas', 'Cascadia Code', monospace" font-size="13" line-height="1.5">
+      <!-- Command prompt line -->
+      <text x="0" y="16" fill="#9da9bf">
+        <tspan fill="#c7f44a">C:\Tools\power-plan-switcher&gt;</tspan> power_switch.bat
+      </text>
+
+      <!-- Banner Box -->
+      <text x="0" y="44" fill="#586e8e">========================================================</text>
+      <text x="0" y="66" fill="#e2ecfc" font-weight="bold">
+        Windows Power Plan Switcher <tspan fill="#9da9bf" font-weight="normal">— Native powercfg Utility</tspan>
+      </text>
+      <text x="0" y="88" fill="#586e8e">========================================================</text>
+
+      <!-- Active Plan Query -->
+      <text x="0" y="118" fill="#9da9bf">
+        Current Active Power Plan:
+      </text>
+      <text x="0" y="140" fill="#c7f44a">
+        Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)
+      </text>
+
+      <!-- Menu options -->
+      <text x="0" y="174" fill="#e2ecfc">Select an option:</text>
+      <text x="16" y="200" fill="#ffffff">1. Balanced          <tspan fill="#6e829f">[Daily Workflow &amp; Efficiency]</tspan></text>
+      <text x="16" y="224" fill="#ffffff">2. High Performance <tspan fill="#c7f44a">[Gaming &amp; App Development]</tspan></text>
+      <text x="16" y="248" fill="#ffffff">3. Power Saver      <tspan fill="#6e829f">[Battery Conservation &amp; Power Outages]</tspan></text>
+      <text x="16" y="272" fill="#9da9bf">A. About             <tspan fill="#6e829f">[Maintainer Details &amp; ASCII Branding]</tspan></text>
+      <text x="16" y="296" fill="#9da9bf">E. Exit</text>
+
+      <!-- Prompt cursor -->
+      <text x="0" y="336" fill="#c7f44a">
+        Enter your choice (1, 2, 3, A, E): <tspan fill="#ffffff">_</tspan>
+      </text>
+    </g>
+  </g>
+</svg>
