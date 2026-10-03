@@ -109,8 +109,9 @@ main > section.section{border-top:0;border-bottom:0}
   transform: scale(1.05);
 }
 
-.nano-art {
-  background: radial-gradient(ellipse at 50% 50%, #1e293b, #0b111a);
+.nano-art,
+.wifi-art {
+  background: radial-gradient(ellipse at 50% 50%, #17243a, #080d16);
 }
 
 .project-img {
