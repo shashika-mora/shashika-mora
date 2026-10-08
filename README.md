@@ -5,7 +5,7 @@
 # Hi, I'm Shashika 👋
 
 <p>
-  <b>Computer Science undergraduate at the University of Moratuwa</b><br/>
+  <b>Computer Science & Engineering undergraduate at the University of Moratuwa</b><br/>
   Systems architecture · Software design · UI/UX
 </p>
 
